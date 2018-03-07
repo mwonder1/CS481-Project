@@ -7,9 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Book {
 
@@ -33,9 +33,10 @@ public class Book {
 			String title = setTitle(bookFile);
 			int age = getAge(bookFile);
 			int numWords = getNumWords(bookFile);
-			int uniqueWords = getUniqueWords(bookFile);
+			int uniqueWords = getUniqueWords(bookFile).size();
+			Map<String, Integer> frequency = getUniqueWords(bookFile);
 
-			Book book = new Book(bookFile, author, ISBN, title, age, numWords, uniqueWords);
+			Book book = new Book(bookFile, author, ISBN, title, age, numWords, uniqueWords, frequency);
 			booksList.add(i, book);
 		}
 	}
@@ -112,11 +113,11 @@ public class Book {
 
 	}
 
-	public static int getUniqueWords(File f) throws IOException {
+	public static Map<String, Integer> getUniqueWords(File f) throws IOException {
 		FileInputStream in = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		String strLine = br.readLine();
-		Set<String> bookWords = new HashSet<>();
+		Map<String, Integer> bookWords = new HashMap<>();
 
 		while (strLine != null) {
 
@@ -124,17 +125,22 @@ public class Book {
 				String[] words = strLine.split(" ");
 
 				for (String word : words) {
-					String cleanWord = word.toLowerCase().replace(",", "").replace("!", "").replace("?", "")
-							.replace(".", "");
+					if (word == null || word.trim().equals("")) {
+						continue;
+					}
+					String processed = word.toLowerCase();
 
-					bookWords.add(cleanWord);
-
+					if (bookWords.containsKey(processed)) {
+						bookWords.put(processed, bookWords.get(processed) + 1);
+					} else {
+						bookWords.put(processed, 1);
+					}
 				}
 			}
 			strLine = br.readLine();
 		}
 		br.close();
-		return bookWords.size();
+		return bookWords;
 
 	}
 
@@ -147,13 +153,14 @@ public class Book {
 
 		AddBook(newBook);
 
-		System.out.println("Size of array is: " + booksList.size() + "\n");
+		System.out.println("Number of books: " + booksList.size() + "\n");
 		for (int i = 0; i < booksList.size(); i++) {
 			Book book = booksList.get(i);
-			System.out.println("Index " + i);
+			System.out.println("Index: " + i);
 			System.out.println("Title: " + book.title);
 			System.out.println("Unique Words: " + book.uniqueWords);
 			System.out.println("Total Words: " + book.numWords + "\n");
+			System.out.println("Unique words and there frequencies: " + book.frequency);
 		}
 
 	}
@@ -177,14 +184,17 @@ public class Book {
 	private int age;
 	private String title;
 	private File bookFile;
+	private Map<String, Integer> frequency;
 
-	public Book(File bookFile, String author, int ISBN, String title, int age, int numWords, int uniqueWords) {
+	public Book(File bookFile, String author, int ISBN, String title, int age, int numWords, int uniqueWords,
+			Map<String, Integer> frequency) {
 		this.title = title;
 		this.numWords = numWords;
 		this.age = age;
 		this.author = author;
 		this.ISBN = ISBN;
 		this.uniqueWords = uniqueWords;
+		this.frequency = frequency;
 
 	}
 
