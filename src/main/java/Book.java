@@ -26,7 +26,7 @@ public class Book {
 		}
 
 		else {
-
+			File path = bookFile.getAbsoluteFile();
 			int i = booksList.size();
 			String author = getAuthor(bookFile);
 			int ISBN = getISBN(bookFile);
@@ -36,7 +36,7 @@ public class Book {
 			int uniqueWords = getUniqueWords(bookFile).size();
 			Map<String, Integer> frequency = getUniqueWords(bookFile);
 
-			Book book = new Book(bookFile, author, ISBN, title, age, numWords, uniqueWords, frequency);
+			Book book = new Book(path, author, ISBN, title, age, numWords, uniqueWords, frequency);
 			booksList.add(i, book);
 		}
 	}
@@ -149,18 +149,20 @@ public class Book {
 	{
 
 		File newBook = new File("C:\\Users\\mwond\\Desktop/A Fruit is a Suitcase For Seeds.txt");
-		// File newBook = new File("C:\\Users\\Mike\\Desktop/fuck.txt");
+		File newBook2 = new File("C:\\Users\\mwond\\Desktop/A life like mine.txt");
 
 		AddBook(newBook);
+		AddBook(newBook2);
 
 		System.out.println("Number of books: " + booksList.size() + "\n");
 		for (int i = 0; i < booksList.size(); i++) {
 			Book book = booksList.get(i);
+			System.out.println("Path: " + book.path);
 			System.out.println("Index: " + i);
 			System.out.println("Title: " + book.title);
 			System.out.println("Unique Words: " + book.uniqueWords);
 			System.out.println("Total Words: " + book.numWords + "\n");
-			System.out.println("Unique words and there frequencies: " + book.frequency);
+			System.out.println("Unique words and there frequencies: \n" + book.frequency + "\n\n");
 		}
 
 	}
@@ -179,15 +181,19 @@ public class Book {
 	private int uniqueWords;
 
 	private int numWords;
+	@SuppressWarnings("unused")
 	private String author;
+	@SuppressWarnings("unused")
 	private int ISBN;
+	@SuppressWarnings("unused")
 	private int age;
 	private String title;
-	private File bookFile;
+	private File path;
 	private Map<String, Integer> frequency;
 
-	public Book(File bookFile, String author, int ISBN, String title, int age, int numWords, int uniqueWords,
+	public Book(File path, String author, int ISBN, String title, int age, int numWords, int uniqueWords,
 			Map<String, Integer> frequency) {
+		this.path = path.getAbsoluteFile();
 		this.title = title;
 		this.numWords = numWords;
 		this.age = age;
