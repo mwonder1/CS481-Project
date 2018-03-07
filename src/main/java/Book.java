@@ -15,6 +15,10 @@ public class Book {
 
 	public static ArrayList<Book> booksList = new ArrayList<>();
 
+	private static int numWords;
+
+	private static int uniqueWords;
+
 	public static void AddBook(File bookFile) throws IOException {
 
 		boolean insystem = CompareBook(bookFile);
@@ -100,6 +104,10 @@ public class Book {
 
 	}
 
+	public static int getNumWords() {
+		return numWords;
+	}
+
 	public static int getNumWords(File f) throws FileNotFoundException {
 		try (Scanner sc = new Scanner(new FileInputStream(f))) {
 
@@ -111,6 +119,10 @@ public class Book {
 			return numWords;
 		}
 
+	}
+
+	public static int getUniqueWords() {
+		return uniqueWords;
 	}
 
 	public static Map<String, Integer> getUniqueWords(File f) throws IOException {
@@ -161,9 +173,11 @@ public class Book {
 			System.out.println("Index: " + i);
 			System.out.println("Title: " + book.title);
 			System.out.println("Unique Words: " + book.uniqueWords);
-			System.out.println("Total Words: " + book.numWords + "\n");
+			System.out.println("Total Words: " + book.getNumWords() + "\n");
 			System.out.println("Unique words and there frequencies: \n" + book.frequency + "\n\n");
 		}
+
+		WritetoXML.writeOutput();
 
 	}
 
@@ -178,9 +192,6 @@ public class Book {
 
 	}
 
-	private int uniqueWords;
-
-	private int numWords;
 	@SuppressWarnings("unused")
 	private String author;
 	@SuppressWarnings("unused")
@@ -189,19 +200,24 @@ public class Book {
 	private int age;
 	private String title;
 	private File path;
+
 	private Map<String, Integer> frequency;
 
 	public Book(File path, String author, int ISBN, String title, int age, int numWords, int uniqueWords,
 			Map<String, Integer> frequency) {
 		this.path = path.getAbsoluteFile();
 		this.title = title;
-		this.numWords = numWords;
+		this.setNumWords(numWords);
 		this.age = age;
 		this.author = author;
 		this.ISBN = ISBN;
 		this.uniqueWords = uniqueWords;
 		this.frequency = frequency;
 
+	}
+
+	public void setNumWords(int numWords) {
+		this.numWords = numWords;
 	}
 
 }
