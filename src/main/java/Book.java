@@ -134,7 +134,8 @@ public class Book {
 		while (strLine != null) {
 
 			if (!strLine.trim().equals("")) {
-				String[] words = strLine.split(" ");
+
+				String[] words = strLine.split("[\\W]+");
 
 				for (String word : words) {
 					if (word == null || word.trim().equals("")) {
