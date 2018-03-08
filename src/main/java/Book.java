@@ -15,22 +15,19 @@ public class Book {
 
 	public static ArrayList<Book> booksList = new ArrayList<>();
 
-	private  int numWords;
-
-	private  int uniqueWords;
-
-	public static void AddBook(File bookFile) throws IOException {
+	public static void addBook(File bookFile) throws IOException {
 
 		boolean insystem = CompareBook(bookFile);
 
 		if (insystem == true) {
 
-			System.out.println(setTitle(bookFile) + " is already in the system library.");
+			System.out.println(
+					"Unable to add book: \"" + setTitle(bookFile) + "\"...\n" + "Already in system library.\n");
 
 		}
 
 		else {
-			
+
 			int i = booksList.size();
 			String author = getAuthor(bookFile);
 			int ISBN = getISBN(bookFile);
@@ -104,7 +101,6 @@ public class Book {
 
 	}
 
-
 	public static int getNumWords(File f) throws FileNotFoundException {
 		try (Scanner sc = new Scanner(new FileInputStream(f))) {
 
@@ -117,6 +113,7 @@ public class Book {
 		}
 
 	}
+
 	public static Map<String, Integer> getUniqueWords(File f) throws IOException {
 		FileInputStream in = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -152,20 +149,21 @@ public class Book {
 
 	{
 
-		File newBook = new File("C:\\Users\\Mike\\Desktop/A Fruit is a Suitcase For Seeds.txt");
-		File newBook2 = new File("C:\\Users\\Mike\\Desktop/A life like mine.txt");
+		File newBook = new File("C:\\Users\\mwond\\Desktop/A Fruit is a Suitcase For Seeds.txt");
+		File newBook2 = new File("C:\\Users\\mwond\\Desktop/A life like mine.txt");
 
-		AddBook(newBook);
-		AddBook(newBook2);
+		addBook(newBook);
+		addBook(newBook2);
+		addBook(newBook2);
 
-		System.out.println("Number of books: " + booksList.size() + "\n");
+		System.out.println("Number of books in system library: " + booksList.size() + "\n");
 		for (int i = 0; i < booksList.size(); i++) {
 			Book book = booksList.get(i);
-			System.out.println("Index: " + i);
+			System.out.println("Library Index: " + i);
 			System.out.println("Title: " + book.title);
 			System.out.println("Unique Words: " + book.uniqueWords);
 			System.out.println("Total Words: " + book.numWords + "\n");
-			System.out.println("Unique words and there frequencies: \n" + book.frequency + "\n\n");
+			System.out.println("Unique words and their frequencies: \n" + book.frequency + "\n\n");
 		}
 
 		WritetoXML.writeOutput();
@@ -183,6 +181,10 @@ public class Book {
 
 	}
 
+	private int numWords;
+
+	private int uniqueWords;
+
 	@SuppressWarnings("unused")
 	private String author;
 	@SuppressWarnings("unused")
@@ -196,7 +198,7 @@ public class Book {
 	public Book(File bookFile, String author, int ISBN, String title, int age, int numWords, int uniqueWords,
 			Map<String, Integer> frequency) {
 		this.title = title;
-		this.numWords= numWords;
+		this.numWords = numWords;
 		this.age = age;
 		this.author = author;
 		this.ISBN = ISBN;
@@ -204,8 +206,5 @@ public class Book {
 		this.frequency = frequency;
 
 	}
-
-
-
 
 }
