@@ -1,10 +1,12 @@
 package main.java;
 
 import java.io.File;
+import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -51,33 +53,39 @@ public class WritetoXML {
 			Attr attr4 = doc.createAttribute("isbn");
 			attr.setValue("1");
 			staff.setAttributeNode(attr4);
+			
+			// Word elements
+			Element Words = doc.createElement("Words");
+			staff.appendChild(Words);
 
 			// unique words elements
 			int total3 = Book.getUniqueWords();
 			String total4 = Integer.toString(total3);
-			Element unique_words = doc.createElement("unique_words");
-			unique_words.appendChild(doc.createTextNode(total4));
-			staff.appendChild(unique_words);
+			Attr unique_words = doc.createAttribute("unique_words");
+			unique_words.setValue(total4);
+			Words.setAttributeNode(unique_words);
 
 			// total count elements
 			int total = Book.getNumWords();
 			String total2 = Integer.toString(total);
-			Element total_count = doc.createElement("total_count");
-			total_count.appendChild(doc.createTextNode(total2));
-			staff.appendChild(total_count);
+			Attr total_count = doc.createAttribute("total_count");
+			total_count.setValue(total2);
+			Words.setAttributeNode(total_count);
 
 			// write the content into xml file
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
+			
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "6");
+			//initialize StreamResult with File object to save to file
+			StreamResult result = new StreamResult(new StringWriter());
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\Users\\mwond\\Desktop/File.xml"));
-
-			// Output to console for testing
-			// StreamResult result = new StreamResult(System.out);
-
+			File desktop = new File(System.getProperty("user.home") + "/Desktop/newDictionary(rename).xml");
+			result = new StreamResult(desktop);
 			transformer.transform(source, result);
 
-			System.out.println("File saved!");
+
+			System.out.println("File saved to: " +  desktop);
 
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
