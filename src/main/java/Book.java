@@ -22,27 +22,27 @@ public class Book {
 		if (insystem == true) {
 
 			System.out.println(
-					"Unable to add book: \"" + getTitle(bookFile) + "\"...\n" + "Already in system library.\n");
+					"Unable to add book: \"" + setTitle(bookFile) + "\"...\n" + "Already in system library.\n");
 
 		}
 
 		else {
-
+			File file = bookFile;
 			int i = booksList.size();
 			String author = getAuthor(bookFile);
 			int ISBN = getISBN(bookFile);
-			String title = getTitle(bookFile);
+			String title = setTitle(bookFile);
 			int age = getAge(bookFile);
 			int numWords = getNumWords(bookFile);
-			int uniqueWords = getUniqueWords(bookFile).size();
+			Map<String, Integer> uniqueWords = getUniqueWords(bookFile);
 			Map<String, Integer> frequency = getUniqueWords(bookFile);
 
-			Book book = new Book(bookFile, author, ISBN, title, age, numWords, uniqueWords, frequency);
+			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords, frequency);
 			booksList.add(i, book);
 		}
 	}
 
-	public static boolean CompareBook(File bookFile2) throws FileNotFoundException {
+	private static boolean CompareBook(File bookFile2) throws FileNotFoundException {
 
 		if (booksList.size() == 0)
 			return false;
@@ -52,7 +52,7 @@ public class Book {
 
 				Book value = booksList.get(i);
 
-				if (getTitle(bookFile2).equals(value.title))
+				if (setTitle(bookFile2).equals(value.title))
 					return true;
 			}
 
@@ -61,7 +61,7 @@ public class Book {
 
 	}
 
-	public static void deleteFromSystem(String title)
+	private static void deleteFromSystem(String title)
 
 	{
 
@@ -114,18 +114,7 @@ public class Book {
 
 	}
 
-	public static String getTitle(File f) {
-
-		String title = f.getName();
-		int pos = title.lastIndexOf(".");
-		if (pos > 0) {
-			title = title.substring(0, pos);
-		}
-		return title;
-
-	}
-
-	public static Map<String, Integer> getUniqueWords(File f) throws IOException {
+	private static Map<String, Integer> getUniqueWords(File f) throws IOException {
 		FileInputStream in = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		String strLine = br.readLine();
@@ -168,11 +157,11 @@ public class Book {
 
 		addBook(newBook);
 		addBook(newBook2);
-		addBook(newBook3);
-		addBook(newBook4);
-		addBook(newBook5);
-
-		addBook(newBook2);
+		// addBook(newBook3);
+		// addBook(newBook4);
+		// addBook(newBook5);
+		//
+		// addBook(newBook2);
 		deleteFromSystem("Eagle Song");
 
 		System.out.println("Number of books in system library: " + booksList.size() + "\n");
@@ -189,22 +178,36 @@ public class Book {
 
 	}
 
+	protected static String setTitle(File f) {
+
+		String title = f.getName();
+		int pos = title.lastIndexOf(".");
+		if (pos > 0) {
+			title = title.substring(0, pos);
+		}
+		return title;
+
+	}
+
+	private File file;
+
+	private String title;
+
 	private int numWords;
 
-	private int uniqueWords;
-
+	protected Map<String, Integer> uniqueWords;
 	@SuppressWarnings("unused")
 	private String author;
 	@SuppressWarnings("unused")
 	private int ISBN;
 	@SuppressWarnings("unused")
 	private int age;
-	private String title;
 
 	private Map<String, Integer> frequency;
 
-	public Book(File bookFile, String author, int ISBN, String title, int age, int numWords, int uniqueWords,
-			Map<String, Integer> frequency) {
+	public Book(File file, String author, int ISBN, String title, int age, int numWords,
+			Map<String, Integer> uniqueWords, Map<String, Integer> frequency) {
+		this.file = file;
 		this.title = title;
 		this.numWords = numWords;
 		this.age = age;
@@ -213,6 +216,26 @@ public class Book {
 		this.uniqueWords = uniqueWords;
 		this.frequency = frequency;
 
+	}
+
+	public File getFile() {
+
+		return file;
+	}
+
+	public String getTitle() {
+
+		return title;
+	}
+
+	public int getTotalWords() {
+
+		return numWords;
+	}
+
+	public Map<String, Integer> getUniqueWords() {
+
+		return uniqueWords;
 	}
 
 }

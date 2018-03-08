@@ -54,7 +54,7 @@ public class BookController {
 
 		data.addAll(booksList);
 
-		bookTable.setItem(data);
+		// bookTable.setItem(data);
 		// bookTable.getItems().setAll(booksList);
 
 	}
