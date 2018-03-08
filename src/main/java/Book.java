@@ -22,7 +22,7 @@ public class Book {
 		if (insystem == true) {
 
 			System.out.println(
-					"Unable to add book: \"" + setTitle(bookFile) + "\"...\n" + "Already in system library.\n");
+					"Unable to add book: \"" + getTitle(bookFile) + "\"...\n" + "Already in system library.\n");
 
 		}
 
@@ -31,7 +31,7 @@ public class Book {
 			int i = booksList.size();
 			String author = getAuthor(bookFile);
 			int ISBN = getISBN(bookFile);
-			String title = setTitle(bookFile);
+			String title = getTitle(bookFile);
 			int age = getAge(bookFile);
 			int numWords = getNumWords(bookFile);
 			int uniqueWords = getUniqueWords(bookFile).size();
@@ -52,7 +52,7 @@ public class Book {
 
 				Book value = booksList.get(i);
 
-				if (setTitle(bookFile2).equals(value.title))
+				if (getTitle(bookFile2).equals(value.title))
 					return true;
 			}
 
@@ -61,7 +61,7 @@ public class Book {
 
 	}
 
-	public static void DeleteFromSystem(String title)
+	public static void deleteFromSystem(String title)
 
 	{
 
@@ -114,6 +114,17 @@ public class Book {
 
 	}
 
+	public static String getTitle(File f) {
+
+		String title = f.getName();
+		int pos = title.lastIndexOf(".");
+		if (pos > 0) {
+			title = title.substring(0, pos);
+		}
+		return title;
+
+	}
+
 	public static Map<String, Integer> getUniqueWords(File f) throws IOException {
 		FileInputStream in = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -151,10 +162,18 @@ public class Book {
 
 		File newBook = new File("C:\\Users\\mwond\\Desktop/A Fruit is a Suitcase For Seeds.txt");
 		File newBook2 = new File("C:\\Users\\mwond\\Desktop/A life like mine.txt");
+		File newBook3 = new File("C:\\Users\\mwond\\Desktop/Eagle Song.txt");
+		File newBook4 = new File("C:\\Users\\mwond\\Desktop/About Insects.txt");
+		File newBook5 = new File("C:\\Users\\mwond\\Desktop/Aesop's Fables.txt");
 
 		addBook(newBook);
 		addBook(newBook2);
+		addBook(newBook3);
+		addBook(newBook4);
+		addBook(newBook5);
+
 		addBook(newBook2);
+		deleteFromSystem("Eagle Song");
 
 		System.out.println("Number of books in system library: " + booksList.size() + "\n");
 		for (int i = 0; i < booksList.size(); i++) {
@@ -167,17 +186,6 @@ public class Book {
 		}
 
 		WritetoXML.writeOutput();
-
-	}
-
-	public static String setTitle(File f) {
-
-		String title = f.getName();
-		int pos = title.lastIndexOf(".");
-		if (pos > 0) {
-			title = title.substring(0, pos);
-		}
-		return title;
 
 	}
 
