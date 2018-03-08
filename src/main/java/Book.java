@@ -15,9 +15,9 @@ public class Book {
 
 	public static ArrayList<Book> booksList = new ArrayList<>();
 
-	private static int numWords;
+	private  int numWords;
 
-	private static int uniqueWords;
+	private  int uniqueWords;
 
 	public static void AddBook(File bookFile) throws IOException {
 
@@ -30,7 +30,7 @@ public class Book {
 		}
 
 		else {
-			File path = bookFile.getAbsoluteFile();
+			
 			int i = booksList.size();
 			String author = getAuthor(bookFile);
 			int ISBN = getISBN(bookFile);
@@ -40,7 +40,7 @@ public class Book {
 			int uniqueWords = getUniqueWords(bookFile).size();
 			Map<String, Integer> frequency = getUniqueWords(bookFile);
 
-			Book book = new Book(path, author, ISBN, title, age, numWords, uniqueWords, frequency);
+			Book book = new Book(bookFile, author, ISBN, title, age, numWords, uniqueWords, frequency);
 			booksList.add(i, book);
 		}
 	}
@@ -104,9 +104,6 @@ public class Book {
 
 	}
 
-	public static int getNumWords() {
-		return numWords;
-	}
 
 	public static int getNumWords(File f) throws FileNotFoundException {
 		try (Scanner sc = new Scanner(new FileInputStream(f))) {
@@ -120,11 +117,6 @@ public class Book {
 		}
 
 	}
-
-	public static int getUniqueWords() {
-		return uniqueWords;
-	}
-
 	public static Map<String, Integer> getUniqueWords(File f) throws IOException {
 		FileInputStream in = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -169,11 +161,10 @@ public class Book {
 		System.out.println("Number of books: " + booksList.size() + "\n");
 		for (int i = 0; i < booksList.size(); i++) {
 			Book book = booksList.get(i);
-			System.out.println("Path: " + book.path);
 			System.out.println("Index: " + i);
 			System.out.println("Title: " + book.title);
 			System.out.println("Unique Words: " + book.uniqueWords);
-			System.out.println("Total Words: " + book.getNumWords() + "\n");
+			System.out.println("Total Words: " + book.numWords + "\n");
 			System.out.println("Unique words and there frequencies: \n" + book.frequency + "\n\n");
 		}
 
@@ -199,15 +190,13 @@ public class Book {
 	@SuppressWarnings("unused")
 	private int age;
 	private String title;
-	private File path;
 
 	private Map<String, Integer> frequency;
 
-	public Book(File path, String author, int ISBN, String title, int age, int numWords, int uniqueWords,
+	public Book(File bookFile, String author, int ISBN, String title, int age, int numWords, int uniqueWords,
 			Map<String, Integer> frequency) {
-		this.path = path.getAbsoluteFile();
 		this.title = title;
-		this.setNumWords(numWords);
+		this.numWords= numWords;
 		this.age = age;
 		this.author = author;
 		this.ISBN = ISBN;
@@ -216,8 +205,7 @@ public class Book {
 
 	}
 
-	public void setNumWords(int numWords) {
-		this.numWords = numWords;
-	}
+
+
 
 }

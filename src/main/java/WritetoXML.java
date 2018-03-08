@@ -58,19 +58,19 @@ public class WritetoXML {
 			Element Words = doc.createElement("Words");
 			staff.appendChild(Words);
 
-			// unique words elements
-			int total3 = Book.getUniqueWords();
-			String total4 = Integer.toString(total3);
-			Attr unique_words = doc.createAttribute("unique_words");
-			unique_words.setValue(total4);
-			Words.setAttributeNode(unique_words);
-
-			// total count elements
-			int total = Book.getNumWords();
-			String total2 = Integer.toString(total);
-			Attr total_count = doc.createAttribute("total_count");
-			total_count.setValue(total2);
-			Words.setAttributeNode(total_count);
+//			// unique words elements
+//			int total3 = Book.getUniqueWords();
+//			String total4 = Integer.toString(total3);
+//			Attr unique_words = doc.createAttribute("unique_words");
+//			unique_words.setValue(total4);
+//			Words.setAttributeNode(unique_words);
+//
+//			// total count elements
+//			int total = Book.getNumWords();
+//			String total2 = Integer.toString(total);
+//			Attr total_count = doc.createAttribute("total_count");
+//			total_count.setValue(total2);
+//			Words.setAttributeNode(total_count);
 
 			// write the content into xml file
 			
