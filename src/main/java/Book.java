@@ -7,9 +7,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Book {
 
@@ -141,8 +143,20 @@ public class Book {
 			}
 			strLine = br.readLine();
 		}
+
+		Map<String, Integer> unsortMap = bookWords;
+		Map<String, Integer> treeMap = new TreeMap<>();
+		new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return o2.compareTo(o1);
+			}
+
+		};
+		treeMap.putAll(unsortMap);
 		br.close();
-		return bookWords;
+		return treeMap;
 
 	}
 
@@ -170,7 +184,7 @@ public class Book {
 			Book book = booksList.get(i);
 			System.out.println("Library Index: " + i);
 			System.out.println("Title: " + book.title);
-			System.out.println("Unique Words: " + book.uniqueWords);
+			System.out.println("Unique Words: " + book.uniqueWords.size());
 			System.out.println("Total Words: " + book.numWords + "\n");
 			System.out.println("Unique words and their frequencies: \n" + book.frequency + "\n\n");
 		}
