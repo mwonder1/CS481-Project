@@ -160,8 +160,8 @@ public class Book {
 
 	{
 
-		File newBook = new File("C:\\Users\\mwond\\Desktop/A Fruit is a Suitcase For Seeds.txt");
-		File newBook2 = new File("C:\\Users\\mwond\\Desktop/A life like mine.txt");
+		File newBook = new File("C:\\Users\\Mike\\Desktop/A Fruit is a Suitcase For Seeds.txt");
+		File newBook2 = new File("C:\\Users\\Mike\\Desktop/A life like mine.txt");
 
 		AddBook(newBook);
 		AddBook(newBook2);

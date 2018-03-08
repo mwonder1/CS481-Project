@@ -70,14 +70,14 @@ public class WritetoXML {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\Users\\mwond\\Desktop/File.xml"));
+			File desktop = new File(System.getProperty("user.home") + "/Desktop/newDictionary(rename).xml");
+			StreamResult result = new StreamResult(desktop);
 
 			// Output to console for testing
-			// StreamResult result = new StreamResult(System.out);
-
+			
 			transformer.transform(source, result);
 
-			System.out.println("File saved!");
+			System.out.println("File saved to: " +  desktop);
 
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
