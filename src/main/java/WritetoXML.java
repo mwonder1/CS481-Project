@@ -2,7 +2,9 @@ package main.java;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,33 +41,33 @@ public class WritetoXML extends Book {
 				int uniqueCount = uniqueWords.size();
 				int totalCount = book.getTotalWords();
 
-				// staff elements
-				Element staff = doc.createElement("Book");
-				rootElement.appendChild(staff);
+				// Book Element (Root)
+				Element Book = doc.createElement("Book");
+				rootElement.appendChild(Book);
 
-				// set attribute to staff element
+				// Age Attribute
 				Attr attr = doc.createAttribute("age");
 				attr.setValue("1");
-				staff.setAttributeNode(attr);
+				Book.setAttributeNode(attr);
 
-				// set attribute to staff element
+				// Author Attribute
 				Attr attr2 = doc.createAttribute("author");
 				attr2.setValue("1");
-				staff.setAttributeNode(attr2);
+				Book.setAttributeNode(attr2);
 
-				// set attribute to staff element
+				// Title Attibute
 				Attr attr3 = doc.createAttribute("title");
 				attr3.setValue(title);
-				staff.setAttributeNode(attr3);
+				Book.setAttributeNode(attr3);
 
-				// set attribute to staff element
+				// ISBN Attribute
 				Attr attr4 = doc.createAttribute("isbn");
 				attr4.setValue("1");
-				staff.setAttributeNode(attr4);
+				Book.setAttributeNode(attr4);
 
 				// Word elements
 				Element Words = doc.createElement("Words");
-				staff.appendChild(Words);
+				Book.appendChild(Words);
 
 				// unique words elements
 				String words = Integer.toString(uniqueCount);
@@ -78,9 +80,41 @@ public class WritetoXML extends Book {
 				Attr total_count = doc.createAttribute("total_count");
 				total_count.setValue(total);
 				Words.setAttributeNode(total_count);
+
+				// Trying to get unique
+				// words to work by getting
+				// the specific value of 'this' key
+
+				// for (int i1 = 0; i1 < uniqueWords.size(); i1++) {
+
+				Iterator<Entry<String, Integer>> it = uniqueWords.entrySet().iterator();
+				while (it.hasNext()) {
+
+					// Word elements
+					Element W = doc.createElement("W");
+					Book.appendChild(W);
+
+					Entry<String, Integer> pair = it.next();
+
+					// Count Attribute
+					String freq11 = pair.getValue().toString();
+					Attr frequency1 = doc.createAttribute("freq");
+					frequency1.setValue(freq11);
+					W.setAttributeNode(frequency1);
+
+					// Frequency Attribute
+					String freq1 = pair.getKey().toString();
+					Attr frequency = doc.createAttribute("W");
+					frequency.setValue(freq1);
+					W.setAttributeNode(frequency);
+
+					it.remove(); // avoids a ConcurrentModificationException
+
+				}
+
 			}
 			// write the content into xml file
-
+			// }
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "6");
@@ -93,7 +127,9 @@ public class WritetoXML extends Book {
 
 			System.out.println("File saved to: " + desktop);
 
-		} catch (ParserConfigurationException pce) {
+		} catch (
+
+		ParserConfigurationException pce) {
 			pce.printStackTrace();
 		} catch (TransformerException tfe) {
 			tfe.printStackTrace();
