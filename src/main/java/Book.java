@@ -37,9 +37,8 @@ public class Book {
 			int age = getAge(bookFile);
 			int numWords = getNumWords(bookFile);
 			Map<String, Integer> uniqueWords = getUniqueWords(bookFile);
-			Map<String, Integer> frequency = getUniqueWords(bookFile);
 
-			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords, frequency);
+			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords);
 			booksList.add(i, book);
 		}
 	}
@@ -172,9 +171,9 @@ public class Book {
 
 		addBook(newBook);
 		addBook(newBook2);
-		// addBook(newBook3);
-		// addBook(newBook4);
-		// addBook(newBook5);
+		addBook(newBook3);
+		addBook(newBook4);
+		addBook(newBook5);
 		//
 		// addBook(newBook2);
 		deleteFromSystem("Eagle Song");
@@ -186,7 +185,7 @@ public class Book {
 			System.out.println("Title: " + book.title);
 			System.out.println("Unique Words: " + book.uniqueWords.size());
 			System.out.println("Total Words: " + book.numWords + "\n");
-			System.out.println("Unique words and their frequencies: \n" + book.frequency + "\n\n");
+			System.out.println("Unique words and their frequencies: \n" + book.uniqueWords + "\n\n");
 		}
 
 		WritetoXML.writeOutput();
@@ -218,10 +217,8 @@ public class Book {
 	@SuppressWarnings("unused")
 	private int age;
 
-	private Map<String, Integer> frequency;
-
 	public Book(File file, String author, int ISBN, String title, int age, int numWords,
-			Map<String, Integer> uniqueWords, Map<String, Integer> frequency) {
+			Map<String, Integer> uniqueWords) {
 		this.file = file;
 		this.title = title;
 		this.numWords = numWords;
@@ -229,7 +226,6 @@ public class Book {
 		this.author = author;
 		this.ISBN = ISBN;
 		this.uniqueWords = uniqueWords;
-		this.frequency = frequency;
 
 	}
 

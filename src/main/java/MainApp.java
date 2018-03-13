@@ -1,5 +1,6 @@
 package main.java;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -13,7 +14,18 @@ public class MainApp extends Application {
 	public static Stage primaryStage;
 	public static BorderPane mainLayout;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		File newBook = new File("C:\\Users\\mwond\\Desktop/A Fruit is a Suitcase For Seeds.txt");
+		File newBook2 = new File("C:\\Users\\mwond\\Desktop/A life like mine.txt");
+		File newBook3 = new File("C:\\Users\\mwond\\Desktop/Eagle Song.txt");
+		File newBook4 = new File("C:\\Users\\mwond\\Desktop/About Insects.txt");
+		File newBook5 = new File("C:\\Users\\mwond\\Desktop/Aesop's Fables.txt");
+
+		Book.addBook(newBook);
+		Book.addBook(newBook2);
+		Book.addBook(newBook3);
+		Book.addBook(newBook4);
+		Book.addBook(newBook5);
 		launch(args);
 	}
 
@@ -32,6 +44,5 @@ public class MainApp extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
-	
+
 }

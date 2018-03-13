@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="BookView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.BookController">
+<BorderPane fx:id="BookView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.BookController">
    <left>
       <SplitPane prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
@@ -75,11 +75,11 @@
                   <Button fx:id="newDictBtn" layoutX="6.0" layoutY="10.0" mnemonicParsing="false" text="Generate New Dictionary" />
                   <Button fx:id="settingsBtn" layoutX="512.0" layoutY="7.0" mnemonicParsing="false" text="Settings" />
                   <Button fx:id="importBtn" layoutX="103.0" layoutY="51.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="185.0" text="Import Books" />
-                  <TableView fx:id="bookTable" editable="true" layoutY="127.0" prefHeight="432.0" prefWidth="589.0">
+                  <TableView fx:id="tableView" editable="true" layoutY="127.0" prefHeight="432.0" prefWidth="589.0">
                     <columns>
-                      <TableColumn fx:id="titleCol" prefWidth="210.0" text="Title" />
-                      <TableColumn fx:id="AuthorCol" prefWidth="210.0" text="Author" />
-                        <TableColumn fx:id="ISBNCol" prefWidth="150.0" text="ISBN" />
+                      <TableColumn fx:id="titleCol" prefWidth="300.0" text="Title" />
+                      <TableColumn fx:id="uniqueWordsCol" prefWidth="130.0" text="Unique Words" />
+                        <TableColumn fx:id="totalWordsCol" prefWidth="130.0" text="Total Words" />
                     </columns>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
