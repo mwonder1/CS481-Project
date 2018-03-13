@@ -18,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import main.java.Book;
 import main.java.MainApp;
+import main.java.WritetoXML;
 import main.java.tableBook;
 
 public class BookController {
@@ -43,6 +44,11 @@ public class BookController {
 		bookSelected.setTitle(edditedCell.getNewValue().toString());
 		Book.booksList.get(edditedCell.getTablePosition().getColumn()).setTitle(edditedCell.getNewValue().toString());
 
+	}
+
+	public void generateDictBtn() {
+
+		WritetoXML.writeOutput();
 	}
 
 	private ObservableList<tableBook> getBooks() {
