@@ -2,6 +2,7 @@ package main.java.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,10 +75,11 @@ public class BookController {
 	public void importBooksBtn() throws IOException {
 
 		FileChooser fileChooser = new FileChooser();
-		File file = fileChooser.showOpenDialog(MainApp.primaryStage);
-
-		Book.addBook(file);
-
+		fileChooser.getExtensionFilters().add(0, new FileChooser.ExtensionFilter("txt", "*.txt"));
+		List<File> list = fileChooser.showOpenMultipleDialog(MainApp.primaryStage);
+		for (File file : list) {
+			Book.addBook(file);
+		}
 	}
 
 	public void initialize() {
