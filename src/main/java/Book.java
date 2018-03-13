@@ -160,39 +160,6 @@ public class Book {
 
 	}
 
-	public static void main(String[] args) throws IOException
-
-	{
-
-		File newBook = new File("C:\\Users\\mwond\\Desktop/A Fruit is a Suitcase For Seeds.txt");
-		File newBook2 = new File("C:\\Users\\mwond\\Desktop/A life like mine.txt");
-		File newBook3 = new File("C:\\Users\\mwond\\Desktop/Eagle Song.txt");
-		File newBook4 = new File("C:\\Users\\mwond\\Desktop/About Insects.txt");
-		File newBook5 = new File("C:\\Users\\mwond\\Desktop/Aesop's Fables.txt");
-
-		addBook(newBook);
-		addBook(newBook2);
-		addBook(newBook3);
-		addBook(newBook4);
-		addBook(newBook5);
-		//
-		// addBook(newBook2);
-		deleteFromSystem("Eagle Song");
-
-		System.out.println("Number of books in system library: " + booksList.size() + "\n");
-		for (int i = 0; i < booksList.size(); i++) {
-			Book book = booksList.get(i);
-			System.out.println("Library Index: " + i);
-			System.out.println("Title: " + book.title);
-			System.out.println("Unique Words: " + book.uniqueWords.size());
-			System.out.println("Total Words: " + book.numWords + "\n");
-			System.out.println("Unique words and their frequencies: \n" + book.uniqueWords + "\n\n");
-		}
-
-		WritetoXML.writeOutput();
-
-	}
-
 	protected static String setTitle(File f) {
 
 		String title = f.getName();

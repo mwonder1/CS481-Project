@@ -22,7 +22,7 @@ import org.w3c.dom.Element;
 
 public class WritetoXML extends Book {
 
-	public static void writeOutput() {
+	public static void writeOutput(File file) {
 		try {
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -121,11 +121,14 @@ public class WritetoXML extends Book {
 			// initialize StreamResult with File object to save to file
 			StreamResult result = new StreamResult(new StringWriter());
 			DOMSource source = new DOMSource(doc);
-			File desktop = new File(System.getProperty("user.home") + "/Desktop/newDictionary(rename).xml");
-			result = new StreamResult(desktop);
+			// File desktop = new File(System.getProperty("user.home") +
+			// "/Desktop/newDictionary(rename).xml");
+
+			// result = new StreamResult(desktop);
+			result = new StreamResult(file);
 			transformer.transform(source, result);
 
-			System.out.println("File saved to: " + desktop);
+			System.out.println("File saved to: " + file.getAbsolutePath());
 
 		} catch (
 

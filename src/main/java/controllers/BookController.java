@@ -38,7 +38,7 @@ public class BookController {
 	@FXML
 	private TableColumn<tableBook, String> totalWordsCol;
 
-	public void changeTitleCellEvent(CellEditEvent edditedCell) {
+	public void changeTitleCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
 		bookSelected.setTitle(edditedCell.getNewValue().toString());
@@ -47,8 +47,12 @@ public class BookController {
 	}
 
 	public void generateDictBtn() {
+		FileChooser fileChooser = new FileChooser();
+		// fileChooser.getExtensionFilters().add(0, new
+		// FileChooser.ExtensionFilter("txt", "*.txt"));
+		File file = fileChooser.showSaveDialog(MainApp.primaryStage);
 
-		WritetoXML.writeOutput();
+		WritetoXML.writeOutput(file);
 	}
 
 	private ObservableList<tableBook> getBooks() {
