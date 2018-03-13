@@ -249,4 +249,8 @@ public class Book {
 		return uniqueWords;
 	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 }

@@ -25,16 +25,16 @@ public class tableBook {
 		return uniqueWords.get();
 	}
 
-	public void setTitle(SimpleStringProperty title) {
-		this.title = title;
+	public void setTitle(String title) {
+		this.title = new SimpleStringProperty(title);
 	}
 
-	public void setTotalWords(SimpleStringProperty totalWords) {
-		this.totalWords = totalWords;
+	public void setTotalWords(String totalWords) {
+		this.totalWords = new SimpleStringProperty(totalWords);
 	}
 
-	public void setUniqueWords(SimpleStringProperty uniqueWords) {
-		this.uniqueWords = uniqueWords;
+	public void setUniqueWords(String uniqueWords) {
+		this.uniqueWords = new SimpleStringProperty(uniqueWords);
 	}
 
 }

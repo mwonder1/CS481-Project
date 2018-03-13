@@ -1,5 +1,6 @@
 package main.java.controllers;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.collections.FXCollections;
@@ -8,10 +9,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import main.java.Book;
+import main.java.MainApp;
 import main.java.tableBook;
 
 public class BookController {
@@ -30,6 +35,14 @@ public class BookController {
 	private TableColumn<tableBook, String> uniqueWordsCol;
 	@FXML
 	private TableColumn<tableBook, String> totalWordsCol;
+
+	public void changeTitleCellEvent(CellEditEvent edditedCell) {
+
+		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
+		bookSelected.setTitle(edditedCell.getNewValue().toString());
+		Book.booksList.get(edditedCell.getTablePosition().getColumn()).setTitle(edditedCell.getNewValue().toString());
+
+	}
 
 	private ObservableList<tableBook> getBooks() {
 
@@ -58,6 +71,15 @@ public class BookController {
 		ViewControllers.showLibrary();
 	}
 
+	public void importBooksBtn() throws IOException {
+
+		FileChooser fileChooser = new FileChooser();
+		File file = fileChooser.showOpenDialog(MainApp.primaryStage);
+
+		Book.addBook(file);
+
+	}
+
 	public void initialize() {
 
 		titleCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("title"));
@@ -65,6 +87,8 @@ public class BookController {
 		totalWordsCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("totalWords"));
 
 		tableView.setItems(getBooks());
+		tableView.setEditable(true);
+		titleCol.setCellFactory(TextFieldTableCell.forTableColumn());
 	}
 
 }

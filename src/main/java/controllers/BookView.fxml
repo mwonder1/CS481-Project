@@ -74,10 +74,10 @@
                <children>
                   <Button fx:id="newDictBtn" layoutX="6.0" layoutY="10.0" mnemonicParsing="false" text="Generate New Dictionary" />
                   <Button fx:id="settingsBtn" layoutX="512.0" layoutY="7.0" mnemonicParsing="false" text="Settings" />
-                  <Button fx:id="importBtn" layoutX="103.0" layoutY="51.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="185.0" text="Import Books" />
+                  <Button fx:id="importBtn" layoutX="103.0" layoutY="51.0" mnemonicParsing="false" onAction="#importBooksBtn" prefHeight="31.0" prefWidth="185.0" text="Import Books" />
                   <TableView fx:id="tableView" editable="true" layoutY="127.0" prefHeight="432.0" prefWidth="589.0">
                     <columns>
-                      <TableColumn fx:id="titleCol" prefWidth="300.0" text="Title" />
+                      <TableColumn fx:id="titleCol" onEditCommit="#changeTitleCellEvent" prefWidth="300.0" text="Title" />
                       <TableColumn fx:id="uniqueWordsCol" prefWidth="130.0" text="Unique Words" />
                         <TableColumn fx:id="totalWordsCol" prefWidth="130.0" text="Total Words" />
                     </columns>
