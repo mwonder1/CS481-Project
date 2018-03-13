@@ -81,12 +81,6 @@ public class WritetoXML extends Book {
 				total_count.setValue(total);
 				Words.setAttributeNode(total_count);
 
-				// Trying to get unique
-				// words to work by getting
-				// the specific value of 'this' key
-
-				// for (int i1 = 0; i1 < uniqueWords.size(); i1++) {
-
 				Iterator<Entry<String, Integer>> it = uniqueWords.entrySet().iterator();
 				while (it.hasNext()) {
 
@@ -108,23 +102,18 @@ public class WritetoXML extends Book {
 					frequency.setValue(freq1);
 					W.setAttributeNode(frequency);
 
-					it.remove(); // avoids a ConcurrentModificationException
+					it.remove();
 
 				}
 
 			}
-			// write the content into xml file
-			// }
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "6");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
 			// initialize StreamResult with File object to save to file
 			StreamResult result = new StreamResult(new StringWriter());
 			DOMSource source = new DOMSource(doc);
-			// File desktop = new File(System.getProperty("user.home") +
-			// "/Desktop/newDictionary(rename).xml");
-
-			// result = new StreamResult(desktop);
 			result = new StreamResult(file);
 			transformer.transform(source, result);
 
@@ -142,6 +131,6 @@ public class WritetoXML extends Book {
 	public WritetoXML(File bookFile, String author, int ISBN, String title, int age, int numWords,
 			Map<String, Integer> uniqueWords, Map<String, Integer> frequency) {
 		super(bookFile, author, ISBN, title, age, numWords, uniqueWords);
-		// TODO Auto-generated constructor stub
+
 	}
 }

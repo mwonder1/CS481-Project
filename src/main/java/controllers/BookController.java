@@ -48,8 +48,8 @@ public class BookController {
 
 	public void generateDictBtn() {
 		FileChooser fileChooser = new FileChooser();
-		// fileChooser.getExtensionFilters().add(0, new
-		// FileChooser.ExtensionFilter("txt", "*.txt"));
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML", "*.xml");
+		fileChooser.getExtensionFilters().add(extFilter);
 		File file = fileChooser.showSaveDialog(MainApp.primaryStage);
 
 		WritetoXML.writeOutput(file);
@@ -90,6 +90,7 @@ public class BookController {
 		for (File file : list) {
 			Book.addBook(file);
 		}
+		tableView.setItems(getBooks());
 	}
 
 	public void initialize() {
