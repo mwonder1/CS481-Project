@@ -23,9 +23,8 @@ public class Book {
 
 		if (insystem == true) {
 
-			// System.out.println(
-			// "Unable to add book: \"" + setTitle(bookFile) + "\"...\n" + "Already in
-			// system library.\n");
+			System.out
+					.println("Unable to add book: " + setTitle(bookFile) + "...\n" + ("Already in system library.\n"));
 
 		}
 
@@ -41,6 +40,9 @@ public class Book {
 
 			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords);
 			booksList.add(i, book);
+			System.out.println(
+					"Successfully added book: " + setTitle(bookFile) + "...\n" + ("into the System Library.\n"));
+
 		}
 	}
 
