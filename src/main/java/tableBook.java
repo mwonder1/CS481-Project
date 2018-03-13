@@ -4,7 +4,9 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class tableBook {
 
-	private SimpleStringProperty title, uniqueWords, totalWords;
+	SimpleStringProperty title;
+	private SimpleStringProperty uniqueWords;
+	private SimpleStringProperty totalWords;
 
 	public tableBook(String title, String uniqueWords, String totalWords) {
 		super();

@@ -63,7 +63,7 @@ public class Book {
 
 	}
 
-	private static void deleteFromSystem(String title)
+	public static void deleteFromSystem(tableBook book)
 
 	{
 
@@ -71,7 +71,7 @@ public class Book {
 
 			Book value = booksList.get(i);
 
-			if (title.equals(value.title)) {
+			if (book.getUniqueWords().equals(Integer.toString(value.getUniqueWords().size()))) {
 
 				booksList.remove(i);
 				System.out.println(value.title + " successfully removed from system.");

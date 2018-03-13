@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -26,7 +27,7 @@ public class BookController {
 	@FXML
 	private BorderPane BookView;
 	@FXML
-	private Button homeBtn, booksBtn, librariesBtn, dictBtn, newDictBtn, settingsBtn, importBtn, searchBtn;
+	private Button homeBtn, booksBtn, librariesBtn, dictBtn, newDictBtn, settingsBtn, importBtn, deleteBtn;
 	@FXML
 	private MenuButton actionBtn;
 	@FXML
@@ -43,6 +44,19 @@ public class BookController {
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
 		bookSelected.setTitle(edditedCell.getNewValue().toString());
 		Book.booksList.get(edditedCell.getTablePosition().getColumn()).setTitle(edditedCell.getNewValue().toString());
+
+	}
+
+	public void deleteBtn() {
+
+		ObservableList<tableBook> selectedRows, allBooks;
+		allBooks = tableView.getItems();
+		selectedRows = tableView.getSelectionModel().getSelectedItems();
+
+		for (tableBook book : selectedRows) {
+			Book.deleteFromSystem(book);
+			allBooks.remove(book);
+		}
 
 	}
 
@@ -95,13 +109,18 @@ public class BookController {
 
 	public void initialize() {
 
+		// Set up table columns
 		titleCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("title"));
 		uniqueWordsCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("uniqueWords"));
 		totalWordsCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("totalWords"));
 
+		// Retrieve Books and allow the titleCol to be editable
 		tableView.setItems(getBooks());
 		tableView.setEditable(true);
 		titleCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
+		// Allow multiple rows to be selected
+		tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
 }
