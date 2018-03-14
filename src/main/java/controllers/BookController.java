@@ -45,16 +45,24 @@ public class BookController {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
 		bookSelected.setAge(edditedCell.getNewValue().toString());
-		Book.booksList.get(edditedCell.getTablePosition().getColumn()).setAge(edditedCell.getNewValue().toString());
+		for (int i = 0; i < Book.booksList.size(); i++) {
+			if (bookSelected.getTitle().equals(Book.booksList.get(i).getTitle())) {
+				Book.booksList.get(i).setAge(edditedCell.getNewValue().toString());
+			}
+		}
 
 	}
 
 	public void changeTitleCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
-		bookSelected.setTitle(edditedCell.getNewValue().toString());
-		Book.booksList.get(edditedCell.getTablePosition().getColumn()).setTitle(edditedCell.getNewValue().toString());
 
+		for (int i = 0; i < Book.booksList.size(); i++) {
+			if (bookSelected.getTitle().equals(Book.booksList.get(i).getTitle())) {
+				Book.booksList.get(i).setTitle(edditedCell.getNewValue().toString());
+			}
+		}
+		bookSelected.setTitle(edditedCell.getNewValue().toString());
 	}
 
 	public void deleteBtn() {
