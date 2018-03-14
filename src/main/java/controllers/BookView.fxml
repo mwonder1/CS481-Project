@@ -36,6 +36,7 @@
                       <TableColumn fx:id="titleCol" onEditCommit="#changeTitleCellEvent" prefWidth="300.0" text="Title" />
                       <TableColumn fx:id="uniqueWordsCol" prefWidth="130.0" text="Unique Words" />
                         <TableColumn fx:id="totalWordsCol" prefWidth="130.0" text="Total Words" />
+                        <TableColumn fx:id="ageCol" onEditCommit="#changeAgeCellEvent" prefWidth="75.0" text="Age" />
                     </columns>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

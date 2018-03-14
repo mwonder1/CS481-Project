@@ -128,7 +128,7 @@ public class WritetoXML extends Book {
 		}
 	}
 
-	public WritetoXML(File bookFile, String author, int ISBN, String title, int age, int numWords,
+	public WritetoXML(File bookFile, String author, int ISBN, String title, String age, int numWords,
 			Map<String, Integer> uniqueWords, Map<String, Integer> frequency) {
 		super(bookFile, author, ISBN, title, age, numWords, uniqueWords);
 

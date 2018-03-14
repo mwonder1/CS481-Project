@@ -38,6 +38,16 @@ public class BookController {
 	private TableColumn<tableBook, String> uniqueWordsCol;
 	@FXML
 	private TableColumn<tableBook, String> totalWordsCol;
+	@FXML
+	private TableColumn<tableBook, String> ageCol;
+
+	public void changeAgeCellEvent(CellEditEvent<?, ?> edditedCell) {
+
+		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
+		bookSelected.setAge(edditedCell.getNewValue().toString());
+		Book.booksList.get(edditedCell.getTablePosition().getColumn()).setAge(edditedCell.getNewValue().toString());
+
+	}
 
 	public void changeTitleCellEvent(CellEditEvent<?, ?> edditedCell) {
 
@@ -78,8 +88,9 @@ public class BookController {
 			String title = Book.booksList.get(i).getTitle();
 			String uniqueWords = Integer.toString(Book.booksList.get(i).getUniqueWords().size());
 			String totalWords = Integer.toString(Book.booksList.get(i).getTotalWords());
+			String age = Book.booksList.get(i).getAge();
 
-			books.add(new tableBook(title, uniqueWords, totalWords));
+			books.add(new tableBook(title, uniqueWords, totalWords, age));
 		}
 		return books;
 	}
@@ -113,11 +124,13 @@ public class BookController {
 		titleCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("title"));
 		uniqueWordsCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("uniqueWords"));
 		totalWordsCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("totalWords"));
+		ageCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("age"));
 
-		// Retrieve Books and allow the titleCol to be editable
+		// Retrieve Books and allow the titleCol and ageCol to be editable
 		tableView.setItems(getBooks());
 		tableView.setEditable(true);
 		titleCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		ageCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
 		// Allow multiple rows to be selected
 		tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

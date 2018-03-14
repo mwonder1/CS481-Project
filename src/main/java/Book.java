@@ -34,7 +34,7 @@ public class Book {
 			String author = getAuthor(bookFile);
 			int ISBN = getISBN(bookFile);
 			String title = setTitle(bookFile);
-			int age = getAge(bookFile);
+			String age = setAge(bookFile);
 			int numWords = getNumWords(bookFile);
 			Map<String, Integer> uniqueWords = getUniqueWords(bookFile);
 
@@ -81,13 +81,6 @@ public class Book {
 			}
 
 		}
-
-	}
-
-	private static int getAge(File bookFile) {
-		int age = 0;
-		return age;
-		// TODO Auto-generated method stub
 
 	}
 
@@ -162,6 +155,11 @@ public class Book {
 
 	}
 
+	protected static String setAge(File f) {
+		String age = "";
+		return age;
+	}
+
 	protected static String setTitle(File f) {
 
 		String title = f.getName();
@@ -184,10 +182,9 @@ public class Book {
 	private String author;
 	@SuppressWarnings("unused")
 	private int ISBN;
-	@SuppressWarnings("unused")
-	private int age;
+	private String age;
 
-	public Book(File file, String author, int ISBN, String title, int age, int numWords,
+	public Book(File file, String author, int ISBN, String title, String age, int numWords,
 			Map<String, Integer> uniqueWords) {
 		this.file = file;
 		this.title = title;
@@ -197,6 +194,10 @@ public class Book {
 		this.ISBN = ISBN;
 		this.uniqueWords = uniqueWords;
 
+	}
+
+	public String getAge() {
+		return age;
 	}
 
 	public File getFile() {
@@ -217,6 +218,10 @@ public class Book {
 	public Map<String, Integer> getUniqueWords() {
 
 		return uniqueWords;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
 	}
 
 	public void setTitle(String title) {
