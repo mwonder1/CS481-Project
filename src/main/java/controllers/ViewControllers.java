@@ -3,7 +3,7 @@ package main.java.controllers;
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import main.java.MainApp;
 
 public class ViewControllers {
@@ -12,8 +12,8 @@ public class ViewControllers {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("controllers/BookView.fxml"));
 		MainApp.mainLayout = loader.load();
-		Scene scene = new Scene(MainApp.mainLayout);
-		MainApp.primaryStage.setScene(scene);
+		Parent newContent = MainApp.mainLayout;
+		MainApp.primaryStage.getScene().setRoot(newContent);
 		MainApp.primaryStage.show();
 	}
 
@@ -21,8 +21,8 @@ public class ViewControllers {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("controllers/DictionaryView.fxml"));
 		MainApp.mainLayout = loader.load();
-		Scene scene = new Scene(MainApp.mainLayout);
-		MainApp.primaryStage.setScene(scene);
+		Parent newContent = MainApp.mainLayout;
+		MainApp.primaryStage.getScene().setRoot(newContent);
 		MainApp.primaryStage.show();
 	}
 
@@ -30,8 +30,8 @@ public class ViewControllers {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("controllers/MainView.fxml"));
 		MainApp.mainLayout = loader.load();
-		Scene scene = new Scene(MainApp.mainLayout);
-		MainApp.primaryStage.setScene(scene);
+		Parent newContent = MainApp.mainLayout;
+		MainApp.primaryStage.getScene().setRoot(newContent);
 		MainApp.primaryStage.show();
 	}
 
@@ -39,8 +39,8 @@ public class ViewControllers {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("controllers/LibraryView.fxml"));
 		MainApp.mainLayout = loader.load();
-		Scene scene = new Scene(MainApp.mainLayout);
-		MainApp.primaryStage.setScene(scene);
+		Parent newContent = MainApp.mainLayout;
+		MainApp.primaryStage.getScene().setRoot(newContent);
 		MainApp.primaryStage.show();
 	}
 
