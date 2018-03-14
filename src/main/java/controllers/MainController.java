@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 public class MainController {
 
 	@FXML
-	private Button homeBtn, booksBtn, librariesBtn, dictBtn;
+	private Button homeBtn, librariesBtn, dictBtn, booksBtn;
 	@FXML
 	private BorderPane MainView;
 
