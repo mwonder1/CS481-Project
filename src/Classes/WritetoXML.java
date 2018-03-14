@@ -1,4 +1,4 @@
-package main.java;
+package Classes;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -128,7 +128,7 @@ public class WritetoXML extends Book {
 		}
 	}
 
-	public WritetoXML(File bookFile, String author, int ISBN, String title, String age, int numWords,
+	public WritetoXML(File bookFile, String author, String ISBN, String title, String age, int numWords,
 			Map<String, Integer> uniqueWords, Map<String, Integer> frequency) {
 		super(bookFile, author, ISBN, title, age, numWords, uniqueWords);
 

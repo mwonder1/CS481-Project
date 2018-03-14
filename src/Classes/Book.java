@@ -1,4 +1,4 @@
-package main.java;
+package Classes;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,8 +31,8 @@ public class Book {
 		else {
 			File file = bookFile;
 			int i = booksList.size();
-			String author = getAuthor(bookFile);
-			int ISBN = getISBN(bookFile);
+			String author = setAuthor(bookFile);
+			String ISBN = setISBN(bookFile);
 			String title = setTitle(bookFile);
 			String age = setAge(bookFile);
 			int numWords = getNumWords(bookFile);
@@ -81,20 +81,6 @@ public class Book {
 			}
 
 		}
-
-	}
-
-	private static String getAuthor(File bookFile) {
-		String author = null;
-		return author;
-		// TODO Auto-generated method stub
-
-	}
-
-	private static int getISBN(File bookFile) {
-		int ISBN = 0;
-		return ISBN;
-		// TODO Auto-generated method stub
 
 	}
 
@@ -160,6 +146,16 @@ public class Book {
 		return age;
 	}
 
+	protected static String setAuthor(File f) {
+		String author = "";
+		return author;
+	}
+
+	protected static String setISBN(File f) {
+		String ISBN = "";
+		return ISBN;
+	}
+
 	protected static String setTitle(File f) {
 
 		String title = f.getName();
@@ -178,13 +174,11 @@ public class Book {
 	private int numWords;
 
 	protected Map<String, Integer> uniqueWords;
-	@SuppressWarnings("unused")
 	private String author;
-	@SuppressWarnings("unused")
-	private int ISBN;
+	private String ISBN;
 	private String age;
 
-	public Book(File file, String author, int ISBN, String title, String age, int numWords,
+	public Book(File file, String author, String ISBN, String title, String age, int numWords,
 			Map<String, Integer> uniqueWords) {
 		this.file = file;
 		this.title = title;
@@ -200,9 +194,17 @@ public class Book {
 		return age;
 	}
 
+	public String getAuthor() {
+		return author;
+	}
+
 	public File getFile() {
 
 		return file;
+	}
+
+	public String getISBN() {
+		return ISBN;
 	}
 
 	public String getTitle() {
@@ -222,6 +224,14 @@ public class Book {
 
 	public void setAge(String age) {
 		this.age = age;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public void setISBN(String ISBN) {
+		this.ISBN = ISBN;
 	}
 
 	public void setTitle(String title) {
