@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +13,6 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Book {
-
-	public static ArrayList<Book> booksList = new ArrayList<>();
 
 	public static void addBook(File bookFile) throws IOException {
 
@@ -30,7 +27,7 @@ public class Book {
 
 		else {
 			File file = bookFile;
-			int i = booksList.size();
+			int i = Library.systemLibrary.size();
 			String author = setAuthor(bookFile);
 			String ISBN = setISBN(bookFile);
 			String title = setTitle(bookFile);
@@ -39,22 +36,22 @@ public class Book {
 			Map<String, Integer> uniqueWords = getUniqueWords(bookFile);
 
 			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords);
-			booksList.add(i, book);
+			Library.systemLibrary.add(i, book);
 			System.out.println(
 					"Successfully added book: " + setTitle(bookFile) + "...\n" + ("into the System Library.\n"));
 
 		}
 	}
 
-	private static boolean CompareBook(File bookFile2) throws FileNotFoundException {
+	static boolean CompareBook(File bookFile2) throws FileNotFoundException {
 
-		if (booksList.size() == 0)
+		if (Library.systemLibrary.size() == 0)
 			return false;
 		else {
 
-			for (int i = 0; i < booksList.size(); i++) {
+			for (int i = 0; i < Library.systemLibrary.size(); i++) {
 
-				Book value = booksList.get(i);
+				Book value = Library.systemLibrary.get(i);
 
 				if (setTitle(bookFile2).equals(value.title))
 					return true;
@@ -62,25 +59,6 @@ public class Book {
 
 		}
 		return false;
-
-	}
-
-	public static void deleteFromSystem(tableBook book)
-
-	{
-
-		for (int i = 0; i < booksList.size(); i++) {
-
-			Book value = booksList.get(i);
-
-			if (book.getUniqueWords().equals(Integer.toString(value.getUniqueWords().size()))) {
-
-				booksList.remove(i);
-				System.out.println(value.title + " successfully removed from system.");
-
-			}
-
-		}
 
 	}
 

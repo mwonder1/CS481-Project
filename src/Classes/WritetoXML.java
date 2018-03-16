@@ -31,11 +31,11 @@ public class WritetoXML extends Book {
 			// root elements
 			Document doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement("This_Library");
-			rootElement.setAttribute("count", Integer.toString(booksList.size()));
+			rootElement.setAttribute("count", Integer.toString(Library.systemLibrary.size()));
 			doc.appendChild(rootElement);
 
-			for (int i = 0; i < booksList.size(); i++) {
-				Book book = booksList.get(i);
+			for (int i = 0; i < Library.systemLibrary.size(); i++) {
+				Book book = Library.systemLibrary.get(i);
 				String title = book.getTitle();
 				Map<String, Integer> uniqueWords = book.getUniqueWords();
 				int uniqueCount = uniqueWords.size();
@@ -47,12 +47,12 @@ public class WritetoXML extends Book {
 
 				// Age Attribute
 				Attr attr = doc.createAttribute("age");
-				attr.setValue("1");
+				attr.setValue(book.getAge());
 				Book.setAttributeNode(attr);
 
 				// Author Attribute
 				Attr attr2 = doc.createAttribute("author");
-				attr2.setValue("1");
+				attr2.setValue(book.getAuthor());
 				Book.setAttributeNode(attr2);
 
 				// Title Attibute
@@ -62,7 +62,7 @@ public class WritetoXML extends Book {
 
 				// ISBN Attribute
 				Attr attr4 = doc.createAttribute("isbn");
-				attr4.setValue("1");
+				attr4.setValue(book.getISBN());
 				Book.setAttributeNode(attr4);
 
 				// Word elements

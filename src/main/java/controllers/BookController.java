@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import Classes.Book;
+import Classes.Library;
 import Classes.WritetoXML;
 import Classes.tableBook;
 import javafx.collections.FXCollections;
@@ -48,46 +49,45 @@ public class BookController {
 	public void changeAgeCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
-		bookSelected.setAge(edditedCell.getNewValue().toString());
-		for (int i = 0; i < Book.booksList.size(); i++) {
-			if (bookSelected.getTitle().equals(Book.booksList.get(i).getTitle())) {
-				Book.booksList.get(i).setAge(edditedCell.getNewValue().toString());
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
+			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
+				Library.systemLibrary.get(i).setAge(edditedCell.getNewValue().toString());
 			}
 		}
+		bookSelected.setAge(edditedCell.getNewValue().toString());
 
 	}
 
 	public void changeAuthorCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
-		bookSelected.setAuthor(edditedCell.getNewValue().toString());
-		for (int i = 0; i < Book.booksList.size(); i++) {
-			if (bookSelected.getTitle().equals(Book.booksList.get(i).getTitle())) {
-				Book.booksList.get(i).setAuthor(edditedCell.getNewValue().toString());
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
+			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
+				Library.systemLibrary.get(i).setAuthor(edditedCell.getNewValue().toString());
 			}
 		}
+		bookSelected.setAuthor(edditedCell.getNewValue().toString());
 
 	}
 
 	public void changeISBNCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
-		bookSelected.setISBN(edditedCell.getNewValue().toString());
-		for (int i = 0; i < Book.booksList.size(); i++) {
-			if (bookSelected.getTitle().equals(Book.booksList.get(i).getTitle())) {
-				Book.booksList.get(i).setISBN(edditedCell.getNewValue().toString());
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
+			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
+				Library.systemLibrary.get(i).setISBN(edditedCell.getNewValue().toString());
 			}
 		}
-
+		bookSelected.setISBN(edditedCell.getNewValue().toString());
 	}
 
 	public void changeTitleCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
 
-		for (int i = 0; i < Book.booksList.size(); i++) {
-			if (bookSelected.getTitle().equals(Book.booksList.get(i).getTitle())) {
-				Book.booksList.get(i).setTitle(edditedCell.getNewValue().toString());
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
+			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
+				Library.systemLibrary.get(i).setTitle(edditedCell.getNewValue().toString());
 			}
 		}
 		bookSelected.setTitle(edditedCell.getNewValue().toString());
@@ -100,7 +100,7 @@ public class BookController {
 		selectedRows = tableView.getSelectionModel().getSelectedItems();
 
 		for (tableBook book : selectedRows) {
-			Book.deleteFromSystem(book);
+			Library.deleteFromSystem(book);
 			allBooks.remove(book);
 		}
 
@@ -119,14 +119,14 @@ public class BookController {
 
 		ObservableList<tableBook> books = FXCollections.observableArrayList();
 
-		for (int i = 0; i < Book.booksList.size(); i++) {
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
 
-			String title = Book.booksList.get(i).getTitle();
-			String uniqueWords = Integer.toString(Book.booksList.get(i).getUniqueWords().size());
-			String totalWords = Integer.toString(Book.booksList.get(i).getTotalWords());
-			String age = Book.booksList.get(i).getAge();
-			String author = Book.booksList.get(i).getAuthor();
-			String ISBN = Book.booksList.get(i).getISBN();
+			String title = Library.systemLibrary.get(i).getTitle();
+			String uniqueWords = Integer.toString(Library.systemLibrary.get(i).getUniqueWords().size());
+			String totalWords = Integer.toString(Library.systemLibrary.get(i).getTotalWords());
+			String age = Library.systemLibrary.get(i).getAge();
+			String author = Library.systemLibrary.get(i).getAuthor();
+			String ISBN = Library.systemLibrary.get(i).getISBN();
 
 			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN));
 		}

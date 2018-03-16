@@ -14,6 +14,7 @@ public class MainApp extends Application {
 	public static BorderPane mainLayout;
 
 	public static void main(String[] args) throws IOException {
+
 		launch(args);
 	}
 
