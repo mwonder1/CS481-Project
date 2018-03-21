@@ -43,25 +43,6 @@ public class Book {
 		}
 	}
 
-	static boolean CompareBook(File bookFile2) throws FileNotFoundException {
-
-		if (Library.systemLibrary.size() == 0)
-			return false;
-		else {
-
-			for (int i = 0; i < Library.systemLibrary.size(); i++) {
-
-				Book value = Library.systemLibrary.get(i);
-
-				if (setTitle(bookFile2).equals(value.title))
-					return true;
-			}
-
-		}
-		return false;
-
-	}
-
 	public static int getNumWords(File f) throws FileNotFoundException {
 		try (Scanner sc = new Scanner(new FileInputStream(f))) {
 
@@ -142,6 +123,26 @@ public class Book {
 			title = title.substring(0, pos);
 		}
 		return title;
+
+	}
+
+	static boolean CompareBook(File bookFile2) throws FileNotFoundException {
+
+		if (Library.systemLibrary.size() == 0) {
+			return false;
+		} else {
+
+			for (int i = 0; i < Library.systemLibrary.size(); i++) {
+
+				Book value = Library.systemLibrary.get(i);
+
+				if (setTitle(bookFile2).equals(value.title)) {
+					return true;
+				}
+			}
+
+		}
+		return false;
 
 	}
 

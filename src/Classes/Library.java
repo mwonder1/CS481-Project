@@ -29,25 +29,6 @@ public class Library {
 
 	}
 
-	static boolean CompareBook(ArrayList<Book> library, Book book) throws FileNotFoundException {
-
-		if (library.size() == 0)
-			return false;
-		else {
-
-			for (int i = 0; i < library.size(); i++) {
-
-				Book value = library.get(i);
-
-				if (book.getTitle().equals(value.getTitle()))
-					return true;
-			}
-
-		}
-		return false;
-
-	}
-
 	public static void createLibrary(String name) {
 
 		Map<String, ArrayList<Book>> newLib = new HashMap<>();
@@ -68,6 +49,26 @@ public class Library {
 				System.out.println(value.getTitle() + " successfully removed from system.");
 			}
 		}
+	}
+
+	static boolean CompareBook(ArrayList<Book> library, Book book) throws FileNotFoundException {
+
+		if (library.size() == 0) {
+			return false;
+		} else {
+
+			for (int i = 0; i < library.size(); i++) {
+
+				Book value = library.get(i);
+
+				if (book.getTitle().equals(value.getTitle())) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+
 	}
 
 	private String title;

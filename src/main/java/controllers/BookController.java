@@ -130,24 +130,6 @@ public class BookController {
 		WritetoXML.writeOutput(file);
 	}
 
-	private ObservableList<tableBook> getBooks() {
-
-		ObservableList<tableBook> books = FXCollections.observableArrayList();
-
-		for (int i = 0; i < Library.systemLibrary.size(); i++) {
-
-			String title = Library.systemLibrary.get(i).getTitle();
-			String uniqueWords = Integer.toString(Library.systemLibrary.get(i).getUniqueWords().size());
-			String totalWords = Integer.toString(Library.systemLibrary.get(i).getTotalWords());
-			String age = Library.systemLibrary.get(i).getAge();
-			String author = Library.systemLibrary.get(i).getAuthor();
-			String ISBN = Library.systemLibrary.get(i).getISBN();
-
-			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN));
-		}
-		return books;
-	}
-
 	public void goDictionary() throws IOException {
 		ViewControllers.showDictionary();
 	}
@@ -191,6 +173,24 @@ public class BookController {
 
 		// Allow multiple rows to be selected
 		tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	}
+
+	private ObservableList<tableBook> getBooks() {
+
+		ObservableList<tableBook> books = FXCollections.observableArrayList();
+
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
+
+			String title = Library.systemLibrary.get(i).getTitle();
+			String uniqueWords = Integer.toString(Library.systemLibrary.get(i).getUniqueWords().size());
+			String totalWords = Integer.toString(Library.systemLibrary.get(i).getTotalWords());
+			String age = Library.systemLibrary.get(i).getAge();
+			String author = Library.systemLibrary.get(i).getAuthor();
+			String ISBN = Library.systemLibrary.get(i).getISBN();
+
+			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN));
+		}
+		return books;
 	}
 
 }

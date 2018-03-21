@@ -52,31 +52,6 @@ public class LibraryController {
 		librarySelected.setTitle(edditedCell.getNewValue().toString());
 	}
 
-	private ObservableList<tableLibrary> getLibrary() {
-
-		ObservableList<tableLibrary> libraries = FXCollections.observableArrayList();
-
-		for (int i = 0; i < Library.libraries.size(); i++) {
-			Entry<String, ArrayList<Book>> entry = Library.libraries.get(i).entrySet().iterator().next();
-
-			String title = entry.getKey();
-			String numBooks = Integer.toString(entry.getValue().size());
-			int uni = 0, tot = 0;
-
-			for (int z = 0; z < Library.libraries.size(); z++) {
-				Book book = entry.getValue().get(z);
-				uni += book.getUniqueWords().size();
-				tot += book.getTotalWords();
-			}
-
-			String uniqueWords = Integer.toString(uni);
-			String totalWords = Integer.toString(tot);
-			libraries.add(new tableLibrary(title, uniqueWords, totalWords, numBooks));
-		}
-
-		return libraries;
-	}
-
 	public void goBooks() throws IOException {
 		ViewControllers.showBooks();
 	}
@@ -114,7 +89,7 @@ public class LibraryController {
 		Library.createLibrary(newLibTitle.getText());
 		System.out.println(newLibTitle.getText() + " library created.");
 		System.out.println(Library.libraries.size());
-		Book book = new Book(null, null, null, null, null, 0, null);
+		new Book(null, null, null, null, null, 0, null);
 		for (int i = 0; i < Library.systemLibrary.size(); i++) {
 			System.out.println(Library.systemLibrary.get(i).getTitle());
 			// if (Library.systemLibrary.get(i).getTitle() == "Eagle Song") {
@@ -123,6 +98,31 @@ public class LibraryController {
 		}
 	}
 	// Library library = new Library();
+
+	private ObservableList<tableLibrary> getLibrary() {
+
+		ObservableList<tableLibrary> libraries = FXCollections.observableArrayList();
+
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			Entry<String, ArrayList<Book>> entry = Library.libraries.get(i).entrySet().iterator().next();
+
+			String title = entry.getKey();
+			String numBooks = Integer.toString(entry.getValue().size());
+			int uni = 0, tot = 0;
+
+			for (int z = 0; z < Library.libraries.size(); z++) {
+				Book book = entry.getValue().get(z);
+				uni += book.getUniqueWords().size();
+				tot += book.getTotalWords();
+			}
+
+			String uniqueWords = Integer.toString(uni);
+			String totalWords = Integer.toString(tot);
+			libraries.add(new tableLibrary(title, uniqueWords, totalWords, numBooks));
+		}
+
+		return libraries;
+	}
 
 	// tableView.setItems(getLibrary());
 }
