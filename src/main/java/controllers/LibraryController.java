@@ -89,7 +89,7 @@ public class LibraryController {
 		Library.createLibrary(newLibTitle.getText());
 		System.out.println(newLibTitle.getText() + " library created.");
 		System.out.println(Library.libraries.size());
-		new Book(null, null, null, null, null, 0, null);
+		new Book(null, null, null, null, null, 0, null, null);
 		for (int i = 0; i < Library.systemLibrary.size(); i++) {
 			System.out.println(Library.systemLibrary.get(i).getTitle());
 			// if (Library.systemLibrary.get(i).getTitle() == "Eagle Song") {

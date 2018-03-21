@@ -32,10 +32,11 @@ public class Book {
 			String ISBN = setISBN(bookFile);
 			String title = setTitle(bookFile);
 			String age = setAge(bookFile);
+			String genre = setGenre(bookFile);
 			int numWords = getNumWords(bookFile);
 			Map<String, Integer> uniqueWords = getUniqueWords(bookFile);
 
-			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords);
+			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords, genre);
 			Library.systemLibrary.add(i, book);
 			System.out.println(
 					"Successfully added book: " + setTitle(bookFile) + "...\n" + ("into the System Library.\n"));
@@ -104,6 +105,11 @@ public class Book {
 		String age = "";
 		return age;
 	}
+	
+	protected static String setGenre(File f) {
+		String genre = "";
+		return genre;
+	}
 
 	protected static String setAuthor(File f) {
 		String author = "";
@@ -157,8 +163,10 @@ public class Book {
 	private String ISBN;
 	private String age;
 
+	private String genre;
+
 	public Book(File file, String author, String ISBN, String title, String age, int numWords,
-			Map<String, Integer> uniqueWords) {
+			Map<String, Integer> uniqueWords, String genre) {
 		this.file = file;
 		this.title = title;
 		this.numWords = numWords;
@@ -166,6 +174,7 @@ public class Book {
 		this.author = author;
 		this.ISBN = ISBN;
 		this.uniqueWords = uniqueWords;
+		this.genre = genre;
 
 	}
 
@@ -215,6 +224,14 @@ public class Book {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String string) {
+		this.genre = string;	
 	}
 
 }

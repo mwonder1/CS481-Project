@@ -49,6 +49,8 @@ public class BookController {
 	private TableColumn<tableBook, String> authorCol;
 	@FXML
 	private TableColumn<tableBook, String> isbnCol;
+	@FXML
+	private TableColumn<tableBook, String> genreCol;
 
 	public void changeAgeCellEvent(CellEditEvent<?, ?> edditedCell) {
 
@@ -59,6 +61,18 @@ public class BookController {
 			}
 		}
 		bookSelected.setAge(edditedCell.getNewValue().toString());
+
+	}
+	
+	public void changeGenreCellEvent(CellEditEvent<?, ?> edditedCell) {
+
+		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
+			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
+				Library.systemLibrary.get(i).setGenre(edditedCell.getNewValue().toString());
+			}
+		}
+		bookSelected.setGenre(edditedCell.getNewValue().toString());
 
 	}
 
@@ -160,6 +174,7 @@ public class BookController {
 		uniqueWordsCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("uniqueWords"));
 		totalWordsCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("totalWords"));
 		ageCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("age"));
+		genreCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("genre"));
 		authorCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("author"));
 		isbnCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("ISBN"));
 
@@ -170,6 +185,7 @@ public class BookController {
 		ageCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		authorCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		isbnCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		genreCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
 		// Allow multiple rows to be selected
 		tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -187,8 +203,9 @@ public class BookController {
 			String age = Library.systemLibrary.get(i).getAge();
 			String author = Library.systemLibrary.get(i).getAuthor();
 			String ISBN = Library.systemLibrary.get(i).getISBN();
+			String genre = Library.systemLibrary.get(i).getGenre();
 
-			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN));
+			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN, genre));
 		}
 		return books;
 	}

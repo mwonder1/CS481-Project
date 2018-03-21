@@ -49,6 +49,11 @@ public class WritetoXML extends Book {
 				Attr attr = doc.createAttribute("age");
 				attr.setValue(book.getAge());
 				Book.setAttributeNode(attr);
+				
+				// Genre Attribute
+				Attr attr6 = doc.createAttribute("genre");
+				attr6.setValue(book.getGenre());
+				Book.setAttributeNode(attr6);
 
 				// Author Attribute
 				Attr attr2 = doc.createAttribute("author");
@@ -128,9 +133,9 @@ public class WritetoXML extends Book {
 		}
 	}
 
-	public WritetoXML(File bookFile, String author, String ISBN, String title, String age, int numWords,
+	public WritetoXML(File bookFile, String author, String ISBN, String title, String age, String genre, int numWords,
 			Map<String, Integer> uniqueWords, Map<String, Integer> frequency) {
-		super(bookFile, author, ISBN, title, age, numWords, uniqueWords);
+		super(bookFile, author, ISBN, title, age, numWords, uniqueWords, genre);
 
 	}
 }
