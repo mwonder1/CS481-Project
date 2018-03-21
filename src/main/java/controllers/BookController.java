@@ -3,6 +3,7 @@ package main.java.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import Classes.Book;
 import Classes.Library;
@@ -11,7 +12,10 @@ import Classes.tableBook;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -99,9 +103,20 @@ public class BookController {
 		allBooks = tableView.getItems();
 		selectedRows = tableView.getSelectionModel().getSelectedItems();
 
-		for (tableBook book : selectedRows) {
-			Library.deleteFromSystem(book);
-			allBooks.remove(book);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirm Removal");
+		alert.setHeaderText("Removing book: " + tableView.getSelectionModel().getSelectedItem().getTitle());
+		alert.setContentText("Are you ok with this?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			// ... user chose OK
+			for (tableBook book : selectedRows) {
+				Library.deleteFromSystem(book);
+				allBooks.remove(book);
+			}
+		} else {
+			// ... user chose CANCEL or closed the dialog
 		}
 
 	}
