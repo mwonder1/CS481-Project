@@ -5,7 +5,7 @@ for treating both speech disorders and language disorders, with information such
     <p>For this project our team has been provided an already existing program that when ran creates a dictionary listing words that appear in a collection of digitized books, their frequency, and other such parameters.  This program was developed a previous year by another group of students as part of their senior project. This program edits and creates the dictionary, but it does not efficiently query books which is a key requirement. </p>
     <p>The framework shows how the existing program takes as input digital books in plain text, computes their word frequencies, and outputs a corpus in XML format. The lexical properties of the words in this corpus are then analyzed, and the dictionary is produced in XML format. This xml format dictionary is then converted into the more easily usable CSV format, and output to the user. The framework shows that our job in this project is to give the users an easy way to upload their books in a plain text file into the preexisting program and then after the program is done converting the dictionary, we need to be able to display and save the dictionary in a CSV format.</p>
     
-<a href="https://ibb.co/jUg8sx"><img src="https://preview.ibb.co/e5cgCx/framework.jpg" alt="framework" border="0" /></a>
+<img src="https://preview.ibb.co/e5cgCx/framework.jpg" alt="framework" border="0" /></a>
    
 
     
