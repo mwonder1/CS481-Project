@@ -18,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -27,6 +28,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 
 public class LibraryController {
+	public Library currentLib;
 	@FXML
 	private TableColumn<tableBook, String> titleCol;
 	@FXML
@@ -46,7 +48,7 @@ public class LibraryController {
 	@FXML
 	private TextField newLibTitle;
 	@FXML
-	private Button createNewLib, dictBtn, booksBtn, homeBtn, librariesBtn, deleteBtn;
+	private Button createNewLib, dictBtn, booksBtn, homeBtn, librariesBtn, LibDeleteBtn, bookDeleteBtn, libDeleteBtn;
 	@FXML
 	private Button addBooks, openLib;
 	@FXML
@@ -62,33 +64,38 @@ public class LibraryController {
 	@FXML
 	private TableColumn<tableLibrary, String> numBooks;
 
-	public void changeTitleCellEvent(CellEditEvent<?, ?> edditedCell) {
+	public void bookDeleteBtn() {
 
-		tableLibrary librarySelected = tableView.getSelectionModel().getSelectedItem();
-		librarySelected.setTitle(edditedCell.getNewValue().toString());
-	}
-
-	public void deleteBtn() {
-
-		ObservableList<tableLibrary> selectedRows;
-		selectedRows = tableView.getSelectionModel().getSelectedItems();
+		ObservableList<tableBook> selectedRows, allBooks;
+		allBooks = libView.getItems();
+		selectedRows = libView.getSelectionModel().getSelectedItems();
 
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirm Removal");
-		alert.setHeaderText("Removing Library: " + tableView.getSelectionModel().getSelectedItem().getTitle());
+		alert.setHeaderText("Removing book: " + libView.getSelectionModel().getSelectedItem().getTitle());
 		alert.setContentText("Are you ok with this?");
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
 			// ... user chose OK
-			for (tableLibrary lib : selectedRows) {
-				Library.deleteLibrary(lib);
+			for (tableBook book : selectedRows) {
+				for (int i = 0; i < currentLib.getBooksList().size(); i++) {
+					if (currentLib.getBooksList().get(i).getTitle().equals(book.getTitle())) {
+						currentLib.getBooksList().remove(i);
+						allBooks.remove(book);
+					}
+				}
 			}
 		} else {
 			// ... user chose CANCEL or closed the dialog
 		}
-		tableView.setItems(getLibrary());
 
+	}
+
+	public void changeTitleCellEvent(CellEditEvent<?, ?> edditedCell) {
+
+		tableLibrary librarySelected = tableView.getSelectionModel().getSelectedItem();
+		librarySelected.setTitle(edditedCell.getNewValue().toString());
 	}
 
 	public void goBooks() throws IOException {
@@ -134,31 +141,60 @@ public class LibraryController {
 		// tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
+	public void libDeleteBtn() {
+
+		ObservableList<tableLibrary> selectedRows;
+		selectedRows = tableView.getSelectionModel().getSelectedItems();
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirm Removal");
+		alert.setHeaderText("Removing Library: " + tableView.getSelectionModel().getSelectedItem().getTitle());
+		alert.setContentText("Are you ok with this?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			// ... user chose OK
+			for (tableLibrary lib : selectedRows) {
+				Library.deleteLibrary(lib);
+			}
+		} else {
+			// ... user chose CANCEL or closed the dialog
+		}
+		tableView.setItems(getLibrary());
+
+	}
+
 	public void newLibrary() throws FileNotFoundException {
 
-		for (int i = 0; i <= Library.libraries.size(); i++) {
-			if (newLibTitle.getText().equals("")) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error Dialog");
-				alert.setHeaderText(null);
-				alert.setContentText("Please enter a name.");
-				alert.showAndWait();
-			} else if (Library.libraries.size() == 0) {
-				Library.createLibrary(newLibTitle.getText());
-			} else if (Library.libraries.get(i).getTitle().equals(newLibTitle.getText())) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error Dialog");
-				alert.setHeaderText(null);
-				alert.setContentText("A Library with the same name already exists! Please try a different name.");
-				alert.showAndWait();
-			} else {
-				Library.createLibrary(newLibTitle.getText());
-			}
+		if (Library.libraries.size() == 0) {
+			Library.createLibrary(newLibTitle.getText());
 			tableView.setItems(getLibrary());
-			System.out.println(newLibTitle.getText() + " library created.");
-			System.out.println(Library.libraries.size());
 		}
 
+		else {
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				if (newLibTitle.getText().equals("")) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText(null);
+					alert.setContentText("Please enter a name.");
+					alert.showAndWait();
+				}
+
+				else if (Library.libraries.get(i).getTitle().equals(newLibTitle.getText())) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Dialog");
+					alert.setHeaderText(null);
+					alert.setContentText("A Library with the same name already exists! Please try a different name.");
+					alert.showAndWait();
+				} else {
+					Library.createLibrary(newLibTitle.getText());
+				}
+				tableView.setItems(getLibrary());
+				System.out.println(newLibTitle.getText() + " library created.");
+				System.out.println(Library.libraries.size());
+			}
+		}
 	}
 
 	public void openLibBtn() {
@@ -186,16 +222,20 @@ public class LibraryController {
 
 			String title = result.get();
 
-			Library lib = null;
-
 			for (int i = 0; i < Library.libraries.size(); i++) {
 				if (Library.libraries.get(i).getTitle().equals(title)) {
-					lib = Library.libraries.get(i);
+					currentLib = Library.libraries.get(i);
 				}
 			}
-			libView.setItems(getBooks(lib));
 
+			libDeleteBtn.setVisible(false);
+			bookDeleteBtn.setVisible(true);
+			libView.setItems(getBooks(currentLib));
+			libView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 			libView.setVisible(true);
+			tableView.setVisible(false);
+			tableView.setEditable(false);
+
 		}
 	}
 

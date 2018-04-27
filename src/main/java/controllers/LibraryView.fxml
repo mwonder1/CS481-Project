@@ -28,7 +28,8 @@
                   <Button fx:id="createNewLib" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newLibrary" text="Create New Library" />
                   <TextField fx:id="newLibTitle" layoutX="191.0" layoutY="15.0" prefHeight="31.0" prefWidth="253.0" />
                   <Button fx:id="openLib" layoutX="14.0" layoutY="58.0" mnemonicParsing="false" onAction="#openLibBtn" text="Open Library" />
-                  <Button fx:id="deleteBtn" layoutX="141.0" layoutY="58.0" mnemonicParsing="false" onAction="#deleteBtn" text="Delete" />
+                  <Button fx:id="libDeleteBtn" layoutX="141.0" layoutY="58.0" mnemonicParsing="false" onAction="#libDeleteBtn" text="Delete" />
+                  <Button fx:id="bookDeleteBtn" layoutX="141.0" layoutY="58.0" mnemonicParsing="false" onAction="#bookDeleteBtn" text="Delete" visible="false" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="440.0" prefWidth="778.0">
