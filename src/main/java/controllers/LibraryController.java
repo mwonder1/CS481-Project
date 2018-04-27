@@ -2,8 +2,6 @@ package main.java.controllers;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map.Entry;
 
 import Classes.Book;
 import Classes.Library;
@@ -12,7 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -82,21 +79,26 @@ public class LibraryController {
 		titleCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
 		// Allow multiple rows to be selected
-		tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		// tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
 	public void newLibrary() throws FileNotFoundException {
-		Library.createLibrary(newLibTitle.getText());
-		System.out.println(newLibTitle.getText() + " library created.");
-		System.out.println(Library.libraries.size());
-		new Book(null, null, null, null, null, 0, null, null);
-		for (int i = 0; i < Library.systemLibrary.size(); i++) {
-			System.out.println(Library.systemLibrary.get(i).getTitle());
-			// if (Library.systemLibrary.get(i).getTitle() == "Eagle Song") {
-			// book = Library.systemLibrary.get(i);
-			// Library.addBooktoLibrary(Library.libraries.get(i), book);
+
+		for (int i = 0; i <= Library.libraries.size(); i++) {
+			if (Library.libraries.size() == 0) {
+				Library.createLibrary(newLibTitle.getText());
+			} else if (Library.libraries.get(i).getTitle().equals(newLibTitle.getText())) {
+				System.out.println("Library with same name already exists");
+			} else {
+				Library.createLibrary(newLibTitle.getText());
+			}
+			tableView.setItems(getLibrary());
+			System.out.println(newLibTitle.getText() + " library created.");
+			System.out.println(Library.libraries.size());
 		}
+
 	}
+
 	// Library library = new Library();
 
 	private ObservableList<tableLibrary> getLibrary() {
@@ -104,20 +106,28 @@ public class LibraryController {
 		ObservableList<tableLibrary> libraries = FXCollections.observableArrayList();
 
 		for (int i = 0; i < Library.libraries.size(); i++) {
-			Entry<String, ArrayList<Book>> entry = Library.libraries.get(i).entrySet().iterator().next();
-
-			String title = entry.getKey();
-			String numBooks = Integer.toString(entry.getValue().size());
+			// Entry<String, ArrayList<Book>> entry =
+			// Library.libraries.get(i).entrySet().iterator().next();
+			// for (Map.Entry<String, ArrayList<Book>> entry :
+			// Library.libraries.get(i).entrySet()) {
+			// for (int i1 = 0; i1 < Library.libraries.get(i1).size(); i1++) {
+			// String title = entry.getKey();
+			String title = Library.libraries.get(i).getTitle();
+			// String numBooks = Integer.toString(Library.libraries.get(i1).values().size();
+			String numBooks = Integer.toString(Library.libraries.get(i).getBooksList().size());
 			int uni = 0, tot = 0;
 
-			for (int z = 0; z < Library.libraries.size(); z++) {
-				Book book = entry.getValue().get(z);
+			for (int z = 0; z < Library.libraries.get(i).getBooksList().size(); z++) {
+				Book book = Library.libraries.get(i).getBooksList().get(z);
+				// ArrayList<Book> temp = new ArrayList<>();
 				uni += book.getUniqueWords().size();
 				tot += book.getTotalWords();
 			}
 
 			String uniqueWords = Integer.toString(uni);
+			// Integer.toString(uni);
 			String totalWords = Integer.toString(tot);
+			// Integer.toString(tot);
 			libraries.add(new tableLibrary(title, uniqueWords, totalWords, numBooks));
 		}
 

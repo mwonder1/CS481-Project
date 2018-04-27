@@ -2,16 +2,13 @@ package Classes;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Library {
 
 	public static ArrayList<Book> systemLibrary = new ArrayList<>();
-	public static List<Map<String, ArrayList<Book>>> libraries = new ArrayList<>();
+	public static ArrayList<Library> libraries = new ArrayList<>();
 
-	public static void addBooktoLibrary(ArrayList<Book> library, Book book) throws FileNotFoundException {
+	public static void addBooktoLibrary(Library library, Book book) throws FileNotFoundException {
 
 		boolean insystem = CompareBook(library, book);
 
@@ -23,16 +20,17 @@ public class Library {
 		}
 
 		else {
-			int i = library.size();
-			library.add(i, book);
+
+			library.booksList.add(book);
 		}
 
 	}
 
 	public static void createLibrary(String name) {
 
-		Map<String, ArrayList<Book>> newLib = new HashMap<>();
-		newLib.put(name, null);
+		String title = name;
+		ArrayList<Book> booksList = new ArrayList<>();
+		Library newLib = new Library(title, booksList);
 		Library.libraries.add(newLib);
 
 	}
@@ -51,19 +49,18 @@ public class Library {
 		}
 	}
 
-	static boolean CompareBook(ArrayList<Book> library, Book book) throws FileNotFoundException {
+	static boolean CompareBook(Library library, Book book) throws FileNotFoundException {
 
-		if (library.size() == 0) {
+		if (library.booksList.size() == 0)
 			return false;
-		} else {
+		else {
 
-			for (int i = 0; i < library.size(); i++) {
+			for (int i = 0; i < library.booksList.size(); i++) {
 
-				Book value = library.get(i);
+				Book value = library.booksList.get(i);
 
-				if (book.getTitle().equals(value.getTitle())) {
+				if (book.getTitle().equals(value.getTitle()))
 					return true;
-				}
 			}
 
 		}
@@ -71,7 +68,17 @@ public class Library {
 
 	}
 
+	private ArrayList<Book> booksList;
 	private String title;
+
+	public Library(String title, ArrayList<Book> booksList) {
+		this.title = title;
+		this.booksList = booksList;
+	}
+
+	public ArrayList<Book> getBooksList() {
+		return booksList;
+	}
 
 	public String getTitle() {
 		return title;

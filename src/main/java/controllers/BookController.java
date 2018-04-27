@@ -1,3 +1,4 @@
+
 package main.java.controllers;
 
 import java.io.File;
@@ -63,18 +64,6 @@ public class BookController {
 		bookSelected.setAge(edditedCell.getNewValue().toString());
 
 	}
-	
-	public void changeGenreCellEvent(CellEditEvent<?, ?> edditedCell) {
-
-		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
-		for (int i = 0; i < Library.systemLibrary.size(); i++) {
-			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
-				Library.systemLibrary.get(i).setGenre(edditedCell.getNewValue().toString());
-			}
-		}
-		bookSelected.setGenre(edditedCell.getNewValue().toString());
-
-	}
 
 	public void changeAuthorCellEvent(CellEditEvent<?, ?> edditedCell) {
 
@@ -85,6 +74,18 @@ public class BookController {
 			}
 		}
 		bookSelected.setAuthor(edditedCell.getNewValue().toString());
+
+	}
+
+	public void changeGenreCellEvent(CellEditEvent<?, ?> edditedCell) {
+
+		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
+			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
+				Library.systemLibrary.get(i).setGenre(edditedCell.getNewValue().toString());
+			}
+		}
+		bookSelected.setGenre(edditedCell.getNewValue().toString());
 
 	}
 
