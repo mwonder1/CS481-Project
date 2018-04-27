@@ -3,8 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -23,32 +21,39 @@
       <AnchorPane maxWidth="10.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.12226277372262774" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
         <items>
-          <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="150.0" prefWidth="588.0">
+          <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="103.0" prefWidth="778.0">
                <children>
-                  <Button layoutX="510.0" layoutY="18.0" mnemonicParsing="false" text="Settings" />
-                  <Button fx:id="createNewLib" layoutX="108.0" layoutY="58.0" mnemonicParsing="false" onAction="#newLibrary" text="Create New Library" />
-                  <Button layoutX="2.0" layoutY="18.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="185.0" text="Upload Library" />
-                  <Button layoutX="3.0" layoutY="100.0" mnemonicParsing="false" text="Search" />
-                  <MenuButton layoutX="3.0" layoutY="57.0" mnemonicParsing="false" text="Action">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                  </MenuButton>
-                  <TextField fx:id="newLibTitle" layoutX="277.0" layoutY="60.0" />
+                  <Button fx:id="createNewLib" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newLibrary" text="Create New Library" />
+                  <TextField fx:id="newLibTitle" layoutX="191.0" layoutY="15.0" prefHeight="31.0" prefWidth="253.0" />
+                  <Button fx:id="openLib" layoutX="14.0" layoutY="58.0" mnemonicParsing="false" onAction="#openLibBtn" text="Open Library" />
+                  <Button fx:id="deleteBtn" layoutX="141.0" layoutY="58.0" mnemonicParsing="false" onAction="#deleteBtn" text="Delete" />
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="440.0" prefWidth="778.0">
                <children>
                   <TableView fx:id="tableView" prefHeight="398.0" prefWidth="588.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="titleCol" onEditCommit="#changeTitleCellEvent" prefWidth="370.0" text="Title" />
+                      <TableColumn fx:id="libTitleCol" onEditCommit="#changeTitleCellEvent" prefWidth="370.0" text="Title" />
                       <TableColumn fx:id="numBooks" prefWidth="115.0" text="# Books" />
-                        <TableColumn fx:id="uniqueWordsCol" prefWidth="120.0" text="Unique Words" />
-                        <TableColumn fx:id="totalWordsCol" prefWidth="140.0" text="Total Words" />
+                        <TableColumn fx:id="libUniqueWordsCol" prefWidth="120.0" text="Unique Words" />
+                        <TableColumn fx:id="libTotalWordsCol" prefWidth="140.0" text="Total Words" />
                     </columns>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </TableView>
+                  <TableView fx:id="libView" editable="true" prefHeight="414.0" prefWidth="778.0" visible="false">
+                     <columns>
+                        <TableColumn fx:id="titleCol" prefWidth="270.0" text="Title" />
+                        <TableColumn fx:id="authorCol" prefWidth="105.0" text="Author" />
+                        <TableColumn fx:id="genreCol" prefWidth="75.0" text="Genre" />
+                        <TableColumn fx:id="ageCol" prefWidth="75.0" text="Age" />
+                        <TableColumn fx:id="isbnCol" prefWidth="75.0" text="ISBN" />
+                        <TableColumn fx:id="uniqueWordsCol" prefWidth="109.0" text="Unique Words" />
+                        <TableColumn fx:id="totalWordsCol" prefWidth="151.0" text="Total Words" />
+                     </columns>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -62,13 +67,16 @@
       <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
             <Button fx:id="dictBtn" mnemonicParsing="false" onAction="#goDictionary" text="Dictionaries" />
-            <Button fx:id="librariesBtn" mnemonicParsing="false" text="Libraries" />
+            <Button fx:id="librariesBtn" mnemonicParsing="false" onAction="#goLibrary" text="Libraries" />
             <Button fx:id="booksBtn" mnemonicParsing="false" onAction="#goBooks" text="Books" />
             <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goHome" text="Home" />
         </buttons>
          <BorderPane.margin>
-            <Insets right="10.0" />
+            <Insets />
          </BorderPane.margin>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
       </ButtonBar>
    </top>
 </BorderPane>

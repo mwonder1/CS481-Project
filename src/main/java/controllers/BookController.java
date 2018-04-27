@@ -3,6 +3,7 @@ package main.java.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -33,7 +35,7 @@ public class BookController {
 	@FXML
 	private BorderPane BookView;
 	@FXML
-	private Button homeBtn, booksBtn, librariesBtn, dictBtn, newDictBtn, settingsBtn, importBtn, deleteBtn;
+	private Button homeBtn, booksBtn, librariesBtn, dictBtn, newDictBtn, addBook, importBtn, deleteBtn;
 	@FXML
 	private MenuButton actionBtn;
 	@FXML
@@ -52,6 +54,60 @@ public class BookController {
 	private TableColumn<tableBook, String> isbnCol;
 	@FXML
 	private TableColumn<tableBook, String> genreCol;
+
+	public void addBooksBtn() throws IOException {
+
+		List<String> success = new ArrayList<>();
+		List<String> fail = new ArrayList<>();
+
+		@SuppressWarnings("resource")
+		List<String> choices = new ArrayList<>();
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			choices.add(Library.libraries.get(i).getTitle());
+		}
+
+		ChoiceDialog<String> dialog = new ChoiceDialog<>("Libraries...", choices);
+		dialog.setTitle("Which library do you want to add to?");
+		dialog.setHeaderText("Please choose which library you would like to add the selected books too.");
+		dialog.setContentText("Select a library:");
+
+		Optional<String> result = dialog.showAndWait();
+
+		String title = result.get();
+
+		Library library = null;
+
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			if (Library.libraries.get(i).getTitle().equals(title)) {
+				library = Library.libraries.get(i);
+			}
+		}
+
+		ObservableList<tableBook> selectedRows;
+		selectedRows = tableView.getSelectionModel().getSelectedItems();
+
+		for (tableBook book : selectedRows) {
+			for (int i = 0; i < Library.systemLibrary.size(); i++) {
+				if (book.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
+					if (library.getBooksList().contains(Library.systemLibrary.get(i))) {
+						fail.add(Library.systemLibrary.get(i).getTitle());
+					} else {
+						Library.libraries.get(0).addBooktoLibrary(library, Library.systemLibrary.get(i));
+						success.add(Library.systemLibrary.get(i).getTitle());
+					}
+
+				}
+			}
+
+		}
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Successfully added Books");
+		alert.setHeaderText(null);
+		alert.setContentText("Books successfully added: " + success + "\n\nBooks not added: " + fail);
+
+		alert.showAndWait();
+
+	}
 
 	public void changeAgeCellEvent(CellEditEvent<?, ?> edditedCell) {
 
@@ -137,12 +193,34 @@ public class BookController {
 	}
 
 	public void generateDictBtn() {
+		List<String> choices = new ArrayList<>();
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			choices.add(Library.libraries.get(i).getTitle());
+		}
+
+		ChoiceDialog<String> dialog = new ChoiceDialog<>("Libraries...", choices);
+		dialog.setTitle("Which library do you want to view?");
+		dialog.setHeaderText("Please choose which library you would like view the contents of.");
+		dialog.setContentText("Select a library:");
+
+		Optional<String> result = dialog.showAndWait();
+
+		String title = result.get();
+
+		Library lib = null;
+
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			if (Library.libraries.get(i).getTitle().equals(title)) {
+				lib = Library.libraries.get(i);
+			}
+		}
+
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
 		File file = fileChooser.showSaveDialog(MainApp.primaryStage);
 
-		WritetoXML.writeOutput(file);
+		WritetoXML.writeOutput(lib, file);
 	}
 
 	public void goDictionary() throws IOException {

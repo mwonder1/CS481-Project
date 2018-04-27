@@ -22,7 +22,7 @@ import org.w3c.dom.Element;
 
 public class WritetoXML extends Book {
 
-	public static void writeOutput(File file) {
+	public static void writeOutput(Library library, File file) {
 		try {
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -31,11 +31,11 @@ public class WritetoXML extends Book {
 			// root elements
 			Document doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement("This_Library");
-			rootElement.setAttribute("count", Integer.toString(Library.systemLibrary.size()));
+			rootElement.setAttribute("count", Integer.toString(library.getBooksList().size()));
 			doc.appendChild(rootElement);
 
-			for (int i = 0; i < Library.systemLibrary.size(); i++) {
-				Book book = Library.systemLibrary.get(i);
+			for (int i = 0; i < library.getBooksList().size(); i++) {
+				Book book = library.getBooksList().get(i);
 				String title = book.getTitle();
 				Map<String, Integer> uniqueWords = book.getUniqueWords();
 				int uniqueCount = uniqueWords.size();
@@ -49,7 +49,7 @@ public class WritetoXML extends Book {
 				Attr attr = doc.createAttribute("age");
 				attr.setValue(book.getAge());
 				Book.setAttributeNode(attr);
-				
+
 				// Genre Attribute
 				Attr attr6 = doc.createAttribute("genre");
 				attr6.setValue(book.getGenre());

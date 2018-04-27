@@ -2,14 +2,22 @@ package main.java.controllers;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import Classes.Book;
 import Classes.Library;
+import Classes.tableBook;
 import Classes.tableLibrary;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -19,34 +27,68 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 
 public class LibraryController {
-
+	@FXML
+	private TableColumn<tableBook, String> titleCol;
+	@FXML
+	private TableColumn<tableBook, String> uniqueWordsCol;
+	@FXML
+	private TableColumn<tableBook, String> totalWordsCol;
+	@FXML
+	private TableColumn<tableBook, String> ageCol;
+	@FXML
+	private TableColumn<tableBook, String> authorCol;
+	@FXML
+	private TableColumn<tableBook, String> isbnCol;
+	@FXML
+	private TableColumn<tableBook, String> genreCol;
 	@FXML
 	private BorderPane LibraryView;
 	@FXML
 	private TextField newLibTitle;
 	@FXML
-	private Button createNewLib;
+	private Button createNewLib, dictBtn, booksBtn, homeBtn, librariesBtn, deleteBtn;
+	@FXML
+	private Button addBooks, openLib;
+	@FXML
+	private TableView<tableBook> libView;
 	@FXML
 	private TableView<tableLibrary> tableView;
 	@FXML
-	private TableColumn<tableLibrary, String> titleCol;
+	private TableColumn<tableLibrary, String> libTitleCol;
 	@FXML
-	private TableColumn<tableLibrary, String> uniqueWordsCol;
+	private TableColumn<tableLibrary, String> libUniqueWordsCol;
 	@FXML
-	private TableColumn<tableLibrary, String> totalWordsCol;
+	private TableColumn<tableLibrary, String> libTotalWordsCol;
 	@FXML
 	private TableColumn<tableLibrary, String> numBooks;
 
 	public void changeTitleCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableLibrary librarySelected = tableView.getSelectionModel().getSelectedItem();
-
-		// for (int i = 0; i < Library.libraries.size(); i++) {
-		// if (librarySelected.getTitle().equals(Library.libraries.get(i).getTitle())) {
-		// Library.libraries.get(i).setTitle(edditedCell.getNewValue().toString());
-		// }
-		// }
 		librarySelected.setTitle(edditedCell.getNewValue().toString());
+	}
+
+	public void deleteBtn() {
+
+		ObservableList<tableLibrary> selectedRows;
+		selectedRows = tableView.getSelectionModel().getSelectedItems();
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirm Removal");
+		alert.setHeaderText("Removing Library: " + tableView.getSelectionModel().getSelectedItem().getTitle());
+		alert.setContentText("Are you ok with this?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			// ... user chose OK
+			for (tableLibrary lib : selectedRows) {
+				Library.deleteLibrary(lib);
+			}
+		} else {
+			// ... user chose CANCEL or closed the dialog
+		}
+		tableView.setItems(getLibrary());
+
 	}
 
 	public void goBooks() throws IOException {
@@ -67,13 +109,23 @@ public class LibraryController {
 
 	public void initialize() {
 
-		// Set up table columns
-		titleCol.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("title"));
-		uniqueWordsCol.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("uniqueWords"));
-		totalWordsCol.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("totalWords"));
+		// Set up book table columns
+		titleCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("title"));
+		uniqueWordsCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("uniqueWords"));
+		totalWordsCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("totalWords"));
+		ageCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("age"));
+		genreCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("genre"));
+		authorCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("author"));
+		isbnCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("ISBN"));
+
+		// Set up library table columns
+		libTitleCol.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("title"));
+		libUniqueWordsCol.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("uniqueWords"));
+		libTotalWordsCol.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("totalWords"));
 		numBooks.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("numBooks"));
 
 		// Retrieve Books and allow the titleCol and ageCol to be editable
+
 		tableView.setItems(getLibrary());
 		tableView.setEditable(true);
 		titleCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -85,10 +137,20 @@ public class LibraryController {
 	public void newLibrary() throws FileNotFoundException {
 
 		for (int i = 0; i <= Library.libraries.size(); i++) {
-			if (Library.libraries.size() == 0) {
+			if (newLibTitle.getText().equals("")) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText(null);
+				alert.setContentText("Please enter a name.");
+				alert.showAndWait();
+			} else if (Library.libraries.size() == 0) {
 				Library.createLibrary(newLibTitle.getText());
 			} else if (Library.libraries.get(i).getTitle().equals(newLibTitle.getText())) {
-				System.out.println("Library with same name already exists");
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText(null);
+				alert.setContentText("A Library with the same name already exists! Please try a different name.");
+				alert.showAndWait();
 			} else {
 				Library.createLibrary(newLibTitle.getText());
 			}
@@ -97,6 +159,63 @@ public class LibraryController {
 			System.out.println(Library.libraries.size());
 		}
 
+	}
+
+	public void openLibBtn() {
+
+		if (Library.libraries.size() == 0) {
+
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText(null);
+			alert.setContentText("There are no libraries to open. Please create one before trying again.");
+			alert.showAndWait();
+
+		} else {
+			List<String> choices = new ArrayList<>();
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				choices.add(Library.libraries.get(i).getTitle());
+			}
+
+			ChoiceDialog<String> dialog = new ChoiceDialog<>("Libraries...", choices);
+			dialog.setTitle("Which library do you want to view?");
+			dialog.setHeaderText("Please choose which library you would like view the contents of.");
+			dialog.setContentText("Select a library:");
+
+			Optional<String> result = dialog.showAndWait();
+
+			String title = result.get();
+
+			Library lib = null;
+
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				if (Library.libraries.get(i).getTitle().equals(title)) {
+					lib = Library.libraries.get(i);
+				}
+			}
+			libView.setItems(getBooks(lib));
+
+			libView.setVisible(true);
+		}
+	}
+
+	private ObservableList<tableBook> getBooks(Library lib) {
+
+		ObservableList<tableBook> books = FXCollections.observableArrayList();
+
+		for (int i = 0; i < lib.getBooksList().size(); i++) {
+
+			String title = lib.getBooksList().get(i).getTitle();
+			String uniqueWords = Integer.toString(lib.getBooksList().get(i).getUniqueWords().size());
+			String totalWords = Integer.toString(lib.getBooksList().get(i).getTotalWords());
+			String age = lib.getBooksList().get(i).getAge();
+			String author = lib.getBooksList().get(i).getAuthor();
+			String ISBN = lib.getBooksList().get(i).getISBN();
+			String genre = lib.getBooksList().get(i).getGenre();
+
+			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN, genre));
+		}
+		return books;
 	}
 
 	// Library library = new Library();
