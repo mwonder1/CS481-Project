@@ -8,6 +8,24 @@ public class Library {
 	public static ArrayList<Book> systemLibrary = new ArrayList<>();
 	public static ArrayList<Library> libraries = new ArrayList<>();
 
+	public static void addBooktoLibrary(Library library, Book book) throws FileNotFoundException {
+
+		boolean insystem = CompareBook(library, book);
+
+		if (insystem == true) {
+
+			// System.out.println("Unable to add book: " + library.getTitle() + "...\n" +
+			// ("Already in this library.\n"));
+
+		}
+
+		else {
+
+			library.booksList.add(book);
+		}
+
+	}
+
 	public static void createLibrary(String name) {
 
 		String title = name;
@@ -34,7 +52,6 @@ public class Library {
 			if (book.getUniqueWords().equals(Integer.toString(value.getUniqueWords().size()))) {
 
 				Library.systemLibrary.remove(i);
-				System.out.println(value.getTitle() + " successfully removed from system.");
 			}
 		}
 	}
@@ -53,12 +70,10 @@ public class Library {
 
 		for (int i = 0; i < Library.libraries.size(); i++) {
 
-			Library lib = Library.libraries.get(i);
-
-			if (lib.getTitle().equals(Library.libraries.get(i).getTitle())) {
+			if (library.getTitle().equals(Library.libraries.get(i).getTitle())) {
 
 				Library.libraries.remove(i);
-				System.out.println(lib.getTitle() + " successfully removed from system.");
+
 			}
 		}
 	}
@@ -90,29 +105,12 @@ public class Library {
 	}
 
 	private ArrayList<Book> booksList;
+
 	private String title;
 
 	public Library(String title, ArrayList<Book> booksList) {
 		this.title = title;
 		this.booksList = booksList;
-	}
-
-	public static void addBooktoLibrary(Library library, Book book) throws FileNotFoundException {
-
-		boolean insystem = CompareBook(library, book);
-
-		if (insystem == true) {
-
-			// System.out.println("Unable to add book: " + library.getTitle() + "...\n" +
-			// ("Already in this library.\n"));
-
-		}
-
-		else {
-
-			library.booksList.add(book);
-		}
-
 	}
 
 	public ArrayList<Book> getBooksList() {

@@ -112,6 +112,9 @@ public class LibraryController {
 		libTotalWordsCol.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("totalWords"));
 		numBooks.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("numBooks"));
 
+		// Don't Allow multiple rows to be selected
+		libView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
 		// Retrieve Books and allow the titleCol and ageCol to be editable
 		tableView.setItems(getLibrary());
 		tableView.setEditable(true);
@@ -120,8 +123,8 @@ public class LibraryController {
 
 	public void libDeleteBtn() {
 
-		ObservableList<tableLibrary> selectedRows;
-		selectedRows = tableView.getSelectionModel().getSelectedItems();
+		tableLibrary selectedRows;
+		selectedRows = tableView.getSelectionModel().getSelectedItem();
 
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirm Removal");
@@ -131,9 +134,9 @@ public class LibraryController {
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
 			// ... user chose OK
-			for (tableLibrary lib : selectedRows) {
-				Library.deleteLibrary(lib);
-			}
+
+			Library.deleteLibrary(selectedRows);
+
 		} else {
 			// ... user chose CANCEL or closed the dialog
 		}
