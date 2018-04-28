@@ -22,7 +22,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -35,8 +34,6 @@ public class LibraryController {
 			genreCol;
 	@FXML
 	private BorderPane LibraryView;
-	@FXML
-	private TextField newLibTitle;
 	@FXML
 	private Button createNewLib, dictBtn, booksBtn, homeBtn, librariesBtn, LibDeleteBtn, bookDeleteBtn, libDeleteBtn,
 			mergeBtn;
@@ -154,10 +151,10 @@ public class LibraryController {
 			choices.add(Library.libraries.get(i).getTitle());
 		}
 
-		ChoiceDialog<String> dialog = new ChoiceDialog<>("b", choices);
-		dialog.setTitle("Choice Dialog");
-		dialog.setHeaderText("Look, a Choice Dialog");
-		dialog.setContentText("Choose your letter:");
+		ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
+		dialog.setTitle("Merge Libraries");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Choose a Library.");
 
 		Optional<String> result = dialog.showAndWait();
 		String title = result.get();
@@ -169,10 +166,10 @@ public class LibraryController {
 		if (result.isPresent()) {
 			List<String> choices2 = new ArrayList<>();
 
-			ChoiceDialog<String> dialog2 = new ChoiceDialog<>("b", choices2);
-			dialog2.setTitle("Choice Dialog");
-			dialog2.setHeaderText("Look, a Choice Dialog");
-			dialog2.setContentText("Choose your letter:");
+			ChoiceDialog<String> dialog2 = new ChoiceDialog<>("", choices2);
+			dialog2.setTitle("Merge Libraries");
+			dialog2.setHeaderText(null);
+			dialog2.setContentText("Now choose a different library to merge with.");
 
 			Optional<String> result1 = dialog.showAndWait();
 			String title1 = result1.get();
@@ -181,10 +178,10 @@ public class LibraryController {
 					lib2 = Library.libraries.get(i);
 				}
 			}
-			TextInputDialog dialog1 = new TextInputDialog("walter");
-			dialog1.setTitle("Text Input Dialog");
-			dialog1.setHeaderText("Look, a Text Input Dialog");
-			dialog1.setContentText("Please enter your name:");
+			TextInputDialog dialog1 = new TextInputDialog("Choose a name...");
+			dialog1.setTitle("New Library");
+			dialog1.setHeaderText(null);
+			dialog1.setContentText("Please name your newly merged library.");
 
 			Optional<String> result11 = dialog1.showAndWait();
 			if (result11.isPresent()) {
@@ -199,33 +196,45 @@ public class LibraryController {
 
 	public void newLibrary() throws FileNotFoundException {
 
-		if (newLibTitle.getText().equals("")) {
+		String name = null;
+		TextInputDialog dialog = new TextInputDialog("Choose a name...");
+		dialog.setTitle("New Library");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Enter a name for your library.");
+
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()) {
+			name = result.get();
+		}
+
+		if (name.equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText(null);
 			alert.setContentText("Please enter a name.");
 			alert.showAndWait();
-		} else if (Library.libraries.size() == 0) {
-			Library.createLibrary(newLibTitle.getText());
+		}
+		if (Library.libraries.size() == 0) {
+			Library.createLibrary(name);
 			tableView.setItems(getLibrary());
 			return;
 		}
 
-		else {
-			for (int i = 0; i < Library.libraries.size(); i++) {
-				if (Library.libraries.get(i).getTitle().equals(newLibTitle.getText())) {
+		for (int i = 0; i < Library.libraries.size(); i++) {
 
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText(null);
-					alert.setContentText("A Library with the same name already exists! Please try a different name.");
-					alert.showAndWait();
-					return;
-				} else {
-					Library.createLibrary(newLibTitle.getText());
-				}
-				tableView.setItems(getLibrary());
+			if (Library.libraries.get(i).getTitle().equals(name)) {
+
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText(null);
+				alert.setContentText("A Library with the same name already exists! Please try a different name.");
+				alert.showAndWait();
+				return;
 			}
+
+			Library.createLibrary(name);
+			tableView.setItems(getLibrary());
+			return;
 		}
 	}
 

@@ -97,7 +97,7 @@ public class Library {
 		this.booksList = booksList;
 	}
 
-	public void addBooktoLibrary(Library library, Book book) throws FileNotFoundException {
+	public static void addBooktoLibrary(Library library, Book book) throws FileNotFoundException {
 
 		boolean insystem = CompareBook(library, book);
 
