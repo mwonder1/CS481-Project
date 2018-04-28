@@ -4,10 +4,10 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class tableBook {
 
-	private SimpleStringProperty title, uniqueWords, totalWords, age, author, ISBN, genre;
+	private SimpleStringProperty title, uniqueWords, totalWords, age, author, ISBN, genre, complete;
 
 	public tableBook(String title, String uniqueWords, String totalWords, String age, String author, String ISBN,
-			String genre) {
+			String genre, String complete) {
 		super();
 		this.title = new SimpleStringProperty(title);
 		this.uniqueWords = new SimpleStringProperty(uniqueWords);
@@ -16,6 +16,7 @@ public class tableBook {
 		this.author = new SimpleStringProperty(author);
 		this.ISBN = new SimpleStringProperty(ISBN);
 		this.genre = new SimpleStringProperty(genre);
+		this.complete = new SimpleStringProperty(complete);
 	}
 
 	public String getAge() {
@@ -24,6 +25,10 @@ public class tableBook {
 
 	public String getAuthor() {
 		return author.get();
+	}
+
+	public String getComplete() {
+		return complete.get();
 	}
 
 	public String getGenre() {
@@ -52,6 +57,10 @@ public class tableBook {
 
 	public void setAuthor(String author) {
 		this.author = new SimpleStringProperty(author);
+	}
+
+	public void setComplete(String complete) {
+		this.complete = new SimpleStringProperty(complete);
 	}
 
 	public void setGenre(String genre) {

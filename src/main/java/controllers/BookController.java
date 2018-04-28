@@ -281,8 +281,9 @@ public class BookController {
 			String author = Library.systemLibrary.get(i).getAuthor();
 			String ISBN = Library.systemLibrary.get(i).getISBN();
 			String genre = Library.systemLibrary.get(i).getGenre();
+			String complete = Library.systemLibrary.get(i).getComplete();
 
-			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN, genre));
+			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN, genre, complete));
 		}
 		return books;
 	}

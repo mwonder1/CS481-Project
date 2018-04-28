@@ -1,5 +1,6 @@
 package main.java.controllers;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Optional;
 
 import Classes.Book;
 import Classes.Library;
+import Classes.WritetoXML;
 import Classes.tableBook;
 import Classes.tableLibrary;
 import javafx.collections.FXCollections;
@@ -26,17 +28,19 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import main.java.MainApp;
 
 public class LibraryController {
 	public Library currentLib;
 	@FXML
 	private TableColumn<tableBook, String> titleCol, uniqueWordsCol, totalWordsCol, ageCol, authorCol, isbnCol,
-			genreCol;
+			genreCol, completeCol;
 	@FXML
 	private BorderPane LibraryView;
 	@FXML
 	private Button createNewLib, dictBtn, booksBtn, homeBtn, librariesBtn, LibDeleteBtn, bookDeleteBtn, libDeleteBtn,
-			mergeBtn;
+			mergeBtn, generateBtn;
 	@FXML
 	private Button addBooks, openLib;
 	@FXML
@@ -79,6 +83,41 @@ public class LibraryController {
 		librarySelected.setTitle(edditedCell.getNewValue().toString());
 	}
 
+	public void generateBtn() {
+		List<String> choices = new ArrayList<>();
+
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			choices.add(Library.libraries.get(i).getTitle());
+		}
+		choices.add("System Library");
+
+		ChoiceDialog<String> dialog = new ChoiceDialog<>("Libraries...", choices);
+		dialog.setTitle("Which library do you want to view?");
+		dialog.setHeaderText("Please choose which library you would like view the contents of.");
+		dialog.setContentText("Select a library:");
+
+		Optional<String> result = dialog.showAndWait();
+		String title = result.get();
+		ArrayList<Book> lib = null;
+
+		if (title.equals("System Library")) {
+			lib = Library.systemLibrary;
+		}
+
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			if (Library.libraries.get(i).getTitle().equals(title)) {
+				lib = Library.libraries.get(i).getBooksList();
+			}
+		}
+
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML", "*.xml");
+		fileChooser.getExtensionFilters().add(extFilter);
+		File file = fileChooser.showSaveDialog(MainApp.primaryStage);
+
+		WritetoXML.writeOutput(lib, file);
+	}
+
 	public void goBooks() throws IOException {
 		ViewControllers.showBooks();
 	}
@@ -105,6 +144,7 @@ public class LibraryController {
 		genreCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("genre"));
 		authorCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("author"));
 		isbnCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("ISBN"));
+		completeCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("complete"));
 
 		// Set up library table columns
 		libTitleCol.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("title"));
@@ -298,8 +338,9 @@ public class LibraryController {
 			String author = lib.getBooksList().get(i).getAuthor();
 			String ISBN = lib.getBooksList().get(i).getISBN();
 			String genre = lib.getBooksList().get(i).getGenre();
+			String complete = lib.getBooksList().get(i).getComplete();
 
-			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN, genre));
+			books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN, genre, complete));
 		}
 		return books;
 	}

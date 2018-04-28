@@ -38,11 +38,12 @@ public class Book {
 			String title = setTitle(bookFile);
 			String age = setAge(bookFile);
 			String genre = setGenre(bookFile);
+			String complete = setComplete(bookFile);
 
 			int numWords = getNumWords(bookFile);
 			Map<String, Integer> uniqueWords = getUniqueWords(bookFile);
 
-			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords, genre);
+			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords, genre, complete);
 			Library.systemLibrary.add(i, book);
 			success.add(title);
 		}
@@ -100,6 +101,11 @@ public class Book {
 		return treeMap;
 	}
 
+	private static String setComplete(File bookFile) {
+		String complete = "";
+		return complete;
+	}
+
 	protected static String setAge(File f) {
 		String age = "";
 		return age;
@@ -152,9 +158,10 @@ public class Book {
 	private String ISBN;
 	private String age;
 	private String genre;
+	private String complete;
 
 	public Book(File file, String author, String ISBN, String title, String age, int numWords,
-			Map<String, Integer> uniqueWords, String genre) {
+			Map<String, Integer> uniqueWords, String genre, String complete) {
 		this.file = file;
 		this.title = title;
 		this.numWords = numWords;
@@ -163,6 +170,7 @@ public class Book {
 		this.ISBN = ISBN;
 		this.uniqueWords = uniqueWords;
 		this.genre = genre;
+		this.complete = complete;
 	}
 
 	public String getAge() {
@@ -171,6 +179,10 @@ public class Book {
 
 	public String getAuthor() {
 		return author;
+	}
+
+	public String getComplete() {
+		return complete;
 	}
 
 	public File getFile() {
@@ -207,6 +219,10 @@ public class Book {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public void setComplete(String complete) {
+		this.complete = complete;
 	}
 
 	public void setGenre(String string) {

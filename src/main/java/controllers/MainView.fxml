@@ -11,12 +11,7 @@
    <center>
       <SplitPane dividerPositions="0.27848101265822783" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
         <items>
-          <AnchorPane minHeight="-Infinity" minWidth="0.0" prefHeight="150.0" prefWidth="588.0">
-               <children>
-                  <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Generate New Dictionary" />
-                  <Button layoutX="677.0" layoutY="14.0" mnemonicParsing="false" text="Settings" />
-               </children>
-            </AnchorPane>
+          <AnchorPane minHeight="-Infinity" minWidth="0.0" prefHeight="150.0" prefWidth="588.0" />
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
         </items>
       </SplitPane>
