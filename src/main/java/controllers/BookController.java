@@ -81,7 +81,7 @@ public class BookController {
 					if (library.getBooksList().contains(Library.systemLibrary.get(i))) {
 						fail.add(Library.systemLibrary.get(i).getTitle());
 					} else {
-						Library.libraries.get(0).addBooktoLibrary(library, Library.systemLibrary.get(i));
+						Library.addBooktoLibrary(library, Library.systemLibrary.get(i));
 						success.add(Library.systemLibrary.get(i).getTitle());
 					}
 				}
@@ -184,6 +184,7 @@ public class BookController {
 		for (int i = 0; i < Library.libraries.size(); i++) {
 			choices.add(Library.libraries.get(i).getTitle());
 		}
+		choices.add("System Library");
 
 		ChoiceDialog<String> dialog = new ChoiceDialog<>("Libraries...", choices);
 		dialog.setTitle("Which library do you want to view?");
@@ -192,11 +193,15 @@ public class BookController {
 
 		Optional<String> result = dialog.showAndWait();
 		String title = result.get();
-		Library lib = null;
+		ArrayList<Book> lib = null;
+
+		if (title.equals("System Library")) {
+			lib = Library.systemLibrary;
+		}
 
 		for (int i = 0; i < Library.libraries.size(); i++) {
 			if (Library.libraries.get(i).getTitle().equals(title)) {
-				lib = Library.libraries.get(i);
+				lib = Library.libraries.get(i).getBooksList();
 			}
 		}
 

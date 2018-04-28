@@ -213,6 +213,7 @@ public class LibraryController {
 			alert.setHeaderText(null);
 			alert.setContentText("Please enter a name.");
 			alert.showAndWait();
+			return;
 		}
 		if (Library.libraries.size() == 0) {
 			Library.createLibrary(name);
@@ -230,12 +231,13 @@ public class LibraryController {
 				alert.setContentText("A Library with the same name already exists! Please try a different name.");
 				alert.showAndWait();
 				return;
+
 			}
 
-			Library.createLibrary(name);
-			tableView.setItems(getLibrary());
-			return;
 		}
+		Library.createLibrary(name);
+		tableView.setItems(getLibrary());
+		return;
 	}
 
 	public void openLibBtn() {

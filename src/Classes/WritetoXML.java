@@ -2,6 +2,7 @@ package Classes;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,7 +23,7 @@ import org.w3c.dom.Element;
 
 public class WritetoXML extends Book {
 
-	public static void writeOutput(Library library, File file) {
+	public static void writeOutput(ArrayList<Book> library, File file) {
 		try {
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -31,11 +32,11 @@ public class WritetoXML extends Book {
 			// root elements
 			Document doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement("This_Library");
-			rootElement.setAttribute("count", Integer.toString(library.getBooksList().size()));
+			rootElement.setAttribute("count", Integer.toString(library.size()));
 			doc.appendChild(rootElement);
 
-			for (int i = 0; i < library.getBooksList().size(); i++) {
-				Book book = library.getBooksList().get(i);
+			for (int i = 0; i < library.size(); i++) {
+				Book book = library.get(i);
 				String title = book.getTitle();
 				Map<String, Integer> uniqueWords = book.getUniqueWords();
 				int uniqueCount = uniqueWords.size();
