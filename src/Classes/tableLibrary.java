@@ -12,7 +12,6 @@ public class tableLibrary {
 		this.uniqueWords = new SimpleStringProperty(uniqueWords);
 		this.totalWords = new SimpleStringProperty(totalWords);
 		this.numBooks = new SimpleStringProperty(numBooks);
-
 	}
 
 	public String getNumBooks() {
@@ -46,5 +45,4 @@ public class tableLibrary {
 	public void setUniqueWords(String uniqueWords) {
 		this.uniqueWords = new SimpleStringProperty(uniqueWords);
 	}
-
 }

@@ -6,7 +6,8 @@ public class tableBook {
 
 	private SimpleStringProperty title, uniqueWords, totalWords, age, author, ISBN, genre;
 
-	public tableBook(String title, String uniqueWords, String totalWords, String age, String author, String ISBN, String genre) {
+	public tableBook(String title, String uniqueWords, String totalWords, String age, String author, String ISBN,
+			String genre) {
 		super();
 		this.title = new SimpleStringProperty(title);
 		this.uniqueWords = new SimpleStringProperty(uniqueWords);
@@ -17,20 +18,16 @@ public class tableBook {
 		this.genre = new SimpleStringProperty(genre);
 	}
 
-	public String getGenre() {
-		return genre.get();
-	}
-
-	public void setGenre(String genre) {
-		this.genre = new SimpleStringProperty(genre);
-	}
-
 	public String getAge() {
 		return age.get();
 	}
 
 	public String getAuthor() {
 		return author.get();
+	}
+
+	public String getGenre() {
+		return genre.get();
 	}
 
 	public String getISBN() {
@@ -57,6 +54,10 @@ public class tableBook {
 		this.author = new SimpleStringProperty(author);
 	}
 
+	public void setGenre(String genre) {
+		this.genre = new SimpleStringProperty(genre);
+	}
+
 	public void setISBN(String ISBN) {
 		this.ISBN = new SimpleStringProperty(ISBN);
 	}
@@ -72,5 +73,4 @@ public class tableBook {
 	public void setUniqueWords(String uniqueWords) {
 		this.uniqueWords = new SimpleStringProperty(uniqueWords);
 	}
-
 }

@@ -17,6 +17,14 @@ public class Library {
 
 	}
 
+	public static void createLibrary(String name, ArrayList<Book> booksList) {
+
+		String title = name;
+		Library newLib = new Library(title, booksList);
+		Library.libraries.add(newLib);
+
+	}
+
 	public static void deleteFromSystem(tableBook book) {
 
 		for (int i = 0; i < Library.systemLibrary.size(); i++) {
@@ -27,6 +35,16 @@ public class Library {
 
 				Library.systemLibrary.remove(i);
 				System.out.println(value.getTitle() + " successfully removed from system.");
+			}
+		}
+	}
+
+	public static void deleteLibrary(Library library) {
+		for (int i = 0; i < Library.libraries.size(); i++) {
+
+			if (library.getTitle().equals(Library.libraries.get(i).getTitle())) {
+
+				Library.libraries.remove(i);
 			}
 		}
 	}
@@ -45,6 +63,15 @@ public class Library {
 		}
 	}
 
+	public static ArrayList<Book> mergeLibraries(Library lib1, Library lib2) {
+
+		lib1.booksList.removeAll(lib2.booksList);
+		lib1.booksList.addAll(lib2.booksList);
+
+		return lib1.booksList;
+
+	}
+
 	static boolean CompareBook(Library library, Book book) throws FileNotFoundException {
 
 		if (library.booksList.size() == 0)
@@ -58,14 +85,11 @@ public class Library {
 				if (book.getTitle().equals(value.getTitle()))
 					return true;
 			}
-
 		}
 		return false;
-
 	}
 
 	private ArrayList<Book> booksList;
-
 	private String title;
 
 	public Library(String title, ArrayList<Book> booksList) {

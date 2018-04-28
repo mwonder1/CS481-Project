@@ -41,19 +41,8 @@ public class BookController {
 	@FXML
 	private TableView<tableBook> tableView;
 	@FXML
-	private TableColumn<tableBook, String> titleCol;
-	@FXML
-	private TableColumn<tableBook, String> uniqueWordsCol;
-	@FXML
-	private TableColumn<tableBook, String> totalWordsCol;
-	@FXML
-	private TableColumn<tableBook, String> ageCol;
-	@FXML
-	private TableColumn<tableBook, String> authorCol;
-	@FXML
-	private TableColumn<tableBook, String> isbnCol;
-	@FXML
-	private TableColumn<tableBook, String> genreCol;
+	private TableColumn<tableBook, String> titleCol, uniqueWordsCol, totalWordsCol, ageCol, authorCol, isbnCol,
+			genreCol;
 
 	public void addBooksBtn() throws IOException {
 
@@ -95,30 +84,26 @@ public class BookController {
 						Library.libraries.get(0).addBooktoLibrary(library, Library.systemLibrary.get(i));
 						success.add(Library.systemLibrary.get(i).getTitle());
 					}
-
 				}
 			}
-
 		}
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Successfully added Books");
 		alert.setHeaderText(null);
 		alert.setContentText("Books successfully added: " + success + "\n\nBooks not added: " + fail);
-
 		alert.showAndWait();
-
 	}
 
 	public void changeAgeCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
+
 		for (int i = 0; i < Library.systemLibrary.size(); i++) {
 			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
 				Library.systemLibrary.get(i).setAge(edditedCell.getNewValue().toString());
 			}
 		}
 		bookSelected.setAge(edditedCell.getNewValue().toString());
-
 	}
 
 	public void changeAuthorCellEvent(CellEditEvent<?, ?> edditedCell) {
@@ -130,24 +115,24 @@ public class BookController {
 			}
 		}
 		bookSelected.setAuthor(edditedCell.getNewValue().toString());
-
 	}
 
 	public void changeGenreCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
+
 		for (int i = 0; i < Library.systemLibrary.size(); i++) {
 			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
 				Library.systemLibrary.get(i).setGenre(edditedCell.getNewValue().toString());
 			}
 		}
 		bookSelected.setGenre(edditedCell.getNewValue().toString());
-
 	}
 
 	public void changeISBNCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
+
 		for (int i = 0; i < Library.systemLibrary.size(); i++) {
 			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
 				Library.systemLibrary.get(i).setISBN(edditedCell.getNewValue().toString());
@@ -193,7 +178,9 @@ public class BookController {
 	}
 
 	public void generateDictBtn() {
+
 		List<String> choices = new ArrayList<>();
+
 		for (int i = 0; i < Library.libraries.size(); i++) {
 			choices.add(Library.libraries.get(i).getTitle());
 		}
@@ -204,9 +191,7 @@ public class BookController {
 		dialog.setContentText("Select a library:");
 
 		Optional<String> result = dialog.showAndWait();
-
 		String title = result.get();
-
 		Library lib = null;
 
 		for (int i = 0; i < Library.libraries.size(); i++) {
@@ -243,6 +228,14 @@ public class BookController {
 		for (File file : list) {
 			Book.addBook(file);
 		}
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Books Added to System Library");
+		alert.setHeaderText(null);
+		alert.setContentText(
+				"Books successfully added: " + Book.success + "\n\nDuplicate books not added: " + Book.fail);
+
+		alert.showAndWait();
 		tableView.setItems(getBooks());
 	}
 

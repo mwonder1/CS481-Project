@@ -2,7 +2,6 @@ package main.java;
 
 import java.io.IOException;
 
-import Classes.Library;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,14 +14,11 @@ public class MainApp extends Application {
 	public static BorderPane mainLayout;
 
 	public static void main(String[] args) throws IOException {
-
 		launch(args);
-		Library.createLibrary("Fuck");
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-
 		MainApp.primaryStage = primaryStage;
 		startScreen();
 	}

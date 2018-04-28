@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
@@ -30,25 +31,15 @@ import javafx.scene.layout.BorderPane;
 public class LibraryController {
 	public Library currentLib;
 	@FXML
-	private TableColumn<tableBook, String> titleCol;
-	@FXML
-	private TableColumn<tableBook, String> uniqueWordsCol;
-	@FXML
-	private TableColumn<tableBook, String> totalWordsCol;
-	@FXML
-	private TableColumn<tableBook, String> ageCol;
-	@FXML
-	private TableColumn<tableBook, String> authorCol;
-	@FXML
-	private TableColumn<tableBook, String> isbnCol;
-	@FXML
-	private TableColumn<tableBook, String> genreCol;
+	private TableColumn<tableBook, String> titleCol, uniqueWordsCol, totalWordsCol, ageCol, authorCol, isbnCol,
+			genreCol;
 	@FXML
 	private BorderPane LibraryView;
 	@FXML
 	private TextField newLibTitle;
 	@FXML
-	private Button createNewLib, dictBtn, booksBtn, homeBtn, librariesBtn, LibDeleteBtn, bookDeleteBtn, libDeleteBtn;
+	private Button createNewLib, dictBtn, booksBtn, homeBtn, librariesBtn, LibDeleteBtn, bookDeleteBtn, libDeleteBtn,
+			mergeBtn;
 	@FXML
 	private Button addBooks, openLib;
 	@FXML
@@ -56,13 +47,7 @@ public class LibraryController {
 	@FXML
 	private TableView<tableLibrary> tableView;
 	@FXML
-	private TableColumn<tableLibrary, String> libTitleCol;
-	@FXML
-	private TableColumn<tableLibrary, String> libUniqueWordsCol;
-	@FXML
-	private TableColumn<tableLibrary, String> libTotalWordsCol;
-	@FXML
-	private TableColumn<tableLibrary, String> numBooks;
+	private TableColumn<tableLibrary, String> libTitleCol, libUniqueWordsCol, libTotalWordsCol, numBooks;
 
 	public void bookDeleteBtn() {
 
@@ -89,7 +74,6 @@ public class LibraryController {
 		} else {
 			// ... user chose CANCEL or closed the dialog
 		}
-
 	}
 
 	public void changeTitleCellEvent(CellEditEvent<?, ?> edditedCell) {
@@ -132,13 +116,9 @@ public class LibraryController {
 		numBooks.setCellValueFactory(new PropertyValueFactory<tableLibrary, String>("numBooks"));
 
 		// Retrieve Books and allow the titleCol and ageCol to be editable
-
 		tableView.setItems(getLibrary());
 		tableView.setEditable(true);
 		titleCol.setCellFactory(TextFieldTableCell.forTableColumn());
-
-		// Allow multiple rows to be selected
-		// tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
 	public void libDeleteBtn() {
@@ -164,35 +144,87 @@ public class LibraryController {
 
 	}
 
+	public void mergeBtn() {
+
+		Library lib1 = null;
+		Library lib2 = null;
+		List<String> choices = new ArrayList<>();
+
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			choices.add(Library.libraries.get(i).getTitle());
+		}
+
+		ChoiceDialog<String> dialog = new ChoiceDialog<>("b", choices);
+		dialog.setTitle("Choice Dialog");
+		dialog.setHeaderText("Look, a Choice Dialog");
+		dialog.setContentText("Choose your letter:");
+
+		Optional<String> result = dialog.showAndWait();
+		String title = result.get();
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			if (Library.libraries.get(i).getTitle().equals(title)) {
+				lib1 = Library.libraries.get(i);
+			}
+		}
+		if (result.isPresent()) {
+			List<String> choices2 = new ArrayList<>();
+
+			ChoiceDialog<String> dialog2 = new ChoiceDialog<>("b", choices2);
+			dialog2.setTitle("Choice Dialog");
+			dialog2.setHeaderText("Look, a Choice Dialog");
+			dialog2.setContentText("Choose your letter:");
+
+			Optional<String> result1 = dialog.showAndWait();
+			String title1 = result1.get();
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				if (Library.libraries.get(i).getTitle().equals(title1)) {
+					lib2 = Library.libraries.get(i);
+				}
+			}
+			TextInputDialog dialog1 = new TextInputDialog("walter");
+			dialog1.setTitle("Text Input Dialog");
+			dialog1.setHeaderText("Look, a Text Input Dialog");
+			dialog1.setContentText("Please enter your name:");
+
+			Optional<String> result11 = dialog1.showAndWait();
+			if (result11.isPresent()) {
+
+				Library.createLibrary(result11.get(), Library.mergeLibraries(lib1, lib2));
+				Library.deleteLibrary(lib1);
+				Library.deleteLibrary(lib2);
+				tableView.setItems(getLibrary());
+			}
+		}
+	}
+
 	public void newLibrary() throws FileNotFoundException {
 
-		if (Library.libraries.size() == 0) {
+		if (newLibTitle.getText().equals("")) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText(null);
+			alert.setContentText("Please enter a name.");
+			alert.showAndWait();
+		} else if (Library.libraries.size() == 0) {
 			Library.createLibrary(newLibTitle.getText());
 			tableView.setItems(getLibrary());
+			return;
 		}
 
 		else {
 			for (int i = 0; i < Library.libraries.size(); i++) {
-				if (newLibTitle.getText().equals("")) {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Dialog");
-					alert.setHeaderText(null);
-					alert.setContentText("Please enter a name.");
-					alert.showAndWait();
-				}
+				if (Library.libraries.get(i).getTitle().equals(newLibTitle.getText())) {
 
-				else if (Library.libraries.get(i).getTitle().equals(newLibTitle.getText())) {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Error Dialog");
 					alert.setHeaderText(null);
 					alert.setContentText("A Library with the same name already exists! Please try a different name.");
 					alert.showAndWait();
+					return;
 				} else {
 					Library.createLibrary(newLibTitle.getText());
 				}
 				tableView.setItems(getLibrary());
-				System.out.println(newLibTitle.getText() + " library created.");
-				System.out.println(Library.libraries.size());
 			}
 		}
 	}
@@ -258,40 +290,25 @@ public class LibraryController {
 		return books;
 	}
 
-	// Library library = new Library();
-
 	private ObservableList<tableLibrary> getLibrary() {
 
 		ObservableList<tableLibrary> libraries = FXCollections.observableArrayList();
 
 		for (int i = 0; i < Library.libraries.size(); i++) {
-			// Entry<String, ArrayList<Book>> entry =
-			// Library.libraries.get(i).entrySet().iterator().next();
-			// for (Map.Entry<String, ArrayList<Book>> entry :
-			// Library.libraries.get(i).entrySet()) {
-			// for (int i1 = 0; i1 < Library.libraries.get(i1).size(); i1++) {
-			// String title = entry.getKey();
+
 			String title = Library.libraries.get(i).getTitle();
-			// String numBooks = Integer.toString(Library.libraries.get(i1).values().size();
 			String numBooks = Integer.toString(Library.libraries.get(i).getBooksList().size());
 			int uni = 0, tot = 0;
 
 			for (int z = 0; z < Library.libraries.get(i).getBooksList().size(); z++) {
 				Book book = Library.libraries.get(i).getBooksList().get(z);
-				// ArrayList<Book> temp = new ArrayList<>();
 				uni += book.getUniqueWords().size();
 				tot += book.getTotalWords();
 			}
-
 			String uniqueWords = Integer.toString(uni);
-			// Integer.toString(uni);
 			String totalWords = Integer.toString(tot);
-			// Integer.toString(tot);
 			libraries.add(new tableLibrary(title, uniqueWords, totalWords, numBooks));
 		}
-
 		return libraries;
 	}
-
-	// tableView.setItems(getLibrary());
 }
