@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,8 +15,12 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-public class Book {
+public class Book implements Serializable {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	public static List<String> success = new ArrayList<>();
 	public static List<String> fail = new ArrayList<>();
 
