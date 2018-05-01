@@ -28,7 +28,6 @@ public class MainApp extends Application {
 
 	public static void main(String[] args) throws IOException {
 		launch(args);
-		System.out.println(javaPreferences.numLibraries);
 	}
 
 	public void closeApp() throws FileNotFoundException {
@@ -109,7 +108,6 @@ public class MainApp extends Application {
 		ObjectInputStream objectinputstream = null;
 		System.out.println("Loading libraries...");
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-		System.out.println(javaPreferences.numLibraries);
 
 		for (int i = 0; i < javaPreferences.getNumLibraries(); i++) {
 			try {
