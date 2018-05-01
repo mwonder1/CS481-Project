@@ -80,6 +80,11 @@ public class LibraryController {
 	public void changeTitleCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableLibrary librarySelected = tableView.getSelectionModel().getSelectedItem();
+		for (int i = 0; i < Library.libraries.size(); i++) {
+			if (librarySelected.getTitle().equals(Library.libraries.get(i).getTitle())) {
+				Library.libraries.get(i).setTitle(edditedCell.getNewValue().toString());
+			}
+		}
 		librarySelected.setTitle(edditedCell.getNewValue().toString());
 	}
 
@@ -154,6 +159,10 @@ public class LibraryController {
 
 		// Don't Allow multiple rows to be selected
 		libView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+		// Allow title col to be editied
+		tableView.setEditable(true);
+		libTitleCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
 		// Retrieve Books and allow the titleCol and ageCol to be editable
 		tableView.setItems(getLibrary());

@@ -121,7 +121,7 @@ public class Library {
 		return title;
 	}
 
-	protected String setTitle(String name) {
+	public String setTitle(String name) {
 		title = name;
 		return title;
 	}
