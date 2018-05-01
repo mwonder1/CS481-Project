@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class writeToFile {
+public class writeSystemLibrary {
 
 	public static void serializeAddress(ArrayList<Book> booksList, File file) {
 

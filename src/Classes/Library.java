@@ -1,10 +1,15 @@
 package Classes;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Library {
+public class Library implements Serializable {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	public static ArrayList<Book> systemLibrary = new ArrayList<>();
 	public static ArrayList<Library> libraries = new ArrayList<>();
 

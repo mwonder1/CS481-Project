@@ -7,16 +7,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 import Classes.Book;
 import Classes.Library;
 import Classes.javaPreferences;
-import Classes.writeToFile;
+import Classes.writeLibraries;
+import Classes.writeSystemLibrary;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -30,17 +32,26 @@ public class MainApp extends Application {
 
 	public void closeApp() throws FileNotFoundException {
 		System.out.println("Saving libraries...");
-		writeToFile.serializeAddress(Library.systemLibrary, new File(javaPreferences.getDestination()));
+		writeSystemLibrary.serializeAddress(Library.systemLibrary, new File(javaPreferences.getDestination()));
+		if (Library.libraries.size() > 0) {
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				writeLibraries.serializeAddress(Library.libraries.get(i),
+						new File(javaPreferences.getDestination().concat(Integer.toString(i))));
+				javaPreferences.setLibraryDest(Integer.toString(i + 1),
+						javaPreferences.getDestination().concat(Integer.toString(i)));
+			}
+		}
 		System.out.println("File Saved. Closing...");
 		primaryStage.close();
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws IOException, ClassNotFoundException {
+	public void start(Stage primaryStage) throws IOException, ClassNotFoundException, BackingStoreException {
 		MainApp.primaryStage = primaryStage;
-		checkPreferences();
+		javaPreferences.checkPreferences();
 
 		loadBooks();
+		loadLibraries();
 		startScreen();
 		primaryStage.setOnCloseRequest(e -> {
 			try {
@@ -49,20 +60,6 @@ public class MainApp extends Application {
 				e1.printStackTrace();
 			}
 		});
-	}
-
-	private void checkPreferences() {
-		if (javaPreferences.getDestination() == null) {
-
-			FileChooser fileChooser = new FileChooser();
-			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("SER", "*.ser");
-			fileChooser.getExtensionFilters().add(extFilter);
-			File file = fileChooser.showSaveDialog(MainApp.primaryStage);
-			String destination = file.getAbsolutePath();
-
-			javaPreferences.setDestination(destination);
-		}
-
 	}
 
 	private void loadBooks() throws ClassNotFoundException, IOException {
@@ -99,6 +96,38 @@ public class MainApp extends Application {
 		}
 		System.out.println("Done.");
 
+	}
+
+	private void loadLibraries() throws ClassNotFoundException, IOException, BackingStoreException {
+
+		ObjectInputStream objectinputstream = null;
+		System.out.println("Loading libraries...");
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		for (int i = 0; i < (prefs.keys().length / 2) - 1; i++) {
+			try {
+				FileInputStream streamIn = new FileInputStream(
+						prefs.get(javaPreferences.getDestination().concat(Integer.toString(i)),
+								javaPreferences.getDestination().concat(Integer.toString(i))));
+				objectinputstream = new ObjectInputStream(streamIn);
+				Library library = (Library) objectinputstream.readObject();
+				if (library.getTitle() != null) {
+					Library.libraries.add(library);
+				} else {
+					break;
+				}
+				// for (int i = 0; i < Library.libraries.size(); i++) {
+				// Library.libraries.add(library);
+				// }
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (objectinputstream != null) {
+					objectinputstream.close();
+				}
+			}
+		}
+		System.out.println("Done.");
 	}
 
 	private void startScreen() throws IOException {
