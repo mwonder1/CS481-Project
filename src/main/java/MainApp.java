@@ -2,14 +2,16 @@ package main.java;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.prefs.Preferences;
 
 import Classes.Book;
 import Classes.Library;
+import Classes.javaPreferences;
+import Classes.writeToFile;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,30 +28,31 @@ public class MainApp extends Application {
 		launch(args);
 	}
 
-	public String getDestination() {
-		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-		String filePath = prefs.get("destination", null);
-		if (filePath != null)
-			return filePath;
-		else
-			return null;
-	}
-
-	public void setDestination(String destination) {
-		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-		if (destination != null) {
-			prefs.put("destination", destination);
-
-		} else {
-			prefs.remove("destination");
-
-		}
+	public void closeApp() throws FileNotFoundException {
+		System.out.println("Saving libraries...");
+		writeToFile.serializeAddress(Library.systemLibrary, new File(javaPreferences.getDestination()));
+		System.out.println("File Saved. Closing...");
+		primaryStage.close();
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws IOException, ClassNotFoundException {
 		MainApp.primaryStage = primaryStage;
-		if (getDestination() == null) {
+		checkPreferences();
+
+		loadBooks();
+		startScreen();
+		primaryStage.setOnCloseRequest(e -> {
+			try {
+				closeApp();
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		});
+	}
+
+	private void checkPreferences() {
+		if (javaPreferences.getDestination() == null) {
 
 			FileChooser fileChooser = new FileChooser();
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("SER", "*.ser");
@@ -57,19 +60,19 @@ public class MainApp extends Application {
 			File file = fileChooser.showSaveDialog(MainApp.primaryStage);
 			String destination = file.getAbsolutePath();
 
-			setDestination(destination);
+			javaPreferences.setDestination(destination);
 		}
-		loadBooks();
-		startScreen();
-		System.out.println(getDestination());
+
 	}
 
 	private void loadBooks() throws ClassNotFoundException, IOException {
 
 		ObjectInputStream objectinputstream = null;
+		System.out.println("Loading books...");
 		try {
-			FileInputStream streamIn = new FileInputStream(getDestination());
+			FileInputStream streamIn = new FileInputStream(javaPreferences.getDestination());
 			objectinputstream = new ObjectInputStream(streamIn);
+			@SuppressWarnings("unchecked")
 			ArrayList<Book> booksList = (ArrayList<Book>) objectinputstream.readObject();
 			for (int i = 0; i < booksList.size(); i++) {
 
@@ -94,6 +97,7 @@ public class MainApp extends Application {
 				objectinputstream.close();
 			}
 		}
+		System.out.println("Done.");
 
 	}
 
