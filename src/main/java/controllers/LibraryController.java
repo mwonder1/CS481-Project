@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.prefs.BackingStoreException;
 
 import Classes.Book;
 import Classes.Library;
@@ -193,7 +194,7 @@ public class LibraryController {
 
 	}
 
-	public void mergeBtn() {
+	public void mergeBtn() throws BackingStoreException {
 
 		Library lib1 = null;
 		Library lib2 = null;

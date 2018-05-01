@@ -8,6 +8,7 @@ import main.java.MainApp;
 
 public class javaPreferences {
 
+	public static int numLibraries;
 	public static String destination;
 
 	public static void checkPreferences() {
@@ -42,6 +43,11 @@ public class javaPreferences {
 			return null;
 	}
 
+	public static int getNumLibraries() {
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		return prefs.getInt("numLibraries", 0);
+	}
+
 	public static void setDestination(String destination) {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 		if (destination != null) {
@@ -55,13 +61,14 @@ public class javaPreferences {
 
 	public static void setLibraryDest(String library, String destination) {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-		if (destination != null) {
-			prefs.put(library, destination);
+		prefs.put(library, destination);
 
-		} else {
-			prefs.remove("destination");
-
-		}
 	}
 
+	public static void setNumLibraries(int numLibraries) {
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+
+		prefs.putInt("numLibraries", numLibraries);
+
+	}
 }

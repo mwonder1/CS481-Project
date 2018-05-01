@@ -28,19 +28,25 @@ public class MainApp extends Application {
 
 	public static void main(String[] args) throws IOException {
 		launch(args);
+		System.out.println(javaPreferences.numLibraries);
 	}
 
 	public void closeApp() throws FileNotFoundException {
+
 		System.out.println("Saving libraries...");
 		writeSystemLibrary.serializeAddress(Library.systemLibrary, new File(javaPreferences.getDestination()));
+
 		if (Library.libraries.size() > 0) {
 			for (int i = 0; i < Library.libraries.size(); i++) {
+
 				writeLibraries.serializeAddress(Library.libraries.get(i),
 						new File(javaPreferences.getDestination().concat(Integer.toString(i))));
 				javaPreferences.setLibraryDest(Integer.toString(i + 1),
 						javaPreferences.getDestination().concat(Integer.toString(i)));
 			}
 		}
+		javaPreferences.numLibraries = Library.libraries.size();
+		javaPreferences.setNumLibraries(Library.libraries.size());
 		System.out.println("File Saved. Closing...");
 		primaryStage.close();
 	}
@@ -103,13 +109,16 @@ public class MainApp extends Application {
 		ObjectInputStream objectinputstream = null;
 		System.out.println("Loading libraries...");
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-		for (int i = 0; i < (prefs.keys().length / 2) - 1; i++) {
+		System.out.println(javaPreferences.numLibraries);
+
+		for (int i = 0; i < javaPreferences.getNumLibraries(); i++) {
 			try {
 				FileInputStream streamIn = new FileInputStream(
 						prefs.get(javaPreferences.getDestination().concat(Integer.toString(i)),
 								javaPreferences.getDestination().concat(Integer.toString(i))));
 				objectinputstream = new ObjectInputStream(streamIn);
 				Library library = (Library) objectinputstream.readObject();
+
 				if (library.getTitle() != null) {
 					Library.libraries.add(library);
 				} else {
@@ -127,6 +136,7 @@ public class MainApp extends Application {
 				}
 			}
 		}
+		javaPreferences.numLibraries = Library.libraries.size();
 		System.out.println("Done.");
 	}
 

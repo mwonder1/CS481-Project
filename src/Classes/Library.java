@@ -3,6 +3,10 @@ package Classes;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
+
+import main.java.MainApp;
 
 public class Library implements Serializable {
 
@@ -32,6 +36,8 @@ public class Library implements Serializable {
 	}
 
 	public static void createLibrary(String name) {
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		prefs.putInt("numLibraries", prefs.getInt("numLibraries", 0) + 1);
 
 		String title = name;
 		ArrayList<Book> booksList = new ArrayList<>();
@@ -61,10 +67,12 @@ public class Library implements Serializable {
 		}
 	}
 
-	public static void deleteLibrary(Library library) {
+	public static void deleteLibrary(Library library) throws BackingStoreException {
 		for (int i = 0; i < Library.libraries.size(); i++) {
 
-			if (library.getTitle().equals(Library.libraries.get(i).getTitle())) {
+			if (library.getTitle().equals(Library.libraries.get(i + 1).getTitle())) {
+				Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+				prefs.putInt("numLibraries", prefs.getInt("numLibraries", 0) - 1);
 
 				Library.libraries.remove(i);
 			}
@@ -76,6 +84,8 @@ public class Library implements Serializable {
 		for (int i = 0; i < Library.libraries.size(); i++) {
 
 			if (library.getTitle().equals(Library.libraries.get(i).getTitle())) {
+				Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+				prefs.putInt("numLibraries", prefs.getInt("numLibraries", 0) - 1);
 
 				Library.libraries.remove(i);
 
