@@ -1,6 +1,9 @@
 package Classes;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
@@ -16,6 +19,41 @@ public class Library implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static ArrayList<Book> systemLibrary = new ArrayList<>();
 	public static ArrayList<Library> libraries = new ArrayList<>();
+	
+	public static void loadLibraries() throws ClassNotFoundException, IOException, BackingStoreException {
+
+		ObjectInputStream objectinputstream = null;
+		System.out.println("Loading libraries...");
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+
+		for (int i = 0; i < javaPreferences.getNumLibraries(); i++) {
+			try {
+				FileInputStream streamIn = new FileInputStream(
+						prefs.get(javaPreferences.getDestination().concat(Integer.toString(i)),
+								javaPreferences.getDestination().concat(Integer.toString(i))));
+				objectinputstream = new ObjectInputStream(streamIn);
+				Library library = (Library) objectinputstream.readObject();
+
+				if (library.getTitle() != null) {
+					Library.libraries.add(library);
+				} else {
+					break;
+				}
+				// for (int i = 0; i < Library.libraries.size(); i++) {
+				// Library.libraries.add(library);
+				// }
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (objectinputstream != null) {
+					objectinputstream.close();
+				}
+			}
+		}
+		javaPreferences.numLibraries = Library.libraries.size();
+		System.out.println("Done.");
+	}
 
 	public static void addBooktoLibrary(Library library, Book book) throws FileNotFoundException {
 

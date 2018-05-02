@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,6 +24,42 @@ public class Book implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static List<String> success = new ArrayList<>();
 	public static List<String> fail = new ArrayList<>();
+	
+	public static void loadBooks() throws ClassNotFoundException, IOException {
+
+		ObjectInputStream objectinputstream = null;
+		System.out.println("Loading books...");
+		try {
+			FileInputStream streamIn = new FileInputStream(javaPreferences.getDestination());
+			objectinputstream = new ObjectInputStream(streamIn);
+			@SuppressWarnings("unchecked")
+			ArrayList<Book> booksList = (ArrayList<Book>) objectinputstream.readObject();
+			for (int i = 0; i < booksList.size(); i++) {
+
+				File file = booksList.get(i).getFile();
+				String author = booksList.get(i).getAuthor();
+				String ISBN = booksList.get(i).getISBN();
+				String title = booksList.get(i).getTitle();
+				String age = booksList.get(i).getAge();
+				booksList.get(i);
+				int numWords = Book.getNumWords(booksList.get(i).getFile());
+				Map<String, Integer> uniqueWords = booksList.get(i).getUniqueWords();
+				String genre = booksList.get(i).getGenre();
+				String complete = booksList.get(i).getComplete();
+
+				Library.systemLibrary
+						.add(new Book(file, author, ISBN, title, age, numWords, uniqueWords, genre, complete));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (objectinputstream != null) {
+				objectinputstream.close();
+			}
+		}
+		System.out.println("Done.");
+
+	}
 
 	public static void addBook(File bookFile) throws IOException {
 

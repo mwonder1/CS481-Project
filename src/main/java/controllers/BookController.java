@@ -45,6 +45,16 @@ public class BookController {
 			genreCol;
 
 	public void addBooksBtn() throws IOException {
+		
+		if (Library.systemLibrary.size() == 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("No books found.");
+			alert.setContentText("Please upload some books first.");
+
+			alert.showAndWait();
+			return;
+		}
 
 		List<String> success = new ArrayList<>();
 		List<String> fail = new ArrayList<>();

@@ -3,6 +3,8 @@ package Classes;
 import java.io.File;
 import java.util.prefs.Preferences;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import main.java.MainApp;
 
@@ -13,6 +15,13 @@ public class javaPreferences {
 
 	public static void checkPreferences() {
 		if (javaPreferences.getDestination() == null) {
+			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Defaul Save Location");
+			alert.setHeaderText("Save location has not been set!");
+			alert.setContentText("Please select a default location and name for your save files.");
+
+			alert.showAndWait();
 
 			FileChooser fileChooser = new FileChooser();
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("SER", "*.ser");

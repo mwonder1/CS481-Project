@@ -18,12 +18,12 @@ public class ViewControllers {
 	}
 
 	static void showDictionary() throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(MainApp.class.getResource("controllers/DictionaryView.fxml"));
-		MainApp.mainLayout = loader.load();
-		Parent newContent = MainApp.mainLayout;
-		MainApp.primaryStage.getScene().setRoot(newContent);
-		MainApp.primaryStage.show();
+//		FXMLLoader loader = new FXMLLoader();
+//		loader.setLocation(MainApp.class.getResource("controllers/DictionaryView.fxml"));
+//		MainApp.mainLayout = loader.load();
+//		Parent newContent = MainApp.mainLayout;
+//		MainApp.primaryStage.getScene().setRoot(newContent);
+//		MainApp.primaryStage.show();
 	}
 
 	static void showHome() throws IOException {
