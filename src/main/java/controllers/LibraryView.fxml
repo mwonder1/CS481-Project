@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="LibraryView" prefHeight="600.0" prefWidth="800.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.LibraryController">
+<BorderPane fx:id="LibraryView" prefHeight="600.0" prefWidth="800.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.LibraryController">
    <bottom>
       <AnchorPane maxHeight="10.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </bottom>
@@ -47,14 +47,14 @@
                   </TableView>
                   <TableView fx:id="libView" editable="true" prefHeight="414.0" prefWidth="778.0" visible="false" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
-                        <TableColumn fx:id="titleCol" prefWidth="270.0" text="Title" />
-                        <TableColumn fx:id="authorCol" prefWidth="105.0" text="Author" />
-                        <TableColumn fx:id="genreCol" prefWidth="75.0" text="Genre" />
-                        <TableColumn fx:id="ageCol" prefWidth="75.0" text="Age" />
-                        <TableColumn fx:id="isbnCol" prefWidth="75.0" text="ISBN" />
-                        <TableColumn fx:id="uniqueWordsCol" prefWidth="109.0" text="Unique Words" />
-                        <TableColumn fx:id="totalWordsCol" prefWidth="151.0" text="Total Words" />
-                        <TableColumn fx:id="completeCol" prefWidth="75.0" text="Column X" />
+                        <TableColumn fx:id="titleCol" editable="false" prefWidth="270.0" text="Title" />
+                        <TableColumn fx:id="authorCol" editable="false" prefWidth="105.0" text="Author" />
+                        <TableColumn fx:id="genreCol" editable="false" prefWidth="75.0" text="Genre" />
+                        <TableColumn fx:id="ageCol" editable="false" prefWidth="75.0" text="Age" />
+                        <TableColumn fx:id="isbnCol" editable="false" prefWidth="75.0" text="ISBN" />
+                        <TableColumn fx:id="uniqueWordsCol" editable="false" prefWidth="109.0" text="Unique Words" />
+                        <TableColumn fx:id="totalWordsCol" editable="false" prefWidth="151.0" text="Total Words" />
+                        <TableColumn fx:id="completeCol" editable="false" prefWidth="75.0" text="Column X" />
                      </columns>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

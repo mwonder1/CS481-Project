@@ -188,7 +188,19 @@ public class BookController {
 	}
 
 	public void generateDictBtn() {
-
+		
+		if(Library.systemLibrary.size() == 0) {
+			
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Unable to Generate");
+			alert.setHeaderText(null);
+			alert.setContentText("You have no books uploaded to do this.");
+			alert.showAndWait();
+			return;
+		}
+		
+		else {
+		
 		List<String> choices = new ArrayList<>();
 
 		for (int i = 0; i < Library.libraries.size(); i++) {
@@ -221,6 +233,7 @@ public class BookController {
 		File file = fileChooser.showSaveDialog(MainApp.primaryStage);
 
 		WritetoXML.writeOutput(lib, file);
+		}
 	}
 
 	public void goDictionary() throws IOException {

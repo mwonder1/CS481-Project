@@ -112,10 +112,10 @@ public class Book implements Serializable {
 
 		while (strLine != null) {
 			if (!strLine.trim().equals("")) {
-				String[] words = strLine.split("[\\W]+");
+				String[] words = strLine.split("[\\p{P} \\t\\n\\r]");
 
 				for (String word : words) {
-					if (word == null || word.trim().equals("")) {
+					if (word == null || word.trim().equals("") || word.trim().equals("(?<=.)") || word.trim().equals("p{Punct}") ||  word.trim().equals("s") || word.trim().equals("t")) {
 						continue;
 					}
 					String processed = word.toLowerCase();

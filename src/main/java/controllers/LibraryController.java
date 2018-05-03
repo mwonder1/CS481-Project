@@ -90,6 +90,20 @@ public class LibraryController {
 	}
 
 	public void generateBtn() {
+		
+if(Library.systemLibrary.size() == 0) {
+			
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Unable to Generate");
+			alert.setHeaderText(null);
+			alert.setContentText("You have no books uploaded to do this.");
+			alert.showAndWait();
+			return;
+		}
+		
+		else {
+			
+		
 		List<String> choices = new ArrayList<>();
 
 		for (int i = 0; i < Library.libraries.size(); i++) {
@@ -122,6 +136,7 @@ public class LibraryController {
 		File file = fileChooser.showSaveDialog(MainApp.primaryStage);
 
 		WritetoXML.writeOutput(lib, file);
+		}
 	}
 
 	public void goBooks() throws IOException {
@@ -195,6 +210,18 @@ public class LibraryController {
 	}
 
 	public void mergeBtn() throws BackingStoreException {
+		
+			if(Library.libraries.size() == 0 || Library.libraries.size() == 1 ) {
+			
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Unable to Merge");
+			alert.setHeaderText(null);
+			alert.setContentText("You don't have enough libraries to do this.");
+			alert.showAndWait();
+			return;
+		}
+		
+		else {
 
 		Library lib1 = null;
 		Library lib2 = null;
@@ -245,12 +272,13 @@ public class LibraryController {
 				tableView.setItems(getLibrary());
 			}
 		}
+		}
 	}
 
 	public void newLibrary() throws FileNotFoundException {
 
 		String name = null;
-		TextInputDialog dialog = new TextInputDialog("Choose a name...");
+		TextInputDialog dialog = new TextInputDialog("");
 		dialog.setTitle("New Library");
 		dialog.setHeaderText(null);
 		dialog.setContentText("Enter a name for your library.");

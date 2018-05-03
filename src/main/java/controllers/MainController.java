@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import main.java.MainApp;
+import javafx.scene.text.Text;
 
 public class MainController {
 
@@ -24,6 +25,8 @@ public class MainController {
 	private Pane settingsPane;
 	@FXML
 	private TextArea text;
+	@FXML
+	private Text txt;
 
 	public void goBooks() throws IOException {
 		ViewControllers.showBooks();
@@ -36,6 +39,7 @@ public class MainController {
 	public void goHome() throws IOException {
 		ViewControllers.showHome();
 		settingsPane.setVisible(false);
+		
 	}
 
 	public void goLibrary() throws IOException {
@@ -46,6 +50,7 @@ public class MainController {
 		
 		settingsPane.setVisible(true);
 		text.setVisible(false);
+		txt.setVisible(false);
 		
 	}
 	
@@ -54,7 +59,6 @@ public class MainController {
 		alert.setTitle("Defaul Save Location");
 		alert.setHeaderText(null);
 		alert.setContentText("Please select a default location and name for your save files.");
-
 		alert.showAndWait();
 
 		FileChooser fileChooser = new FileChooser();
