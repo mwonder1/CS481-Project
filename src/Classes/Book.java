@@ -144,7 +144,7 @@ public class Book implements Serializable {
 	}
 
 	private static String setComplete(File bookFile) {
-		String complete = "";
+		String complete = "Yes";
 		return complete;
 	}
 
