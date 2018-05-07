@@ -24,7 +24,48 @@ public class Book implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static List<String> success = new ArrayList<>();
 	public static List<String> fail = new ArrayList<>();
-	
+
+	public static void addBook(File bookFile) throws IOException {
+
+		success.removeAll(success);
+		fail.removeAll(fail);
+		boolean insystem = CompareBook(bookFile);
+
+		if (insystem == true) {
+
+			String title = setTitle(bookFile);
+			fail.add(title);
+		} else {
+			File file = bookFile;
+			int i = Library.systemLibrary.size();
+
+			String author = setAuthor(bookFile);
+			String ISBN = setISBN(bookFile);
+			String title = setTitle(bookFile);
+			String age = setAge(bookFile);
+			String genre = setGenre(bookFile);
+			String complete = setComplete(bookFile);
+			int numWords = getNumWords(bookFile);
+			Map<String, Integer> uniqueWords = getUniqueWords(bookFile);
+
+			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords, genre, complete);
+			Library.systemLibrary.add(i, book);
+			success.add(title);
+		}
+	}
+
+	public static int getNumWords(File f) throws FileNotFoundException {
+		try (Scanner sc = new Scanner(new FileInputStream(f))) {
+			int numWords = 0;
+
+			while (sc.hasNext()) {
+				sc.next();
+				numWords++;
+			}
+			return numWords;
+		}
+	}
+
 	public static void loadBooks() throws ClassNotFoundException, IOException {
 
 		ObjectInputStream objectinputstream = null;
@@ -61,48 +102,6 @@ public class Book implements Serializable {
 
 	}
 
-	public static void addBook(File bookFile) throws IOException {
-
-		success.removeAll(success);
-		fail.removeAll(fail);
-		boolean insystem = CompareBook(bookFile);
-
-		if (insystem == true) {
-
-			String title = setTitle(bookFile);
-			fail.add(title);
-		} else {
-			File file = bookFile;
-			int i = Library.systemLibrary.size();
-
-			String author = setAuthor(bookFile);
-			String ISBN = setISBN(bookFile);
-			String title = setTitle(bookFile);
-			String age = setAge(bookFile);
-			String genre = setGenre(bookFile);
-			String complete = setComplete(bookFile);
-
-			int numWords = getNumWords(bookFile);
-			Map<String, Integer> uniqueWords = getUniqueWords(bookFile);
-
-			Book book = new Book(file, author, ISBN, title, age, numWords, uniqueWords, genre, complete);
-			Library.systemLibrary.add(i, book);
-			success.add(title);
-		}
-	}
-
-	public static int getNumWords(File f) throws FileNotFoundException {
-		try (Scanner sc = new Scanner(new FileInputStream(f))) {
-			int numWords = 0;
-
-			while (sc.hasNext()) {
-				sc.next();
-				numWords++;
-			}
-			return numWords;
-		}
-	}
-
 	private static Map<String, Integer> getUniqueWords(File f) throws IOException {
 		FileInputStream in = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -115,7 +114,8 @@ public class Book implements Serializable {
 				String[] words = strLine.split("[\\p{P} \\t\\n\\r]");
 
 				for (String word : words) {
-					if (word == null || word.trim().equals("") || word.trim().equals("(?<=.)") || word.trim().equals("p{Punct}") ||  word.trim().equals("s") || word.trim().equals("t")) {
+					if (word == null || word.trim().equals("") || word.trim().equals("(?<=.)")
+							|| word.trim().equals("p{Punct}") || word.trim().equals("s") || word.trim().equals("t")) {
 						continue;
 					}
 					String processed = word.toLowerCase();
@@ -143,11 +143,6 @@ public class Book implements Serializable {
 		return treeMap;
 	}
 
-	private static String setComplete(File bookFile) {
-		String complete = "Yes";
-		return complete;
-	}
-
 	protected static String setAge(File f) {
 		String age = "";
 		return age;
@@ -156,6 +151,11 @@ public class Book implements Serializable {
 	protected static String setAuthor(File f) {
 		String author = "";
 		return author;
+	}
+
+	protected static String setComplete(File f) {
+		String complete = "Yes";
+		return complete;
 	}
 
 	protected static String setGenre(File f) {

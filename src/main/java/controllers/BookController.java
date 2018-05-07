@@ -42,10 +42,10 @@ public class BookController {
 	private TableView<tableBook> tableView;
 	@FXML
 	private TableColumn<tableBook, String> titleCol, uniqueWordsCol, totalWordsCol, ageCol, authorCol, isbnCol,
-			genreCol;
+			genreCol, completeCol;
 
 	public void addBooksBtn() throws IOException {
-		
+
 		if (Library.systemLibrary.size() == 0) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
@@ -127,6 +127,18 @@ public class BookController {
 		bookSelected.setAuthor(edditedCell.getNewValue().toString());
 	}
 
+	public void changeCompleteCellEvent(CellEditEvent<?, ?> edditedCell) {
+
+		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
+
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
+			if (bookSelected.getTitle().equals(Library.systemLibrary.get(i).getTitle())) {
+				Library.systemLibrary.get(i).setComplete(edditedCell.getNewValue().toString());
+			}
+		}
+		bookSelected.setComplete(edditedCell.getNewValue().toString());
+	}
+
 	public void changeGenreCellEvent(CellEditEvent<?, ?> edditedCell) {
 
 		tableBook bookSelected = tableView.getSelectionModel().getSelectedItem();
@@ -188,9 +200,9 @@ public class BookController {
 	}
 
 	public void generateDictBtn() {
-		
-		if(Library.systemLibrary.size() == 0) {
-			
+
+		if (Library.systemLibrary.size() == 0) {
+
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Unable to Generate");
 			alert.setHeaderText(null);
@@ -198,41 +210,41 @@ public class BookController {
 			alert.showAndWait();
 			return;
 		}
-		
+
 		else {
-		
-		List<String> choices = new ArrayList<>();
 
-		for (int i = 0; i < Library.libraries.size(); i++) {
-			choices.add(Library.libraries.get(i).getTitle());
-		}
-		choices.add("System Library");
+			List<String> choices = new ArrayList<>();
 
-		ChoiceDialog<String> dialog = new ChoiceDialog<>("Libraries...", choices);
-		dialog.setTitle("Which library do you want to view?");
-		dialog.setHeaderText("Please choose which library you would like view the contents of.");
-		dialog.setContentText("Select a library:");
-
-		Optional<String> result = dialog.showAndWait();
-		String title = result.get();
-		ArrayList<Book> lib = null;
-
-		if (title.equals("System Library")) {
-			lib = Library.systemLibrary;
-		}
-
-		for (int i = 0; i < Library.libraries.size(); i++) {
-			if (Library.libraries.get(i).getTitle().equals(title)) {
-				lib = Library.libraries.get(i).getBooksList();
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				choices.add(Library.libraries.get(i).getTitle());
 			}
-		}
+			choices.add("System Library");
 
-		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML", "*.xml");
-		fileChooser.getExtensionFilters().add(extFilter);
-		File file = fileChooser.showSaveDialog(MainApp.primaryStage);
+			ChoiceDialog<String> dialog = new ChoiceDialog<>("Libraries...", choices);
+			dialog.setTitle("Which library do you want to view?");
+			dialog.setHeaderText("Please choose which library you would like view the contents of.");
+			dialog.setContentText("Select a library:");
 
-		WritetoXML.writeOutput(lib, file);
+			Optional<String> result = dialog.showAndWait();
+			String title = result.get();
+			ArrayList<Book> lib = null;
+
+			if (title.equals("System Library")) {
+				lib = Library.systemLibrary;
+			}
+
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				if (Library.libraries.get(i).getTitle().equals(title)) {
+					lib = Library.libraries.get(i).getBooksList();
+				}
+			}
+
+			FileChooser fileChooser = new FileChooser();
+			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML", "*.xml");
+			fileChooser.getExtensionFilters().add(extFilter);
+			File file = fileChooser.showSaveDialog(MainApp.primaryStage);
+
+			WritetoXML.writeOutput(lib, file);
 		}
 	}
 
@@ -277,6 +289,7 @@ public class BookController {
 		genreCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("genre"));
 		authorCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("author"));
 		isbnCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("ISBN"));
+		completeCol.setCellValueFactory(new PropertyValueFactory<tableBook, String>("complete"));
 
 		// Retrieve Books and allow the titleCol and ageCol to be editable
 		tableView.setItems(getBooks());
@@ -286,6 +299,7 @@ public class BookController {
 		authorCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		isbnCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		genreCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		completeCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
 		// Allow multiple rows to be selected
 		tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
