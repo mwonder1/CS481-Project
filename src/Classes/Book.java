@@ -27,8 +27,6 @@ public class Book implements Serializable {
 
 	public static void addBook(File bookFile) throws IOException {
 
-		success.removeAll(success);
-		fail.removeAll(fail);
 		boolean insystem = CompareBook(bookFile);
 
 		if (insystem == true) {

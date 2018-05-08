@@ -90,9 +90,9 @@ public class LibraryController {
 	}
 
 	public void generateBtn() {
-		
-if(Library.systemLibrary.size() == 0) {
-			
+
+		if (Library.systemLibrary.size() == 0) {
+
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Unable to Generate");
 			alert.setHeaderText(null);
@@ -100,42 +100,41 @@ if(Library.systemLibrary.size() == 0) {
 			alert.showAndWait();
 			return;
 		}
-		
+
 		else {
-			
-		
-		List<String> choices = new ArrayList<>();
 
-		for (int i = 0; i < Library.libraries.size(); i++) {
-			choices.add(Library.libraries.get(i).getTitle());
-		}
-		choices.add("System Library");
+			List<String> choices = new ArrayList<>();
 
-		ChoiceDialog<String> dialog = new ChoiceDialog<>("Libraries...", choices);
-		dialog.setTitle("Which library do you want to view?");
-		dialog.setHeaderText("Please choose which library you would like view the contents of.");
-		dialog.setContentText("Select a library:");
-
-		Optional<String> result = dialog.showAndWait();
-		String title = result.get();
-		ArrayList<Book> lib = null;
-
-		if (title.equals("System Library")) {
-			lib = Library.systemLibrary;
-		}
-
-		for (int i = 0; i < Library.libraries.size(); i++) {
-			if (Library.libraries.get(i).getTitle().equals(title)) {
-				lib = Library.libraries.get(i).getBooksList();
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				choices.add(Library.libraries.get(i).getTitle());
 			}
-		}
+			choices.add("System Library");
 
-		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML", "*.xml");
-		fileChooser.getExtensionFilters().add(extFilter);
-		File file = fileChooser.showSaveDialog(MainApp.primaryStage);
+			ChoiceDialog<String> dialog = new ChoiceDialog<>("Libraries...", choices);
+			dialog.setTitle("Which library do you want to view?");
+			dialog.setHeaderText("Please choose which library you would like view the contents of.");
+			dialog.setContentText("Select a library:");
 
-		WritetoXML.writeOutput(lib, file);
+			Optional<String> result = dialog.showAndWait();
+			String title = result.get();
+			ArrayList<Book> lib = null;
+
+			if (title.equals("System Library")) {
+				lib = Library.systemLibrary;
+			}
+
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				if (Library.libraries.get(i).getTitle().equals(title)) {
+					lib = Library.libraries.get(i).getBooksList();
+				}
+			}
+
+			FileChooser fileChooser = new FileChooser();
+			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML", "*.xml");
+			fileChooser.getExtensionFilters().add(extFilter);
+			File file = fileChooser.showSaveDialog(MainApp.primaryStage);
+
+			WritetoXML.writeOutput(lib, file);
 		}
 	}
 
@@ -210,9 +209,9 @@ if(Library.systemLibrary.size() == 0) {
 	}
 
 	public void mergeBtn() throws BackingStoreException {
-		
-			if(Library.libraries.size() == 0 || Library.libraries.size() == 1 ) {
-			
+
+		if (Library.libraries.size() == 0 || Library.libraries.size() == 1) {
+
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Unable to Merge");
 			alert.setHeaderText(null);
@@ -220,58 +219,66 @@ if(Library.systemLibrary.size() == 0) {
 			alert.showAndWait();
 			return;
 		}
-		
+
 		else {
 
-		Library lib1 = null;
-		Library lib2 = null;
-		List<String> choices = new ArrayList<>();
+			Library lib1 = null;
+			Library lib2 = null;
+			List<String> choices = new ArrayList<>();
 
-		for (int i = 0; i < Library.libraries.size(); i++) {
-			choices.add(Library.libraries.get(i).getTitle());
-		}
-
-		ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-		dialog.setTitle("Merge Libraries");
-		dialog.setHeaderText(null);
-		dialog.setContentText("Choose a Library.");
-
-		Optional<String> result = dialog.showAndWait();
-		String title = result.get();
-		for (int i = 0; i < Library.libraries.size(); i++) {
-			if (Library.libraries.get(i).getTitle().equals(title)) {
-				lib1 = Library.libraries.get(i);
-			}
-		}
-		if (result.isPresent()) {
-			List<String> choices2 = new ArrayList<>();
-
-			ChoiceDialog<String> dialog2 = new ChoiceDialog<>("", choices2);
-			dialog2.setTitle("Merge Libraries");
-			dialog2.setHeaderText(null);
-			dialog2.setContentText("Now choose a different library to merge with.");
-
-			Optional<String> result1 = dialog.showAndWait();
-			String title1 = result1.get();
 			for (int i = 0; i < Library.libraries.size(); i++) {
-				if (Library.libraries.get(i).getTitle().equals(title1)) {
-					lib2 = Library.libraries.get(i);
+				choices.add(Library.libraries.get(i).getTitle());
+			}
+
+			ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
+			dialog.setTitle("Merge Libraries");
+			dialog.setHeaderText(null);
+			dialog.setContentText("Choose a Library.");
+
+			Optional<String> result = dialog.showAndWait();
+			String title = result.get();
+			for (int i = 0; i < Library.libraries.size(); i++) {
+				if (Library.libraries.get(i).getTitle().equals(title)) {
+					lib1 = Library.libraries.get(i);
 				}
 			}
-			TextInputDialog dialog1 = new TextInputDialog("Choose a name...");
-			dialog1.setTitle("New Library");
-			dialog1.setHeaderText(null);
-			dialog1.setContentText("Please name your newly merged library.");
+			if (result.isPresent()) {
+				List<String> choices2 = new ArrayList<>();
 
-			Optional<String> result11 = dialog1.showAndWait();
-			if (result11.isPresent()) {
+				for (int i = 0; i < Library.libraries.size(); i++) {
+					if (Library.libraries.get(i).getTitle().equals(title)) {
 
-				Library.createLibrary(result11.get(), Library.mergeLibraries(lib1, lib2));
-				Library.deleteLibrary(lib1);
-				Library.deleteLibrary(lib2);
-				tableView.setItems(getLibrary());
+					} else {
+						choices2.add(Library.libraries.get(i).getTitle());
+					}
+				}
+
+				ChoiceDialog<String> dialog2 = new ChoiceDialog<>("", choices2);
+				dialog2.setTitle("Merge Libraries");
+				dialog2.setHeaderText(null);
+				dialog2.setContentText("Now choose a different library to merge with.");
+
+				Optional<String> result1 = dialog2.showAndWait();
+				String title1 = result1.get();
+				for (int i = 0; i < Library.libraries.size(); i++) {
+					if (Library.libraries.get(i).getTitle().equals(title1)) {
+						lib2 = Library.libraries.get(i);
+					}
+				}
+				TextInputDialog dialog1 = new TextInputDialog("Choose a name...");
+				dialog1.setTitle("New Library");
+				dialog1.setHeaderText(null);
+				dialog1.setContentText("Please name your newly merged library.");
+
+				Optional<String> result11 = dialog1.showAndWait();
+				if (result11.isPresent()) {
+
+					Library.createLibrary(result11.get(), Library.mergeLibraries(lib1, lib2));
+					// Library.deleteLibrary(lib1);
+					// Library.deleteLibrary(lib2);
+					tableView.setItems(getLibrary());
+				}
 			}
-		}
 		}
 	}
 

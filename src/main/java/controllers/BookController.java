@@ -262,6 +262,9 @@ public class BookController {
 
 	public void importBooksBtn() throws IOException {
 
+		Book.success.clear();
+		Book.fail.clear();
+
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().add(0, new FileChooser.ExtensionFilter("txt", "*.txt"));
 		List<File> list = fileChooser.showOpenMultipleDialog(MainApp.primaryStage);

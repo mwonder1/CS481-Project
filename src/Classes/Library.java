@@ -19,58 +19,16 @@ public class Library implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static ArrayList<Book> systemLibrary = new ArrayList<>();
 	public static ArrayList<Library> libraries = new ArrayList<>();
-	
-	public static void loadLibraries() throws ClassNotFoundException, IOException, BackingStoreException {
-
-		ObjectInputStream objectinputstream = null;
-		System.out.println("Loading libraries...");
-		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-
-		for (int i = 0; i < javaPreferences.getNumLibraries(); i++) {
-			try {
-				FileInputStream streamIn = new FileInputStream(
-						prefs.get(javaPreferences.getDestination().concat(Integer.toString(i)),
-								javaPreferences.getDestination().concat(Integer.toString(i))));
-				objectinputstream = new ObjectInputStream(streamIn);
-				Library library = (Library) objectinputstream.readObject();
-
-				if (library.getTitle() != null) {
-					Library.libraries.add(library);
-				} else {
-					break;
-				}
-				// for (int i = 0; i < Library.libraries.size(); i++) {
-				// Library.libraries.add(library);
-				// }
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if (objectinputstream != null) {
-					objectinputstream.close();
-				}
-			}
-		}
-		javaPreferences.numLibraries = Library.libraries.size();
-		System.out.println("Done.");
-	}
 
 	public static void addBooktoLibrary(Library library, Book book) throws FileNotFoundException {
 
 		boolean insystem = CompareBook(library, book);
 
-		if (insystem == true) {
-
-			// System.out.println("Unable to add book: " + library.getTitle() + "...\n" +
-			// ("Already in this library.\n"));
-
-		}
-
+		if (insystem == true)
+			return;
 		else {
-
 			library.booksList.add(book);
 		}
-
 	}
 
 	public static void createLibrary(String name) {
@@ -105,17 +63,18 @@ public class Library implements Serializable {
 		}
 	}
 
-	public static void deleteLibrary(Library library) throws BackingStoreException {
-		for (int i = 0; i < Library.libraries.size(); i++) {
-
-			if (library.getTitle().equals(Library.libraries.get(i).getTitle())) {
-				Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
-				prefs.putInt("numLibraries", prefs.getInt("numLibraries", 0) - 1);
-
-				Library.libraries.remove(i);
-			}
-		}
-	}
+	// public static void deleteLibrary(Library library) throws
+	// BackingStoreException {
+	// for (int i = 0; i < Library.libraries.size(); i++) {
+	//
+	// if (library.getTitle().equals(Library.libraries.get(i).getTitle())) {
+	// Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+	// prefs.putInt("numLibraries", prefs.getInt("numLibraries", 0) - 1);
+	//
+	// Library.libraries.remove(i);
+	// }
+	// }
+	// }
 
 	public static void deleteLibrary(tableLibrary library) {
 
@@ -129,6 +88,41 @@ public class Library implements Serializable {
 
 			}
 		}
+	}
+
+	public static void loadLibraries() throws ClassNotFoundException, IOException, BackingStoreException {
+
+		ObjectInputStream objectinputstream = null;
+		System.out.println("Loading libraries...");
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+
+		for (int i = 0; i < javaPreferences.getNumLibraries(); i++) {
+			try {
+				FileInputStream streamIn = new FileInputStream(
+						prefs.get(javaPreferences.getDestination().concat(Integer.toString(i)),
+								javaPreferences.getDestination().concat(Integer.toString(i))));
+				objectinputstream = new ObjectInputStream(streamIn);
+				Library library = (Library) objectinputstream.readObject();
+
+				if (library.getTitle() != null) {
+					Library.libraries.add(library);
+				} else {
+					break;
+				}
+				// for (int i = 0; i < Library.libraries.size(); i++) {
+				// Library.libraries.add(library);
+				// }
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (objectinputstream != null) {
+					objectinputstream.close();
+				}
+			}
+		}
+		javaPreferences.numLibraries = Library.libraries.size();
+		System.out.println("Done.");
 	}
 
 	public static ArrayList<Book> mergeLibraries(Library lib1, Library lib2) {
