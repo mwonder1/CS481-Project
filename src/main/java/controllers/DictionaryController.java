@@ -24,10 +24,6 @@ public class DictionaryController {
 		ViewControllers.showDictionary();
 	}
 
-	public void goHome() throws IOException {
-		ViewControllers.showHome();
-	}
-
 	public void goLibrary() throws IOException {
 		ViewControllers.showLibrary();
 	}

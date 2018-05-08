@@ -1,32 +1,72 @@
 package main.java.controllers;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import Classes.javaPreferences;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import main.java.MainApp;
-import javafx.scene.text.Text;
 
-public class MainController {
+public class SettingsController {
 
-	@FXML
-	private Button homeBtn, librariesBtn, dictBtn, booksBtn, settingBtn, savePathBtn;
 	@FXML
 	private BorderPane MainView;
+
+	@FXML
+	private Button dictBtn;
+
+	@FXML
+	private Button librariesBtn;
+
+	@FXML
+	private Button booksBtn;
+
+	@FXML
+	private Button homeBtn;
+
 	@FXML
 	private Pane settingsPane;
+
 	@FXML
-	private TextArea text;
+	private Button savePathBtn;
+
 	@FXML
-	private Text txt;
+	private MenuItem saveBtn;
+
+	@FXML
+	private MenuItem closeBtn;
+
+	@FXML
+	private MenuItem importBtn;
+
+	@FXML
+	private MenuItem genBtn;
+
+	@FXML
+	private MenuItem aboutBtn;
+
+	@FXML
+	private MenuItem settingsBtn;
+
+	public void aboutBtn() throws IOException {
+		ViewControllers.showAbout();
+	}
+
+	public void closeBtn() throws FileNotFoundException {
+		MenuController.closeBtn();
+	}
+
+	public void genBtn() {
+		MenuController.genBtn();
+	}
 
 	public void goBooks() throws IOException {
 		ViewControllers.showBooks();
@@ -36,24 +76,18 @@ public class MainController {
 		ViewControllers.showDictionary();
 	}
 
-	public void goHome() throws IOException {
-		ViewControllers.showHome();
-		settingsPane.setVisible(false);
-		
-	}
-
 	public void goLibrary() throws IOException {
 		ViewControllers.showLibrary();
 	}
-	
-	public void settingsBtn() {
-		
-		settingsPane.setVisible(true);
-		text.setVisible(false);
-		txt.setVisible(false);
-		
+
+	public void importBtn() throws IOException {
+		MenuController.importBtn();
 	}
-	
+
+	public void saveBtn() {
+		MenuController.saveBtn();
+	}
+
 	public void savePathBtn() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Defaul Save Location");
@@ -69,6 +103,5 @@ public class MainController {
 
 		javaPreferences.setDestination(javaPreferences.destination);
 	}
-	
 
 }

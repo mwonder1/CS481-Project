@@ -2,6 +2,7 @@
 package main.java.controllers;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,16 +34,20 @@ import main.java.MainApp;
 public class BookController {
 
 	@FXML
+	TableView<tableBook> tableView;
+	@FXML
 	private BorderPane BookView;
 	@FXML
 	private Button homeBtn, booksBtn, librariesBtn, dictBtn, newDictBtn, addBook, importBtn, deleteBtn;
 	@FXML
 	private MenuButton actionBtn;
 	@FXML
-	private TableView<tableBook> tableView;
-	@FXML
 	private TableColumn<tableBook, String> titleCol, uniqueWordsCol, totalWordsCol, ageCol, authorCol, isbnCol,
 			genreCol, completeCol;
+
+	public void aboutBtn() throws IOException {
+		ViewControllers.showAbout();
+	}
 
 	public void addBooksBtn() throws IOException {
 
@@ -175,6 +180,10 @@ public class BookController {
 		bookSelected.setTitle(edditedCell.getNewValue().toString());
 	}
 
+	public void closeBtn() throws FileNotFoundException {
+		MenuController.closeBtn();
+	}
+
 	public void deleteBtn() {
 
 		ObservableList<tableBook> selectedRows, allBooks;
@@ -197,6 +206,10 @@ public class BookController {
 			// ... user chose CANCEL or closed the dialog
 		}
 
+	}
+
+	public void genBtn() {
+		MenuController.genBtn();
 	}
 
 	public void generateDictBtn() {
@@ -248,12 +261,12 @@ public class BookController {
 		}
 	}
 
-	public void goDictionary() throws IOException {
-		ViewControllers.showDictionary();
+	public void goBooks() throws IOException {
+		ViewControllers.showBooks();
 	}
 
-	public void goHome() throws IOException {
-		ViewControllers.showHome();
+	public void goDictionary() throws IOException {
+		ViewControllers.showDictionary();
 	}
 
 	public void goLibrary() throws IOException {
@@ -282,6 +295,10 @@ public class BookController {
 		tableView.setItems(getBooks());
 	}
 
+	public void importBtn() throws IOException {
+		MenuController.importBtn();
+	}
+
 	public void initialize() {
 
 		// Set up table columns
@@ -308,7 +325,16 @@ public class BookController {
 		tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
-	private ObservableList<tableBook> getBooks() {
+	public void saveBtn() {
+		MenuController.saveBtn();
+	}
+
+	public void settingsBtn() throws IOException {
+		ViewControllers.showSettings();
+
+	}
+
+	ObservableList<tableBook> getBooks() {
 
 		ObservableList<tableBook> books = FXCollections.observableArrayList();
 

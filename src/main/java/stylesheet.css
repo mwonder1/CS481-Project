@@ -14,7 +14,7 @@ divider-color:  #BDBDBD;
 }
 
 .root {
-	-fx-background-color: defaulT-primary-color;
+	-fx-background-color: default-primary-color;
 }	
 
 .button {
@@ -39,4 +39,8 @@ divider-color:  #BDBDBD;
 	
 	-fx-background-color: dark-primary-color;
 
+}
+.region-view {
+		-fx-background-color: dark-primary-color;
+	
 }

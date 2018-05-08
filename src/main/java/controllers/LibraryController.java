@@ -51,6 +51,10 @@ public class LibraryController {
 	@FXML
 	private TableColumn<tableLibrary, String> libTitleCol, libUniqueWordsCol, libTotalWordsCol, numBooks;
 
+	public void aboutBtn() throws IOException {
+		ViewControllers.showAbout();
+	}
+
 	public void bookDeleteBtn() {
 
 		ObservableList<tableBook> selectedRows, allBooks;
@@ -87,6 +91,14 @@ public class LibraryController {
 			}
 		}
 		librarySelected.setTitle(edditedCell.getNewValue().toString());
+	}
+
+	public void closeBtn() throws FileNotFoundException {
+		MenuController.closeBtn();
+	}
+
+	public void genBtn() {
+		MenuController.genBtn();
 	}
 
 	public void generateBtn() {
@@ -146,12 +158,12 @@ public class LibraryController {
 		ViewControllers.showDictionary();
 	}
 
-	public void goHome() throws IOException {
-		ViewControllers.showHome();
-	}
-
 	public void goLibrary() throws IOException {
 		ViewControllers.showLibrary();
+	}
+
+	public void importBtn() throws IOException {
+		MenuController.importBtn();
 	}
 
 	public void initialize() {
@@ -368,6 +380,15 @@ public class LibraryController {
 			tableView.setEditable(false);
 
 		}
+	}
+
+	public void saveBtn() {
+		MenuController.saveBtn();
+	}
+
+	public void settingsBtn() throws IOException {
+		ViewControllers.showSettings();
+
 	}
 
 	private ObservableList<tableBook> getBooks(Library lib) {

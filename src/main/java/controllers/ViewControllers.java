@@ -8,6 +8,15 @@ import main.java.MainApp;
 
 public class ViewControllers {
 
+	static void showAbout() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(MainApp.class.getResource("controllers/AboutView.fxml"));
+		MainApp.mainLayout = loader.load();
+		Parent newContent = MainApp.mainLayout;
+		MainApp.primaryStage.getScene().setRoot(newContent);
+		MainApp.primaryStage.show();
+	}
+
 	static void showBooks() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("controllers/BookView.fxml"));
@@ -18,26 +27,26 @@ public class ViewControllers {
 	}
 
 	static void showDictionary() throws IOException {
-//		FXMLLoader loader = new FXMLLoader();
-//		loader.setLocation(MainApp.class.getResource("controllers/DictionaryView.fxml"));
-//		MainApp.mainLayout = loader.load();
-//		Parent newContent = MainApp.mainLayout;
-//		MainApp.primaryStage.getScene().setRoot(newContent);
-//		MainApp.primaryStage.show();
+		// FXMLLoader loader = new FXMLLoader();
+		// loader.setLocation(MainApp.class.getResource("controllers/DictionaryView.fxml"));
+		// MainApp.mainLayout = loader.load();
+		// Parent newContent = MainApp.mainLayout;
+		// MainApp.primaryStage.getScene().setRoot(newContent);
+		// MainApp.primaryStage.show();
 	}
 
-	static void showHome() throws IOException {
+	static void showLibrary() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(MainApp.class.getResource("controllers/MainView.fxml"));
+		loader.setLocation(MainApp.class.getResource("controllers/LibraryView.fxml"));
 		MainApp.mainLayout = loader.load();
 		Parent newContent = MainApp.mainLayout;
 		MainApp.primaryStage.getScene().setRoot(newContent);
 		MainApp.primaryStage.show();
 	}
 
-	static void showLibrary() throws IOException {
+	static void showSettings() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(MainApp.class.getResource("controllers/LibraryView.fxml"));
+		loader.setLocation(MainApp.class.getResource("controllers/SettingsView.fxml"));
 		MainApp.mainLayout = loader.load();
 		Parent newContent = MainApp.mainLayout;
 		MainApp.primaryStage.getScene().setRoot(newContent);
