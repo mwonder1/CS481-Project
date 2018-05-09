@@ -15,19 +15,25 @@ import Classes.tableBook;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import main.java.MainApp;
 
@@ -38,9 +44,9 @@ public class BookController {
 	@FXML
 	private BorderPane BookView;
 	@FXML
-	private Button homeBtn, booksBtn, librariesBtn, dictBtn, newDictBtn, addBook, importBtn, deleteBtn;
+	private Button homeBtn, booksBtn, librariesBtn, dictBtn, newDictBtn, addBook, importBtn1, deleteBtn, searchBtn;
 	@FXML
-	private MenuButton actionBtn;
+	private MenuItem importBtn;
 	@FXML
 	private TableColumn<tableBook, String> titleCol, uniqueWordsCol, totalWordsCol, ageCol, authorCol, isbnCol,
 			genreCol, completeCol;
@@ -64,7 +70,6 @@ public class BookController {
 		List<String> success = new ArrayList<>();
 		List<String> fail = new ArrayList<>();
 
-		@SuppressWarnings("resource")
 		List<String> choices = new ArrayList<>();
 		for (int i = 0; i < Library.libraries.size(); i++) {
 			choices.add(Library.libraries.get(i).getTitle());
@@ -329,9 +334,61 @@ public class BookController {
 		MenuController.saveBtn();
 	}
 
+	public void searchBtn() {
+
+		Dialog<String> dialog = new Dialog<>();
+		dialog.setTitle("Search");
+		dialog.setHeaderText("Enter any filters:");
+
+		ButtonType searchBtn = new ButtonType("Search", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(searchBtn, ButtonType.CANCEL);
+
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		TextField author = new TextField();
+		author.setPromptText("Title");
+
+		grid.add(new Label("Title:"), 0, 0);
+		grid.add(author, 1, 0);
+
+		dialog.getDialogPane().setContent(grid);
+
+		Optional<String> result = dialog.showAndWait();
+		String author1 = result.get();
+		// searchBooks(author1);
+		tableView.setItems(searchBooks(author1));
+
+	}
+
 	public void settingsBtn() throws IOException {
 		ViewControllers.showSettings();
+	}
 
+	private ObservableList<tableBook> searchBooks(String name) {
+
+		ObservableList<tableBook> books = FXCollections.observableArrayList();
+
+		for (int i = 0; i < Library.systemLibrary.size(); i++) {
+			if (name.equals(Library.systemLibrary.get(i).getTitle())) {
+
+				String title = Library.systemLibrary.get(i).getTitle();
+				String uniqueWords = Integer.toString(Library.systemLibrary.get(i).getUniqueWords().size());
+				String totalWords = Integer.toString(Library.systemLibrary.get(i).getTotalWords());
+				String age = Library.systemLibrary.get(i).getAge();
+				String author = Library.systemLibrary.get(i).getAuthor();
+				String ISBN = Library.systemLibrary.get(i).getISBN();
+				String genre = Library.systemLibrary.get(i).getGenre();
+				String complete = Library.systemLibrary.get(i).getComplete();
+
+				books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN, genre, complete));
+			} else {
+				break;
+			}
+		}
+		return books;
 	}
 
 	ObservableList<tableBook> getBooks() {

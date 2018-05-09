@@ -29,9 +29,6 @@ divider-color:  #BDBDBD;
 .menu-button {
 	-fx-font: 16px "Arial";
 	-fx-text-fill: light-primary-color;
-	
-	-fx-background-color: dark-primary-color;
-	-fx-effect: dropshadow(one-pass-box, black, 8, 0.0, 3, 0);
 	-fx-background-radius: 4;
 	
 }

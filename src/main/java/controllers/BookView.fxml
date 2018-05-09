@@ -32,11 +32,13 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </TableView>
-                  <Button fx:id="addBook" layoutX="14.0" layoutY="451.0" mnemonicParsing="false" onAction="#addBooksBtn" text="Add to Library" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" />
+                  <Button fx:id="addBook" layoutX="85.0" layoutY="503.0" mnemonicParsing="false" onAction="#addBooksBtn" text="Add Selected to Library" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" />
                   <Button fx:id="deleteBtn" layoutX="695.0" layoutY="503.0" mnemonicParsing="false" onAction="#deleteBtn" text="Delete" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
                   <Button fx:id="dictBtn" layoutX="176.0" layoutY="7.0" mnemonicParsing="false" onAction="#goDictionary" text="Dictionaries" />
                   <Button fx:id="librariesBtn" layoutX="85.0" layoutY="7.0" mnemonicParsing="false" onAction="#goLibrary" text="Libraries" />
                   <Button fx:id="booksBtn" layoutX="10.0" layoutY="7.0" mnemonicParsing="false" onAction="#goBooks" text="Books" />
+                  <Button fx:id="searchBtn" layoutX="693.0" layoutY="7.0" mnemonicParsing="false" onAction="#searchBtn" text="Search" AnchorPane.rightAnchor="12.0" />
+                  <Button fx:id="importBtn1" layoutX="10.0" layoutY="503.0" mnemonicParsing="false" onAction="#importBtn" text="Import" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" />
                </children>
             </AnchorPane>
         </items>
@@ -62,7 +64,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                <items>
-                  <MenuItem fx:id="importBtn1" mnemonicParsing="false" onAction="#importBtn" text="Import Books" />
+                  <MenuItem fx:id="importBtn" mnemonicParsing="false" onAction="#importBtn" text="Import Books" />
                   <MenuItem fx:id="genBtn" mnemonicParsing="false" onAction="#genBtn" text="Generate Dictionary" />
                </items>
             </Menu>
