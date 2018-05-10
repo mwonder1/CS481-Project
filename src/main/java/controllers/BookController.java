@@ -348,18 +348,25 @@ public class BookController {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
+		TextField title = new TextField();
+		title.setPromptText("Title");
+
 		TextField author = new TextField();
-		author.setPromptText("Title");
+		author.setPromptText("Author");
 
 		grid.add(new Label("Title:"), 0, 0);
-		grid.add(author, 1, 0);
+		grid.add(title, 1, 0);
+
+		grid.add(new Label("Author:"), 0, 1);
+		grid.add(author, 1, 1);
 
 		dialog.getDialogPane().setContent(grid);
 
 		Optional<String> result = dialog.showAndWait();
-		String author1 = result.get();
+		String title1 = title.getText();
+		String author1 = author.getText();
 		// searchBooks(author1);
-		tableView.setItems(searchBooks(author1));
+		tableView.setItems(searchBooks(title1, author1));
 
 	}
 
@@ -367,12 +374,14 @@ public class BookController {
 		ViewControllers.showSettings();
 	}
 
-	private ObservableList<tableBook> searchBooks(String name) {
+	private ObservableList<tableBook> searchBooks(String title1, String author1) {
 
 		ObservableList<tableBook> books = FXCollections.observableArrayList();
 
 		for (int i = 0; i < Library.systemLibrary.size(); i++) {
-			if (name.equals(Library.systemLibrary.get(i).getTitle())) {
+
+			if (Library.systemLibrary.get(i).getTitle().toLowerCase().contains(title1.toLowerCase())
+					&& Library.systemLibrary.get(i).getAuthor().toLowerCase().contains(author1.toLowerCase())) {
 
 				String title = Library.systemLibrary.get(i).getTitle();
 				String uniqueWords = Integer.toString(Library.systemLibrary.get(i).getUniqueWords().size());
@@ -385,7 +394,7 @@ public class BookController {
 
 				books.add(new tableBook(title, uniqueWords, totalWords, age, author, ISBN, genre, complete));
 			} else {
-				break;
+
 			}
 		}
 		return books;
