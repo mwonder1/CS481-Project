@@ -67,7 +67,7 @@ public class Book implements Serializable {
 	public static void loadBooks() throws ClassNotFoundException, IOException {
 
 		ObjectInputStream objectinputstream = null;
-		System.out.println("Loading books...");
+
 		try {
 			FileInputStream streamIn = new FileInputStream(javaPreferences.getDestination());
 			objectinputstream = new ObjectInputStream(streamIn);
@@ -96,8 +96,6 @@ public class Book implements Serializable {
 				objectinputstream.close();
 			}
 		}
-		System.out.println("Done.");
-
 	}
 
 	private static Map<String, Integer> getUniqueWords(File f) throws IOException {

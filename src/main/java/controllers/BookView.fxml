@@ -23,9 +23,9 @@
                         <TableColumn fx:id="authorCol" onEditCommit="#changeAuthorCellEvent" prefWidth="105.0" text="Author" />
                         <TableColumn fx:id="genreCol" onEditCommit="#changeGenreCellEvent" prefWidth="75.0" text="Genre" />
                         <TableColumn fx:id="ageCol" onEditCommit="#changeAgeCellEvent" prefWidth="75.0" text="Age" />
-                        <TableColumn fx:id="isbnCol" onEditCommit="#changeISBNCellEvent" prefWidth="75.0" text="ISBN" />
-                      <TableColumn fx:id="uniqueWordsCol" prefWidth="109.0" text="Unique Words" />
-                        <TableColumn fx:id="totalWordsCol" prefWidth="151.0" text="Total Words" />
+                        <TableColumn fx:id="isbnCol" onEditCommit="#changeISBNCellEvent" prefWidth="75.0" sortable="false" text="ISBN" />
+                      <TableColumn fx:id="uniqueWordsCol" prefWidth="109.0" sortable="false" text="Unique Words" />
+                        <TableColumn fx:id="totalWordsCol" prefWidth="151.0" sortable="false" text="Total Words" />
                         <TableColumn fx:id="completeCol" onEditCommit="#changeCompleteCellEvent" prefWidth="75.0" text="Complete" />
                     </columns>
                      <padding>
@@ -34,7 +34,7 @@
                   </TableView>
                   <Button fx:id="addBook" layoutX="85.0" layoutY="503.0" mnemonicParsing="false" onAction="#addBooksBtn" text="Add Selected to Library" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" />
                   <Button fx:id="deleteBtn" layoutX="695.0" layoutY="503.0" mnemonicParsing="false" onAction="#deleteBtn" text="Delete" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-                  <Button fx:id="dictBtn" layoutX="176.0" layoutY="7.0" mnemonicParsing="false" onAction="#goDictionary" text="Dictionaries" />
+                  <Button fx:id="dictBtn" layoutX="176.0" layoutY="7.0" mnemonicParsing="false" onAction="#goDictionary" text="Dictionaries" visible="false" />
                   <Button fx:id="librariesBtn" layoutX="85.0" layoutY="7.0" mnemonicParsing="false" onAction="#goLibrary" text="Libraries" />
                   <Button fx:id="booksBtn" layoutX="10.0" layoutY="7.0" mnemonicParsing="false" onAction="#goBooks" text="Books" />
                   <Button fx:id="searchBtn" layoutX="693.0" layoutY="7.0" mnemonicParsing="false" onAction="#searchBtn" text="Search" AnchorPane.rightAnchor="12.0" />

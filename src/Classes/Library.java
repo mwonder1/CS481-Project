@@ -93,7 +93,6 @@ public class Library implements Serializable {
 	public static void loadLibraries() throws ClassNotFoundException, IOException, BackingStoreException {
 
 		ObjectInputStream objectinputstream = null;
-		System.out.println("Loading libraries...");
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 
 		for (int i = 0; i < javaPreferences.getNumLibraries(); i++) {
@@ -122,7 +121,6 @@ public class Library implements Serializable {
 			}
 		}
 		javaPreferences.numLibraries = Library.libraries.size();
-		System.out.println("Done.");
 	}
 
 	public static ArrayList<Book> mergeLibraries(Library lib1, Library lib2) {
