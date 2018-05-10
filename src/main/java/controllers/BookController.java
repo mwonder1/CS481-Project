@@ -336,6 +336,16 @@ public class BookController {
 
 	public void searchBtn() {
 
+		if (Library.systemLibrary.size() == 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("No books found.");
+			alert.setContentText("Please upload some books first.");
+
+			alert.showAndWait();
+			return;
+		}
+
 		Dialog<String> dialog = new Dialog<>();
 		dialog.setTitle("Search");
 		dialog.setHeaderText("Enter any filters:");
